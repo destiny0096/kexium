@@ -244,28 +244,38 @@
   
   <script>
   function showBuy() {
-    document.querySelectorAll(".tab")[0].classList.add("active");
-    document.querySelectorAll(".tab")[1].classList.remove("active");
+  document.querySelectorAll(".tab")[0].classList.add("active");
+  document.querySelectorAll(".tab")[1].classList.remove("active");
 
-    document.querySelector(".buy").textContent = "BUY NOVA";
+  document.querySelector(".buy").textContent = "BUY NOVA";
+
+  document.querySelector("#solAmount").placeholder = "Amount (SOL)";
   }
-
+  
   function showSell() {
-    document.querySelectorAll(".tab")[0].classList.remove("active");
-    document.querySelectorAll(".tab")[1].classList.add("active");
+  document.querySelectorAll(".tab")[0].classList.remove("active");
+  document.querySelectorAll(".tab")[1].classList.add("active");
 
-    document.querySelector(".buy").textContent = "SELL NOVA";
-  }
+  document.querySelector(".buy").textContent = "SELL NOVA";
+
+  document.querySelector("input[placeholder='Amount (SOL)']").placeholder = "Amount (NOVA)";
+}
 
   function calculateNova() {
-    const solAmount = parseFloat(document.getElementById("solAmount").value) || 0;
-    const novaPrice = 0.00245;
+  const amount = parseFloat(document.getElementById("solAmount").value) || 0;
+  const novaPrice = 0.00245;
 
-    const novaAmount = solAmount / novaPrice;
-
+  if (document.querySelector(".buy").textContent === "BUY NOVA") {
+    const novaAmount = amount / novaPrice;
     document.getElementById("novaAmount").value =
       novaAmount > 0 ? novaAmount.toFixed(2) : "";
+  } else {
+    const solAmount = amount * novaPrice;
+    document.getElementById("novaAmount").value =
+      solAmount > 0 ? solAmount.toFixed(6) + " SOL" : "";
   }
+  }
+    
 </script>
     
   
