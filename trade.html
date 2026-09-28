@@ -1,1024 +1,1795 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KEXIUM Trade</title>
-
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: Arial, sans-serif;
-      background: #0b0b0f;
-      color: white;
-      padding-bottom: 80px;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 18px;
-      border-bottom: 1px solid #222;
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .back {
-      color: #aaa;
-      font-size: 14px;
-      text-decoration: none;
-    }
-
-    main {
-      padding: 18px;
-      max-width: 1500px;
-      margin: auto;
-    }
-
-    /* =========================
-       TOP TRADING AREA
-    ========================= */
-
-    .top-layout {
-      display: grid;
-      grid-template-columns: minmax(0, 1.7fr) minmax(320px, 0.9fr);
-      gap: 15px;
-      align-items: start;
-    }
-
-    .chart-panel,
-    .right-panel {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
-    }
-
-    .token-header,
-    .trade-box {
-      background: #15151c;
-      border: 1px solid #25252e;
-      border-radius: 14px;
-      padding: 18px;
-    }
-
-    .token-name {
-      font-size: 22px;
-      font-weight: bold;
-    }
-
-    .price {
-      font-size: 30px;
-      margin-top: 10px;
-    }
-
-    .green {
-      color: #38d996;
-    }
-
-    .chart {
-      height: 430px;
-      background: #101016;
-      border-radius: 12px;
-      margin-top: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #555;
-      border: 1px solid #20202a;
-    }
-
-    .token-stats {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .stat {
-      background: #101016;
-      padding: 10px;
-      border-radius: 9px;
-      color: #888;
-      font-size: 12px;
-    }
-
-    .stat strong {
-      display: block;
-      color: white;
-      margin-top: 4px;
-      font-size: 14px;
-    }
-
-    /* =========================
-       INFO
-    ========================= */
-
-    .info {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-top: 15px;
-    }
-
-    .info-card {
-      background: #101016;
-      padding: 12px;
-      border-radius: 9px;
-    }
-
-    .info-card small {
-      display: block;
-      color: #777;
-      margin-bottom: 5px;
-    }
-
-    /* =========================
-       EXECUTION
-    ========================= */
-
-    .tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 18px;
-    }
-
-    .tab {
-      flex: 1;
-      padding: 12px;
-      border-radius: 9px;
-      border: none;
-      background: #101016;
-      color: #888;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .tab.active {
-      background: white;
-      color: black;
-    }
-
-    label {
-      display: block;
-      color: #888;
-      font-size: 13px;
-      margin-bottom: 7px;
-    }
-
-    input,
-    select {
-      width: 100%;
-      padding: 14px;
-      border-radius: 9px;
-      border: 1px solid #292932;
-      background: #101016;
-      color: white;
-      font-size: 16px;
-      margin-bottom: 14px;
-    }
-
-    select {
-      cursor: pointer;
-    }
-
-    .buy {
-      width: 100%;
-      background: #38d996;
-      color: #07130e;
-      font-size: 16px;
-      font-weight: bold;
-      padding: 15px;
-      border: none;
-      border-radius: 9px;
-      cursor: pointer;
-    }
-
-    /* =========================
-       UNDER CHART OPTIONS
-    ========================= */
-
-    .data-tabs {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      margin-top: 15px;
-    }
-
-    .data-tab {
-      padding: 13px 8px;
-      background: #15151c;
-      border: 1px solid #25252e;
-      color: #888;
-      border-radius: 9px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .data-tab.active {
-      background: white;
-      color: black;
-    }
-
-    .data-content {
-      margin-top: 12px;
-    }
-
-    .data-panel {
-      display: none;
-    }
-
-    .data-panel.active {
-      display: block;
-    }
-
-    /* =========================
-       TABLES
-    ========================= */
-
-    .table-wrap {
-      width: 100%;
-      overflow-x: auto;
-    }
-
-    .data-table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 700px;
-    }
-
-    .data-table th,
-    .data-table td {
-      padding: 13px 10px;
-      text-align: left;
-      border-bottom: 1px solid #222;
-      white-space: nowrap;
-    }
-
-    .data-table th {
-      font-size: 12px;
-      color: #777;
-      text-transform: uppercase;
-    }
-
-    .data-table td {
-      font-size: 13px;
-    }
-
-    .buy-text {
-      color: #38d996;
-      font-weight: bold;
-    }
-
-    .sell-text {
-      color: #ff6b6b;
-      font-weight: bold;
-    }
-
-    /* =========================
-       HOLDER FILTERS
-    ========================= */
-
-    .holder-filters {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 15px;
-    }
-
-    .holder-filter {
-      padding: 9px 14px;
-      border-radius: 8px;
-      border: 1px solid #292932;
-      background: #101016;
-      color: #888;
-      cursor: pointer;
-    }
-
-    .holder-filter.active {
-      background: white;
-      color: black;
-    }
-
-    /* =========================
-       CALLOUTS
-    ========================= */
-
-    .callout-btn {
-      margin-top: 15px;
-      width: 100%;
-      padding: 13px;
-      border: 1px solid #333;
-      border-radius: 9px;
-      background: #101016;
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    /* =========================
-       BOTTOM NAV
-    ========================= */
-
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 65px;
-      background: #111116;
-      border-top: 1px solid #25252e;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      z-index: 100;
-    }
-
-    .nav-item {
-      color: #888;
-      font-size: 12px;
-      text-align: center;
-    }
-
-    .nav-item.active {
-      color: white;
-    }
-
-    /* =========================
-       MOBILE
-    ========================= */
-
-    @media (max-width: 850px) {
-
-      .top-layout {
-        grid-template-columns: 1fr;
-      }
-
-      .chart {
-        height: 300px;
-      }
-
-      .right-panel {
-        display: flex;
-      }
-
-      .data-tabs {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .token-stats {
-        grid-template-columns: 1fr 1fr;
-      }
-    }
-
-    @media (max-width: 500px) {
-
-      main {
-        padding: 12px;
-      }
-
-      .token-name {
-        font-size: 19px;
-      }
-
-      .price {
-        font-size: 26px;
-      }
-
-      .chart {
-        height: 250px;
-      }
-
-      .info {
-        grid-template-columns: 1fr 1fr;
-      }
-
-      .data-tab {
-        font-size: 12px;
-      }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KEXIUM Trade</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #07111f;
+  color: #f5f7fa;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.topbar {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 22px;
+  border-bottom: 1px solid #172538;
+  background: #081321;
+}
+
+.logo {
+  font-size: 23px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+.topbar-right {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.top-btn {
+  border: 1px solid #26384f;
+  background: #101c2c;
+  color: #dbe4ee;
+  padding: 9px 14px;
+  border-radius: 9px;
+}
+
+.page {
+  padding: 18px;
+  max-width: 1700px;
+  margin: auto;
+}
+
+/* =========================
+   MAIN TRADE LAYOUT
+========================= */
+
+.top-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.7fr) minmax(340px, 0.9fr);
+  gap: 18px;
+}
+
+.left-column,
+.right-column {
+  min-width: 0;
+}
+
+.panel {
+  background: #0c1726;
+  border: 1px solid #1a2b40;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.panel + .panel {
+  margin-top: 14px;
+}
+
+/* =========================
+   TOKEN HEADER
+========================= */
+
+.token-header {
+  padding: 18px;
+  border-bottom: 1px solid #1a2b40;
+}
+
+.token-main {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.token-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.token-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #263b58, #14253a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 18px;
+}
+
+.token-name {
+  font-size: 21px;
+  font-weight: 800;
+}
+
+.token-chain {
+  color: #8fa2b7;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.price-box {
+  text-align: right;
+}
+
+.price {
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.change-up {
+  color: #3ee38b;
+  font-size: 13px;
+  margin-top: 4px;
+}
+
+.token-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.stat-card {
+  background: #091321;
+  border: 1px solid #18293d;
+  border-radius: 10px;
+  padding: 11px;
+}
+
+.stat-label {
+  color: #8194a9;
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+
+.stat-value {
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* =========================
+   CHART
+========================= */
+
+.chart-wrap {
+  padding: 14px;
+}
+
+.chart {
+  height: 430px;
+  border-radius: 12px;
+  border: 1px solid #1b2c41;
+  background:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px),
+    #081321;
+  background-size: 45px 45px;
+  position: relative;
+  overflow: hidden;
+}
+
+.chart-line {
+  position: absolute;
+  left: 4%;
+  right: 4%;
+  top: 48%;
+  height: 2px;
+  background: #38d98b;
+  transform: rotate(-7deg);
+  box-shadow:
+    70px -18px 0 #38d98b,
+    130px 8px 0 #38d98b,
+    190px -30px 0 #38d98b,
+    250px -8px 0 #38d98b,
+    310px -45px 0 #38d98b,
+    370px -25px 0 #38d98b,
+    430px -60px 0 #38d98b,
+    500px -40px 0 #38d98b;
+}
+
+.chart-label {
+  position: absolute;
+  left: 15px;
+  top: 14px;
+  color: #73869c;
+  font-size: 11px;
+}
+
+/* =========================
+   DATA TABS UNDER CHART
+========================= */
+
+.data-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-top: 1px solid #1a2b40;
+}
+
+.data-tab {
+  border: 0;
+  border-right: 1px solid #1a2b40;
+  background: #0b1624;
+  color: #8194a9;
+  padding: 14px 8px;
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.data-tab:last-child {
+  border-right: 0;
+}
+
+.data-tab.active {
+  background: #132238;
+  color: #ffffff;
+}
+
+.data-panel {
+  display: none;
+  padding: 14px;
+}
+
+.data-panel.active {
+  display: block;
+}
+
+.table-wrap {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 650px;
+}
+
+th {
+  text-align: left;
+  color: #71859a;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 9px;
+  border-bottom: 1px solid #1a2b40;
+}
+
+td {
+  padding: 11px 9px;
+  border-bottom: 1px solid #142438;
+  font-size: 12px;
+}
+
+.buy-text {
+  color: #3ee38b;
+  font-weight: 700;
+}
+
+.sell-text {
+  color: #ff6978;
+  font-weight: 700;
+}
+
+.muted {
+  color: #7d90a5;
+}
+
+/* =========================
+   HOLDER FILTERS
+========================= */
+
+.holder-filters {
+  display: flex;
+  gap: 7px;
+  margin-bottom: 12px;
+}
+
+.holder-filter {
+  border: 1px solid #26384e;
+  background: #0b1624;
+  color: #91a4b9;
+  padding: 7px 11px;
+  border-radius: 7px;
+  font-size: 11px;
+}
+
+.holder-filter.active {
+  background: #16273d;
+  color: #ffffff;
+  border-color: #3a506c;
+}
+
+/* =========================
+   RIGHT SIDE SECTIONS
+========================= */
+
+.section {
+  padding: 15px;
+  border-bottom: 1px solid #192a3e;
+}
+
+.section:last-child {
+  border-bottom: 0;
+}
+
+.section-title {
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: .5px;
+  margin-bottom: 12px;
+  color: #dce6f1;
+}
+
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.info-item {
+  background: #091421;
+  border: 1px solid #18293d;
+  border-radius: 9px;
+  padding: 9px;
+}
+
+.info-label {
+  color: #71869b;
+  font-size: 10px;
+  margin-bottom: 4px;
+}
+
+.info-value {
+  color: #f1f5f9;
+  font-size: 12px;
+  font-weight: 700;
+  word-break: break-word;
+}
+
+.good {
+  color: #3ee38b;
+}
+
+.warning {
+  color: #ffc857;
+}
+
+.bad {
+  color: #ff6978;
+}
+
+/* =========================
+   TRADING STATS
+========================= */
+
+.volume-highlight {
+  grid-column: 1 / -1;
+}
+
+.volume-big {
+  font-size: 18px;
+  font-weight: 800;
+}
+
+.stat-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+/* =========================
+   POOL
+========================= */
+
+.pool-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 0;
+  border-bottom: 1px solid #15263a;
+  font-size: 12px;
+}
+
+.pool-item:last-child {
+  border-bottom: 0;
+}
+
+.pool-label {
+  color: #71869b;
+}
+
+.pool-value {
+  text-align: right;
+  font-weight: 700;
+}
+
+/* =========================
+   EXECUTION PANEL
+========================= */
+
+.execution {
+  padding: 15px;
+}
+
+.tabs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 7px;
+  margin-bottom: 13px;
+}
+
+.tab {
+  border: 1px solid #27394f;
+  background: #0a1523;
+  color: #8da0b5;
+  padding: 11px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 12px;
+}
+
+.tab.active.buy-side {
+  background: #123c2c;
+  border-color: #1f8a5a;
+  color: #45e795;
+}
+
+.tab.active.sell-side {
+  background: #3c1720;
+  border-color: #9d3545;
+  color: #ff7180;
+}
+
+.order-box {
+  margin-bottom: 11px;
+}
+
+.order-label {
+  display: block;
+  color: #8194a9;
+  font-size: 10px;
+  margin-bottom: 6px;
+}
+
+select,
+input {
+  width: 100%;
+  border: 1px solid #26394f;
+  background: #081320;
+  color: #edf3f8;
+  border-radius: 8px;
+  padding: 11px;
+  outline: none;
+}
+
+select:focus,
+input:focus {
+  border-color: #46627f;
+}
+
+.optional-box {
+  display: none;
+  margin-bottom: 11px;
+}
+
+.estimate-box {
+  margin-top: 8px;
+}
+
+.trade-button {
+  width: 100%;
+  border: 0;
+  border-radius: 9px;
+  padding: 13px;
+  margin-top: 5px;
+  font-size: 13px;
+  font-weight: 900;
+  background: #1c9e63;
+  color: white;
+}
+
+.trade-button.sell-mode {
+  background: #c43d4f;
+}
+
+.trade-button.limit-mode,
+.trade-button.stop-mode {
+  background: #355d91;
+}
+
+.execution-info {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 7px;
+  margin-top: 11px;
+}
+
+.execution-card {
+  background: #091421;
+  border: 1px solid #18293d;
+  border-radius: 8px;
+  padding: 8px;
+}
+
+.execution-card span {
+  display: block;
+  color: #6f8297;
+  font-size: 9px;
+  margin-bottom: 3px;
+}
+
+.execution-card strong {
+  font-size: 11px;
+}
+
+/* =========================
+   BOTTOM NAV
+========================= */
+
+.bottom-nav {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60px;
+  background: #081321;
+  border-top: 1px solid #1a2b40;
+  display: flex;
+  justify-content: center;
+  gap: 35px;
+  align-items: center;
+  z-index: 20;
+}
+
+.bottom-nav a {
+  color: #8396aa;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+}
+
+.bottom-nav a.active {
+  color: #ffffff;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 850px) {
+
+  .page {
+    padding: 10px;
+    padding-bottom: 75px;
+  }
+
+  .topbar {
+    padding: 0 13px;
+  }
+
+  .top-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .chart {
+    height: 300px;
+  }
+
+  .token-stats {
+    grid-template-columns: 1fr;
+  }
+
+  .data-tabs {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .data-tab:nth-child(1),
+  .data-tab:nth-child(2) {
+    border-bottom: 1px solid #1a2b40;
+  }
+
+  .data-tab:nth-child(2) {
+    border-right: 0;
+  }
+
+  .data-tab:nth-child(4) {
+    border-right: 0;
+  }
+
+  .token-main {
+    align-items: flex-start;
+  }
+
+  .bottom-nav {
+    gap: 22px;
+  }
+}
+</style>
 </head>
 
 <body>
 
-  <header>
-    <div class="logo">KEXIUM</div>
-    <a href="index.html" class="back">← Dashboard</a>
-  </header>
+<header class="topbar">
+  <div class="logo">KEXIUM</div>
 
-  <main>
+  <div class="topbar-right">
+    <button class="top-btn">Search</button>
+    <button class="top-btn">Wallet</button>
+  </div>
+</header>
 
-    <!-- =========================
-         TOP AREA
-    ========================== -->
+<main class="page">
 
-    <div class="top-layout">
+<div class="top-layout">
 
-      <!-- LEFT: TOKEN + CHART -->
-      <div class="chart-panel">
+<!-- =====================================================
+     LEFT COLUMN
+====================================================== -->
 
-        <div class="token-header">
+<div class="left-column">
 
-          <div class="token-name">🟣 NOVA · $NOVA</div>
+  <section class="panel">
 
+    <div class="token-header">
+
+      <div class="token-main">
+
+        <div class="token-title">
+
+          <div class="token-icon">N</div>
+
+          <div>
+            <div class="token-name">NOVA</div>
+            <div class="token-chain">NOVA • SOLANA</div>
+          </div>
+
+        </div>
+
+        <div class="price-box">
           <div class="price">$0.00245</div>
-
-          <div class="green">+38.4% 24H</div>
-
-          <div class="token-stats">
-
-            <div class="stat">
-              Market Cap
-              <strong>$245K</strong>
-            </div>
-
-            <div class="stat">
-              Liquidity
-              <strong>$82K</strong>
-            </div>
-
-            <div class="stat">
-              24H Volume
-              <strong>$391K</strong>
-            </div>
-
-          </div>
-
-          <div class="chart">
-            📈 NOVA PRICE CHART
-          </div>
-
-        </div>
-
-        <!-- UNDER CHART OPTIONS -->
-
-        <div class="data-tabs">
-
-          <button class="data-tab active" onclick="showData('traders', this)">
-            TRADERS
-          </button>
-
-          <button class="data-tab" onclick="showData('trades', this)">
-            TRADES
-          </button>
-
-          <button class="data-tab" onclick="showData('holders', this)">
-            HOLDERS
-          </button>
-
-          <button class="data-tab" onclick="showData('callouts', this)">
-            CALLOUTS
-          </button>
-
-        </div>
-
-        <!-- DATA TABLE AREA -->
-
-        <div class="data-content">
-
-          <!-- TRADERS -->
-
-          <div id="traders" class="trade-box data-panel active">
-
-            <h3>Traders</h3>
-
-            <div class="table-wrap">
-
-              <table class="data-table">
-
-                <thead>
-                  <tr>
-                    <th>Trader</th>
-                    <th>Action</th>
-                    <th>Entry MC</th>
-                    <th>Current / Exit MC</th>
-                    <th>PNL</th>
-                    <th>Time</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-
-                  <tr>
-                    <td><strong>@TraderA</strong></td>
-                    <td class="buy-text">🟢 BUY · Holding</td>
-                    <td>$82K</td>
-                    <td>$245K</td>
-                    <td>+198%</td>
-                    <td>2m ago</td>
-                  </tr>
-
-                  <tr>
-                    <td><strong>@TraderB</strong></td>
-                    <td class="buy-text">🟢 BUY · Holding</td>
-                    <td>$140K</td>
-                    <td>$245K</td>
-                    <td>+75%</td>
-                    <td>8m ago</td>
-                  </tr>
-
-                  <tr>
-                    <td><strong>@TraderC</strong></td>
-                    <td class="sell-text">🔴 SELL · Closed</td>
-                    <td>$110K</td>
-                    <td>$156K</td>
-                    <td>+42%</td>
-                    <td>15m ago</td>
-                  </tr>
-
-                </tbody>
-
-              </table>
-
-            </div>
-
-          </div>
-
-
-          <!-- TRADES -->
-
-          <div id="trades" class="trade-box data-panel">
-
-            <h3>Trades</h3>
-
-            <div class="table-wrap">
-
-              <table class="data-table">
-
-                <thead>
-                  <tr>
-                    <th>Time</th>
-                    <th>Trader</th>
-                    <th>Action</th>
-                    <th>Amount</th>
-                    <th>Price</th>
-                    <th>MC</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-
-                  <tr>
-                    <td>12:01</td>
-                    <td>@TraderA</td>
-                    <td class="buy-text">BUY</td>
-                    <td>2 SOL</td>
-                    <td>$0.0021</td>
-                    <td>$82K</td>
-                  </tr>
-
-                  <tr>
-                    <td>12:04</td>
-                    <td>@TraderB</td>
-                    <td class="buy-text">BUY</td>
-                    <td>1 SOL</td>
-                    <td>$0.0023</td>
-                    <td>$140K</td>
-                  </tr>
-
-                  <tr>
-                    <td>12:10</td>
-                    <td>@TraderC</td>
-                    <td class="sell-text">SELL</td>
-                    <td>0.5 SOL</td>
-                    <td>$0.0024</td>
-                    <td>$156K</td>
-                  </tr>
-
-                </tbody>
-
-              </table>
-
-            </div>
-
-          </div>
-
-
-          <!-- HOLDERS -->
-
-          <div id="holders" class="trade-box data-panel">
-
-            <h3>Holders</h3>
-
-            <div class="holder-filters">
-
-              <button class="holder-filter active">
-                ALL
-              </button>
-
-              <button class="holder-filter">
-                KEXIUM
-              </button>
-
-              <button class="holder-filter">
-                FOLLOWING
-              </button>
-
-            </div>
-
-            <div class="table-wrap">
-
-              <table class="data-table">
-
-                <thead>
-                  <tr>
-                    <th>Holder</th>
-                    <th>Holdings</th>
-                    <th>% Supply</th>
-                    <th>Value</th>
-                    <th>Source</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-
-                  <tr>
-                    <td>7xK...92a</td>
-                    <td>52,400 NOVA</td>
-                    <td>4.8%</td>
-                    <td>$11.7K</td>
-                    <td>Solana</td>
-                  </tr>
-
-                  <tr>
-                    <td>9dP...31c</td>
-                    <td>31,200 NOVA</td>
-                    <td>3.2%</td>
-                    <td>$7.8K</td>
-                    <td>KEXIUM</td>
-                  </tr>
-
-                  <tr>
-                    <td>4mT...72b</td>
-                    <td>18,900 NOVA</td>
-                    <td>1.9%</td>
-                    <td>$4.6K</td>
-                    <td>KEXIUM</td>
-                  </tr>
-
-                </tbody>
-
-              </table>
-
-            </div>
-
-          </div>
-
-
-          <!-- CALLOUTS -->
-
-          <div id="callouts" class="trade-box data-panel">
-
-            <h3>Callouts</h3>
-
-            <div class="table-wrap">
-
-              <table class="data-table">
-
-                <thead>
-                  <tr>
-                    <th>Trader</th>
-                    <th>Callout</th>
-                    <th>Time</th>
-                  </tr>
-                </thead>
-
-                <tbody>
-
-                  <tr>
-                    <td><strong>@TraderA</strong></td>
-                    <td>Watching $NOVA 👀 Strong volume coming in.</td>
-                    <td>2m ago</td>
-                  </tr>
-
-                  <tr>
-                    <td><strong>@TraderB</strong></td>
-                    <td>$NOVA looking strong here 🔥</td>
-                    <td>8m ago</td>
-                  </tr>
-
-                  <tr>
-                    <td><strong>@TraderD</strong></td>
-                    <td>Volume starting to pick up.</td>
-                    <td>15m ago</td>
-                  </tr>
-
-                </tbody>
-
-              </table>
-
-            </div>
-
-            <button class="callout-btn">
-              CALL OUT $NOVA
-            </button>
-
-          </div>
-
+          <div class="change-up">+24.8% 24H</div>
         </div>
 
       </div>
 
+      <div class="token-stats">
 
-      <!-- RIGHT SIDE -->
-
-      <div class="right-panel">
-
-        <!-- TOKEN INFO -->
-
-        <div class="trade-box">
-
-          <h3>Token Info</h3>
-
-          <div class="info">
-
-            <div class="info-card">
-              <small>Price</small>
-              $0.00245
-            </div>
-
-            <div class="info-card">
-              <small>24H Change</small>
-              <span class="green">+38.4%</span>
-            </div>
-
-            <div class="info-card">
-              <small>Market Cap</small>
-              $245K
-            </div>
-
-            <div class="info-card">
-              <small>Liquidity</small>
-              $82K
-            </div>
-
-            <div class="info-card">
-              <small>24H Volume</small>
-              $391K
-            </div>
-
-            <div class="info-card">
-              <small>Buy Pressure</small>
-              78%
-            </div>
-
-          </div>
-
+        <div class="stat-card">
+          <div class="stat-label">MARKET CAP</div>
+          <div class="stat-value">$245K</div>
         </div>
 
-
-        <!-- SECURITY -->
-
-        <div class="trade-box">
-
-          <h3>Security</h3>
-
-          <div class="info">
-
-            <div class="info-card">
-              <small>Mint Authority</small>
-              Disabled
-            </div>
-
-            <div class="info-card">
-              <small>Freeze Authority</small>
-              Disabled
-            </div>
-
-            <div class="info-card">
-              <small>Token Program</small>
-              Standard SPL
-            </div>
-
-            <div class="info-card">
-              <small>Permanent Delegate</small>
-              None
-            </div>
-
-            <div class="info-card">
-              <small>Transfer Fee</small>
-              None
-            </div>
-
-            <div class="info-card">
-              <small>LP Status</small>
-              Burned
-            </div>
-
-            <div class="info-card">
-              <small>Sell Route</small>
-              Not Blocked
-            </div>
-
-          </div>
-
+        <div class="stat-card">
+          <div class="stat-label">LIQUIDITY</div>
+          <div class="stat-value">$38.4K</div>
         </div>
 
-
-        <!-- HOLDER SUMMARY -->
-
-        <div class="trade-box">
-
-          <h3>Holder Summary</h3>
-
-          <div class="info">
-
-            <div class="info-card">
-              <small>Total Holders</small>
-              1,284
-            </div>
-
-            <div class="info-card">
-              <small>Top 10 Holders</small>
-              18.6%
-            </div>
-
-            <div class="info-card">
-              <small>Top 20 Holders</small>
-              27.4%
-            </div>
-
-            <div class="info-card">
-              <small>Largest Holder</small>
-              4.8%
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- BUY / SELL -->
-
-        <div class="trade-box">
-
-          <div class="tabs">
-
-            <button class="tab active" onclick="showBuy()">
-              BUY
-            </button>
-
-            <button class="tab" onclick="showSell()">
-              SELL
-            </button>
-
-          </div>
-
-
-          <div class="order-type">
-
-            <label>Order Type</label>
-
-            <select id="orderType" onchange="changeOrderType()">
-
-              <option value="market">
-                Market
-              </option>
-
-              <option value="limit">
-                Limit
-              </option>
-
-              <option value="stop">
-                Stop
-              </option>
-
-            </select>
-
-          </div>
-
-
-          <div id="limitPriceBox" style="display:none;">
-
-            <label>Limit Price</label>
-
-            <input
-              type="number"
-              id="limitPrice"
-              placeholder="Price (USD)"
-              step="0.000001"
-            >
-
-          </div>
-
-
-          <div id="stopPriceBox" style="display:none;">
-
-            <label>Stop Price</label>
-
-            <input
-              type="number"
-              id="stopPrice"
-              placeholder="Price (USD)"
-              step="0.000001"
-            >
-
-          </div>
-
-
-          <label>Amount (SOL)</label>
-
-          <input
-            type="number"
-            id="solAmount"
-            placeholder="Amount (SOL)"
-            oninput="calculateNova()"
-          >
-
-
-          <label>Estimated NOVA</label>
-
-          <input
-            type="text"
-            id="novaAmount"
-            placeholder="Estimated NOVA"
-            readonly
-          >
-
-
-          <button class="buy">
-            BUY NOVA
-          </button>
-
-
-          <div class="info">
-
-            <div class="info-card">
-              <small>Liquidity</small>
-              $82K
-            </div>
-
-            <div class="info-card">
-              <small>24H Volume</small>
-              $391K
-            </div>
-
-            <div class="info-card">
-              <small>Buy Pressure</small>
-              78%
-            </div>
-
-            <div class="info-card">
-              <small>Network</small>
-              Solana
-            </div>
-
-          </div>
-
+        <div class="stat-card">
+          <div class="stat-label">24H VOLUME</div>
+          <div class="stat-value">$182K</div>
         </div>
 
       </div>
 
     </div>
 
-  </main>
-
-
-  <!-- BOTTOM NAV -->
-
-  <nav class="bottom-nav">
-
-    <div class="nav-item">
-      🏠<br>Home
+    <div class="chart-wrap">
+      <div class="chart">
+        <div class="chart-label">KEXIUM CHART</div>
+        <div class="chart-line"></div>
+      </div>
     </div>
 
-    <div class="nav-item">
-      🔥<br>Discover
+    <!-- DATA TABS -->
+
+    <div class="data-tabs">
+
+      <button
+        class="data-tab active"
+        onclick="showData('traders', this)">
+        TRADERS
+      </button>
+
+      <button
+        class="data-tab"
+        onclick="showData('trades', this)">
+        TRADES
+      </button>
+
+      <button
+        class="data-tab"
+        onclick="showData('holders', this)">
+        HOLDERS
+      </button>
+
+      <button
+        class="data-tab"
+        onclick="showData('callouts', this)">
+        CALLOUTS
+      </button>
+
     </div>
 
-    <div class="nav-item active">
-      📈<br>Trade
+    <!-- TRADERS -->
+
+    <div id="traders" class="data-panel active">
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>TRADER</th>
+              <th>ACTION</th>
+              <th>ENTRY MC</th>
+              <th>CURRENT / EXIT MC</th>
+              <th>PNL</th>
+              <th>TIME</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr>
+              <td>@NovaHunter</td>
+              <td class="buy-text">BUY</td>
+              <td>$82K</td>
+              <td>$245K</td>
+              <td class="buy-text">+198%</td>
+              <td class="muted">4m</td>
+            </tr>
+
+            <tr>
+              <td>@KexTrader</td>
+              <td class="buy-text">BUY</td>
+              <td>$115K</td>
+              <td>$245K</td>
+              <td class="buy-text">+113%</td>
+              <td class="muted">8m</td>
+            </tr>
+
+            <tr>
+              <td>@AlphaSol</td>
+              <td class="sell-text">SELL</td>
+              <td>$71K</td>
+              <td>$211K</td>
+              <td class="buy-text">+197%</td>
+              <td class="muted">12m</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
     </div>
 
-    <div class="nav-item">
-      👥<br>Social
+    <!-- TRADES -->
+
+    <div id="trades" class="data-panel">
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>TIME</th>
+              <th>TRADER</th>
+              <th>ACTION</th>
+              <th>AMOUNT</th>
+              <th>PRICE</th>
+              <th>MC</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr>
+              <td>12:41:22</td>
+              <td>@NovaHunter</td>
+              <td class="buy-text">BUY</td>
+              <td>2.40 SOL</td>
+              <td>$0.00231</td>
+              <td>$231K</td>
+            </tr>
+
+            <tr>
+              <td>12:41:07</td>
+              <td>@KexTrader</td>
+              <td class="sell-text">SELL</td>
+              <td>0.85 SOL</td>
+              <td>$0.00243</td>
+              <td>$243K</td>
+            </tr>
+
+            <tr>
+              <td>12:40:51</td>
+              <td>@AlphaSol</td>
+              <td class="buy-text">BUY</td>
+              <td>1.20 SOL</td>
+              <td>$0.00238</td>
+              <td>$238K</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
     </div>
 
-    <div class="nav-item">
-      👤<br>Profile
+    <!-- HOLDERS -->
+
+    <div id="holders" class="data-panel">
+
+      <div class="holder-filters">
+
+        <button
+          class="holder-filter active"
+          onclick="filterHolders('all', this)">
+          ALL
+        </button>
+
+        <button
+          class="holder-filter"
+          onclick="filterHolders('kexium', this)">
+          KEXIUM
+        </button>
+
+        <button
+          class="holder-filter"
+          onclick="filterHolders('following', this)">
+          FOLLOWING
+        </button>
+
+      </div>
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>HOLDER</th>
+              <th>HOLDINGS</th>
+              <th>% SUPPLY</th>
+              <th>VALUE</th>
+              <th>SOURCE</th>
+            </tr>
+          </thead>
+
+          <tbody id="holderTable">
+
+            <tr data-category="all kexium">
+              <td>@NovaHunter</td>
+              <td>84,500,000</td>
+              <td>8.45%</td>
+              <td>$20,702</td>
+              <td>KEXIUM</td>
+            </tr>
+
+            <tr data-category="all following">
+              <td>@AlphaSol</td>
+              <td>62,000,000</td>
+              <td>6.20%</td>
+              <td>$15,190</td>
+              <td>FOLLOWING</td>
+            </tr>
+
+            <tr data-category="all">
+              <td>7xK3...91Pq</td>
+              <td>41,200,000</td>
+              <td>4.12%</td>
+              <td>$10,094</td>
+              <td>WALLET</td>
+            </tr>
+
+            <tr data-category="all kexium">
+              <td>@SolRunner</td>
+              <td>33,500,000</td>
+              <td>3.35%</td>
+              <td>$8,208</td>
+              <td>KEXIUM</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
     </div>
 
-  </nav>
+    <!-- CALLOUTS -->
+
+    <div id="callouts" class="data-panel">
+
+      <div class="table-wrap">
+
+        <table>
+
+          <thead>
+            <tr>
+              <th>TRADER</th>
+              <th>CALLOUT</th>
+              <th>TIME</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+            <tr>
+              <td>@NovaHunter</td>
+              <td class="buy-text">NOVA breaking resistance</td>
+              <td class="muted">3m ago</td>
+            </tr>
+
+            <tr>
+              <td>@AlphaSol</td>
+              <td class="buy-text">Watching $300K MC</td>
+              <td class="muted">8m ago</td>
+            </tr>
+
+            <tr>
+              <td>@KexTrader</td>
+              <td class="buy-text">Strong volume incoming</td>
+              <td class="muted">14m ago</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+
+      </div>
+
+      <button
+        class="trade-button"
+        style="margin-top:14px;">
+        CALL OUT $NOVA
+      </button>
+
+    </div>
+
+  </section>
+
+</div>
 
 
-  <script>
+<!-- =====================================================
+     RIGHT COLUMN
+====================================================== -->
 
-    /* =========================
-       DATA TABS
-    ========================= */
+<div class="right-column">
 
-    function showData(section, button) {
+  <section class="panel">
 
-      document
-        .querySelectorAll(".data-tab")
-        .forEach(tab => tab.classList.remove("active"));
-  
-      
+    <!-- TOKEN INFO -->
+
+    <div class="section">
+
+      <div class="section-title">
+        TOKEN INFO
+      </div>
+
+      <div class="info-grid">
+
+        <div class="info-item">
+          <div class="info-label">PRICE</div>
+          <div class="info-value">$0.00245</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">24H CHANGE</div>
+          <div class="info-value good">+24.8%</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">MARKET CAP</div>
+          <div class="info-value">$245K</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">ATH</div>
+          <div class="info-value">$712K</div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- TRADING STATS -->
+
+    <div class="section">
+
+      <div class="section-title">
+        TRADING STATS
+      </div>
+
+      <div class="info-grid">
+
+        <div class="info-item volume-highlight">
+          <div class="info-label">24H VOLUME</div>
+          <div class="volume-big">$182K</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">5M VOLUME</div>
+          <div class="info-value">$14.8K</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">1H VOLUME</div>
+          <div class="info-value">$51.2K</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">BUYS</div>
+          <div class="info-value good">1,284</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">SELLS</div>
+          <div class="info-value bad">936</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">BUY VOLUME</div>
+          <div class="info-value good">$103K</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">SELL VOLUME</div>
+          <div class="info-value bad">$79K</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">BUYERS</div>
+          <div class="info-value">612</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">SELLERS</div>
+          <div class="info-value">487</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">5M MOMENTUM</div>
+          <div class="info-value good">+18.4%</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">BUY PRESSURE</div>
+          <div class="info-value good">67%</div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- POOL INFORMATION -->
+
+    <div class="section">
+
+      <div class="section-title">
+        POOL INFORMATION
+      </div>
+
+      <div class="pool-item">
+        <span class="pool-label">Paired With</span>
+        <span class="pool-value">SOL</span>
+      </div>
+
+      <div class="pool-item">
+        <span class="pool-label">Liquidity</span>
+        <span class="pool-value">$38.4K</span>
+      </div>
+
+      <div class="pool-item">
+        <span class="pool-label">Pool</span>
+        <span class="pool-value">KEXIUM / SOL</span>
+      </div>
+
+      <div class="pool-item">
+        <span class="pool-label">Creator</span>
+        <span class="pool-value">@NovaCreator</span>
+      </div>
+
+      <div class="pool-item">
+        <span class="pool-label">Creator Wallet</span>
+        <span class="pool-value">8fK2...P91x</span>
+      </div>
+
+    </div>
+
+
+    <!-- HOLDER SUMMARY -->
+
+    <div class="section">
+
+      <div class="section-title">
+        HOLDER SUMMARY
+      </div>
+
+      <div class="info-grid">
+
+        <div class="info-item">
+          <div class="info-label">TOTAL HOLDERS</div>
+          <div class="info-value">2,418</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">TOP 10</div>
+          <div class="info-value">31.8%</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">TOP 20</div>
+          <div class="info-value">42.6%</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">LARGEST HOLDER</div>
+          <div class="info-value">8.45%</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">BUNDLERS</div>
+          <div class="info-value warning">4.8%</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">INSIDERS</div>
+          <div class="info-value warning">6.2%</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">SNIPERS</div>
+          <div class="info-value warning">3.7%</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">ORGANIC HOLDERS</div>
+          <div class="info-value good">85.3%</div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- SECURITY -->
+
+    <div class="section">
+
+      <div class="section-title">
+        SECURITY
+      </div>
+
+      <div class="info-grid">
+
+        <div class="info-item">
+          <div class="info-label">MINT AUTHORITY</div>
+          <div class="info-value good">REVOKED</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">FREEZE AUTHORITY</div>
+          <div class="info-value good">REVOKED</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">TOKEN PROGRAM</div>
+          <div class="info-value">STANDARD SPL</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">PERMANENT DELEGATE</div>
+          <div class="info-value good">NONE</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">TRANSFER FEE</div>
+          <div class="info-value good">NONE</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">LP STATUS</div>
+          <div class="info-value good">BURNED</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">SELL ROUTE</div>
+          <div class="info-value good">NOT BLOCKED</div>
+        </div>
+
+        <div class="info-item">
+          <div class="info-label">SECURITY STATUS</div>
+          <div class="info-value good">PASS</div>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- BUY / SELL EXECUTION -->
+
+    <div class="execution">
+
+      <div class="section-title">
+        TRADE NOVA
+      </div>
+
+      <div class="tabs">
+
+        <button
+          id="buyTab"
+          class="tab active buy-side"
+          type="button"
+          onclick="showBuy()">
+          BUY
+        </button>
+
+        <button
+          id="sellTab"
+          class="tab sell-side"
+          type="button"
+          onclick="showSell()">
+          SELL
+        </button>
+
+      </div>
+
+
+      <!-- ORDER TYPE -->
+
+      <div class="order-box">
+
+        <label
+          class="order-label"
+          for="orderType">
+          ORDER TYPE
+        </label>
+
+        <select
+          id="orderType"
+          onchange="changeOrderType()">
+
+          <option value="market">Market</option>
+          <option value="limit">Limit</option>
+          <option value="stop">Stop</option>
+
+        </select>
+
+      </div>
+
+
+      <!-- LIMIT PRICE -->
+
+      <div
+        id="limitPriceBox"
+        class="optional-box">
+
+        <label
+          class="order-label"
+          for="limitPrice">
+          LIMIT PRICE
+        </label>
+
+        <input
+          id="limitPrice"
+          type="number"
+          step="0.000001"
+          placeholder="Enter limit price">
+
+      </div>
+
+
+      <!-- STOP PRICE -->
+
+      <div
+        id="stopPriceBox"
+        class="optional-box">
+
+        <label
+          class="order-label"
+          for="stopPrice">
+          STOP PRICE
+        </label>
+
+        <input
+          id="stopPrice"
+          type="number"
+          step="0.000001"
+          placeholder="Enter stop price">
+
+      </div>
+
+
+      <!-- AMOUNT -->
+
+      <div class="order-box">
+
+        <label
+          id="amountLabel"
+          class="order-label"
+          for="solAmount">
+          AMOUNT (SOL)
+        </label>
+
+        <input
+          id="solAmount"
+          type="number"
+          step="0.01"
+          min="0"
+          placeholder="Amount (SOL)"
+          oninput="calculateNova()">
+
+      </div>
+
+
+      <!-- ESTIMATE -->
+
+      <div class="order-box estimate-box">
+
+        <label
+          id="estimateLabel"
+          class="order-label"
+          for="novaAmount">
+          ESTIMATED NOVA
+        </label>
+
+        <input
+          id="novaAmount"
+          type="text"
+          placeholder="Estimated NOVA"
+          readonly>
+
+      </div>
+
+
+      <!-- EXECUTION BUTTON -->
+
+      <button
+        id="tradeButton"
+        class="trade-button"
+        type="button"
+        onclick="executeTrade()">
+        BUY NOVA
+      </button>
+
+
+      <!-- QUICK INFO -->
+
+      <div class="execution-info">
+
+        <div class="execution-card">
+          <span>LIQUIDITY</span>
+          <strong>$38.4K</strong>
+        </div>
+
+        <div class="execution-card">
+          <span>24H VOLUME</span>
+          <strong>$182K</strong>
+        </div>
+
+        <div class="execution-card">
+          <span>BUY PRESSURE</span>
+          <strong>67%</strong>
+        </div>
+
+        <div class="execution-card">
+          <span>NETWORK</span>
+          <strong>SOLANA</strong>
+        </div>
+
+      </div>
+
+    </div>
+
+  </section>
+
+</div>
+
+</div>
+
+</main>
+
+
+<!-- BOTTOM NAV -->
+
+<nav class="bottom-nav">
+
+  <a href="index.html">HOME</a>
+  <a href="trade.html" class="active">TRADE</a>
+  <a href="#">DISCOVER</a>
+  <a href="#">SOCIAL</a>
+  <a href="#">PROFILE</a>
+
+</nav>
+
+
+<script>
+
+/* =====================================================
+   DATA TABS
+====================================================== */
+
+function showData(section, button) {
+
+  document
+    .querySelectorAll(".data-tab")
+    .forEach(tab => tab.classList.remove("active"));
+
+  button.classList.add("active");
+
+  document
+    .querySelectorAll(".data-panel")
+    .forEach(panel => panel.classList.remove("active"));
+
+  const target = document.getElementById(section);
+
+  if (target) {
+    target.classList.add("active");
+  }
+}
+
+
+/* =====================================================
+   HOLDER FILTERS
+====================================================== */
+
+function filterHolders(category, button) {
+
+  document
+    .querySelectorAll(".holder-filter")
+    .forEach(filter => filter.classList.remove("active"));
+
+  button.classList.add("active");
+
+  const rows = document.querySelectorAll("#holderTable tr");
+
+  rows.forEach(row => {
+
+    if (category === "all") {
+      row.style.display = "";
+      return;
+    }
+
+    const categories = row.dataset.category || "";
+
+    if (categories.includes(category)) {
+      row.style.display = "";
+    } else {
+      row.style.display = "none";
+    }
+
+  });
+}
+
+
+/* =====================================================
+   TRADE STATE
+====================================================== */
+
+let tradeSide = "buy";
+
+
+/* =====================================================
+   BUY
+====================================================== */
+
+function showBuy() {
+
+  tradeSide = "buy";
+
+  document
+    .getElementById("buyTab")
+    .classList.add("active");
+
+  document
+    .getElementById("sellTab")
+    .classList.remove("active");
+
+  document
+    .getElementById("amountLabel")
+    .textContent = "AMOUNT (SOL)";
+
+  document
+    .getElementById("solAmount")
+    .placeholder = "Amount (SOL)";
+
+  document
+    .getElementById("estimateLabel")
+    .textContent = "ESTIMATED NOVA";
+
+  document
+    .getElementById("novaAmount")
+    .placeholder = "Estimated NOVA";
+
+  updateTradeButton();
+
+  calculateNova();
+}
+
+
+/* =====================================================
+   SELL
+====================================================== */
+
+function showSell() {
+
+  tradeSide = "sell";
+
+  document
+    .getElementById("sellTab")
+    .classList.add("active");
+
+  document
+    .getElementById("buyTab")
+    .classList.remove("active");
+
+  document
+    .getElementById("amountLabel")
+    .textContent = "AMOUNT (NOVA)";
+
+  document
+    .getElementById("solAmount")
+    .placeholder = "Amount (NOVA)";
+
+  document
+    .getElementById("estimateLabel")
+    .textContent = "ESTIMATED SOL";
+
+  document
+    .getElementById("novaAmount")
+    .placeholder = "Estimated SOL";
+
+  updateTradeButton();
+
+  calculateNova();
+}
+
+
+/* =====================================================
+   ORDER TYPE
+====================================================== */
+
+function changeOrderType() {
+
+  const orderType =
+    document.getElementById("orderType").value;
+
+  const limitPriceBox =
+    document.getElementById("limitPriceBox");
+
+  const stopPriceBox =
+    document.getElementById("stopPriceBox");
+
+  limitPriceBox.style.display =
+    orderType === "limit" ? "block" : "none";
+
+  stopPriceBox.style.display =
+    orderType === "stop" ? "block" : "none";
+
+  updateTradeButton();
+}
+
+
+/* =====================================================
+   UPDATE TRADE BUTTON
+====================================================== */
+
+function updateTradeButton() {
+
+  const orderType =
+    document.getElementById("orderType").value;
+
+  const tradeButton =
+    document.getElementById("tradeButton");
+
+  const isBuy =
+    tradeSide === "buy";
+
+  tradeButton.classList.remove(
+    "sell-mode",
+    "limit-mode",
+    "stop-mode"
+  );
+
+  if (orderType === "market") {
+
+    tradeButton.textContent =
+      isBuy ? "BUY NOVA" : "SELL NOVA";
+
+    if (!isBuy) {
+      tradeButton.classList.add("sell-mode");
+    }
+
+    return;
+  }
+
+
+  if (orderType === "limit") {
+
+    tradeButton.textContent =
+      isBuy
+        ? "PLACE BUY LIMIT"
+        : "PLACE SELL LIMIT";
+
+    tradeButton.classList.add("limit-mode");
+
+    return;
+  }
+
+
+  if (orderType === "stop") {
+
+    tradeButton.textContent =
+      isBuy
+        ? "PLACE BUY STOP"
+        : "PLACE SELL STOP";
+
+    tradeButton.classList.add("stop-mode");
+
+    return;
+  }
+
+}
+
+
+/* =====================================================
+   CALCULATE NOVA / SOL
+====================================================== */
+
+function calculateNova() {
+
+  const amount =
+    parseFloat(
+      document.getElementById("solAmount").value
+    ) || 0;
+
+  const novaPrice = 0.00245;
+
+  if (tradeSide === "buy") {
+
+    const novaAmount =
+      amount / novaPrice;
+
+    document.getElementById("novaAmount").value =
+      novaAmount > 0
+        ? novaAmount.toFixed(2)
+        : "";
+
+  } else {
+
+    const solAmount =
+      amount * novaPrice;
+
+    document.getElementById("novaAmount").value =
+      solAmount > 0
+        ? solAmount.toFixed(6) + " SOL"
+        : "";
+
+  }
+
+}
+
+
+/* =====================================================
+   DEMO EXECUTION
+====================================================== */
+
+function executeTrade() {
+
+  const orderType =
+    document.getElementById("orderType").value;
+
+  const action =
+    tradeSide === "buy"
+      ? "BUY"
+      : "SELL";
+
+  if (orderType === "market") {
+
+    alert(
+      action +
+      " NOVA market order selected."
+    );
+
+    return;
+  }
+
+  if (orderType === "limit") {
+
+    const price =
+      document.getElementById("limitPrice").value;
+
+    if (!price) {
+
+      alert(
+        "Enter a limit price first."
+      );
+
+      return;
+    }
+
+    alert(
+      "PLACE " +
+      action +
+      " LIMIT at $" +
+      price
+    );
+
+    return;
+  }
+
+  if (orderType === "stop") {
+
+    const price =
+      document.getElementById("stopPrice").value;
+
+    if (!price) {
+
+      alert(
+        "Enter a stop price first."
+      );
+
+      return;
+    }
+
+    alert(
+      "PLACE " +
+      action +
+      " STOP at $" +
+      price
+    );
+
+    return;
+  }
+
+}
+
+
+/* =====================================================
+   INITIAL STATE
+====================================================== */
+
+showBuy();
+
+</script>
+
+</body>
+</html>
