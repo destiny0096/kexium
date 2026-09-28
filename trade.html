@@ -202,6 +202,15 @@
         <button class="tab" onclick="showSell()">SELL</button>
       </div>
 
+      <div class="order-type">
+  <label>Order Type</label>
+  <select id="orderType" onchange="changeOrderType()">
+    <option value="market">Market</option>
+    <option value="limit">Limit</option>
+    <option value="stop">Stop</option>
+  </select>
+      </div>
+
       <label>Amount (SOL)</label>
       
       <input type="number" id="solAmount" placeholder="Amount (SOL)" oninput="calculateNova()">
@@ -265,6 +274,21 @@
 }
 
   function calculateNova() {
+    function changeOrderType() {
+  const orderType = document.getElementById("orderType").value;
+
+  if (orderType === "market") {
+    alert("Market Order selected");
+  }
+
+  if (orderType === "limit") {
+    alert("Limit Order selected");
+  }
+
+  if (orderType === "stop") {
+    alert("Stop Order selected");
+  }
+    }
   const amount = parseFloat(document.getElementById("solAmount").value) || 0;
   const novaPrice = 0.00245;
 
