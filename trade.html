@@ -243,13 +243,20 @@
 
   <script>
   function showBuy() {
-    alert("BUY mode selected");
+    document.querySelectorAll(".tab")[0].classList.add("active");
+    document.querySelectorAll(".tab")[1].classList.remove("active");
+
+    document.querySelector(".buy").textContent = "BUY NOVA";
   }
 
   function showSell() {
-    alert("SELL mode selected");
+    document.querySelectorAll(".tab")[0].classList.remove("active");
+    document.querySelectorAll(".tab")[1].classList.add("active");
+
+    document.querySelector(".buy").textContent = "SELL NOVA";
   }
-  </script>
+</script>
+
   
 </body>
   </html>
