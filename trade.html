@@ -195,8 +195,8 @@
     <div class="trade-box">
 
       <div class="tabs">
-        <button class="tab active">BUY</button>
-        <button class="tab">SELL</button>
+        <button class="tab active" onclick="showBuy()">BUY</button>
+        <button class="tab" onclick="showSell()">SELL</button>
       </div>
 
       <label>Amount (SOL)</label>
@@ -241,5 +241,15 @@
     <div class="nav-item">👤<br>Profile</div>
   </nav>
 
+  <script>
+  function showBuy() {
+    alert("BUY mode selected");
+  }
+
+  function showSell() {
+    alert("SELL mode selected");
+  }
+  </script>
+  
 </body>
   </html>
