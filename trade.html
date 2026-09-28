@@ -211,6 +211,11 @@
   </select>
       </div>
 
+      <div id="limitPriceBox" style="display:none;">
+  <label>Limit Price</label>
+  <input type="number" id="limitPrice" placeholder="Price (USD)" step="0.000001">
+      </div>
+
       <label>Amount (SOL)</label>
       
       <input type="number" id="solAmount" placeholder="Amount (SOL)" oninput="calculateNova()">
@@ -276,19 +281,14 @@
   function calculateNova() {
     function changeOrderType() {
   const orderType = document.getElementById("orderType").value;
-
-  if (orderType === "market") {
-    alert("Market Order selected");
-  }
+  const limitPriceBox = document.getElementById("limitPriceBox");
 
   if (orderType === "limit") {
-    alert("Limit Order selected");
+    limitPriceBox.style.display = "block";
+  } else {
+    limitPriceBox.style.display = "none";
   }
-
-  if (orderType === "stop") {
-    alert("Stop Order selected");
-  }
-    }
+}
   const amount = parseFloat(document.getElementById("solAmount").value) || 0;
   const novaPrice = 0.00245;
 
