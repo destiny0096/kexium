@@ -282,13 +282,37 @@
   }
 
   function changeOrderType() {
-    const orderType = document.getElementById("orderType").value;
+  const orderType = document.getElementById("orderType").value;
+  const limitPriceBox = document.getElementById("limitPriceBox");
+  const stopPriceBox = document.getElementById("stopPriceBox");
+  const tradeButton = document.querySelector(".buy");
 
-    document.getElementById("limitPriceBox").style.display =
-      orderType === "limit" ? "block" : "none";
+  limitPriceBox.style.display =
+    orderType === "limit" ? "block" : "none";
 
-    document.getElementById("stopPriceBox").style.display =
-      orderType === "stop" ? "block" : "none";
+  stopPriceBox.style.display =
+    orderType === "stop" ? "block" : "none";
+
+  if (orderType === "market") {
+    tradeButton.textContent =
+      document.querySelector(".tab.active").textContent === "BUY"
+        ? "BUY NOVA"
+        : "SELL NOVA";
+  }
+
+  if (orderType === "limit") {
+    tradeButton.textContent =
+      document.querySelector(".tab.active").textContent === "BUY"
+        ? "PLACE BUY LIMIT"
+        : "PLACE SELL LIMIT";
+  }
+
+  if (orderType === "stop") {
+    tradeButton.textContent =
+      document.querySelector(".tab.active").textContent === "BUY"
+        ? "PLACE BUY STOP"
+        : "PLACE SELL STOP";
+  }
   }
 
   function calculateNova() {
