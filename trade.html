@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KEXIUM Trade</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: #0b0b0f;
+      color: white;
+      padding-bottom: 80px;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 18px;
+      border-bottom: 1px solid #222;
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .back {
+      color: #aaa;
+      font-size: 14px;
+    }
+
+    main {
+      padding: 18px;
+    }
+
+    .token-header {
+      background: #15151c;
+      border: 1px solid #25252e;
+      border-radius: 14px;
+      padding: 18px;
+      margin-bottom: 15px;
+    }
+
+    .token-name {
+      font-size: 22px;
+      font-weight: bold;
+    }
+
+    .price {
+      font-size: 30px;
+      margin-top: 10px;
+    }
+
+    .green {
+      color: #38d996;
+    }
+
+    .chart {
+      height: 220px;
+      background: #101016;
+      border-radius: 12px;
+      margin-top: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #555;
+    }
+
+    .trade-box {
+      background: #15151c;
+      border: 1px solid #25252e;
+      border-radius: 14px;
+      padding: 18px;
+      margin-top: 15px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .tab {
+      flex: 1;
+      padding: 12px;
+      border-radius: 9px;
+      border: none;
+      background: #101016;
+      color: #888;
+      font-weight: bold;
+    }
+
+    .tab.active {
+      background: white;
+      color: black;
+    }
+
+    label {
+      display: block;
+      color: #888;
+      font-size: 13px;
+      margin-bottom: 7px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 9px;
+      border: 1px solid #292932;
+      background: #101016;
+      color: white;
+      font-size: 16px;
+      margin-bottom: 14px;
+    }
+
+    .buy {
+      width: 100%;
+      background: #38d996;
+      color: #07130e;
+      font-size: 16px;
+      padding: 15px;
+    }
+
+    .info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .info-card {
+      background: #101016;
+      padding: 12px;
+      border-radius: 9px;
+    }
+
+    .info-card small {
+      display: block;
+      color: #777;
+      margin-bottom: 5px;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 65px;
+      background: #111116;
+      border-top: 1px solid #25252e;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+    }
+
+    .nav-item {
+      color: #888;
+      font-size: 12px;
+      text-align: center;
+    }
+
+    .nav-item.active {
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+
+  <header>
+    <div class="logo">KEXIUM</div>
+    <div class="back">← Dashboard</div>
+  </header>
+
+  <main>
+
+    <div class="token-header">
+      <div class="token-name">🟣 NOVA · $NOVA</div>
+      <div class="price">$0.00245</div>
+      <div class="green">+38.4% 24H</div>
+
+      <div class="chart">
+        📈 NOVA PRICE CHART
+      </div>
+    </div>
+
+    <div class="trade-box">
+
+      <div class="tabs">
+        <button class="tab active">BUY</button>
+        <button class="tab">SELL</button>
+      </div>
+
+      <label>Amount (SOL)</label>
+      <input type="number" placeholder="0.00">
+
+      <label>Estimated NOVA</label>
+      <input type="text" placeholder="0 NOVA" readonly>
+
+      <button class="buy">BUY NOVA</button>
+
+      <div class="info">
+        <div class="info-card">
+          <small>Liquidity</small>
+          $82K
+        </div>
+
+        <div class="info-card">
+          <small>24H Volume</small>
+          $391K
+        </div>
+
+        <div class="info-card">
+          <small>Buy Pressure</small>
+          78%
+        </div>
+
+        <div class="info-card">
+          <small>Network</small>
+          Solana
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <nav class="bottom-nav">
+    <div class="nav-item">🏠<br>Home</div>
+    <div class="nav-item">🔥<br>Discover</div>
+    <div class="nav-item active">📈<br>Trade</div>
+    <div class="nav-item">👥<br>Social</div>
+    <div class="nav-item">👤<br>Profile</div>
+  </nav>
+
+</body>
+  </html>
