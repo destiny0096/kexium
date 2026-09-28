@@ -261,49 +261,49 @@
   
   <script>
   function showBuy() {
-  document.querySelectorAll(".tab")[0].classList.add("active");
-  document.querySelectorAll(".tab")[1].classList.remove("active");
+    document.querySelectorAll(".tab")[0].classList.add("active");
+    document.querySelectorAll(".tab")[1].classList.remove("active");
 
-  document.querySelector(".buy").textContent = "BUY NOVA";
+    document.querySelector(".buy").textContent = "BUY NOVA";
 
-  document.querySelector("#solAmount").placeholder = "Amount (SOL)";
+    document.querySelector("#solAmount").placeholder = "Amount (SOL)";
   }
-  
+
   function showSell() {
-  document.querySelectorAll(".tab")[0].classList.remove("active");
-  document.querySelectorAll(".tab")[1].classList.add("active");
+    document.querySelectorAll(".tab")[0].classList.remove("active");
+    document.querySelectorAll(".tab")[1].classList.add("active");
 
-  document.querySelector(".buy").textContent = "SELL NOVA";
+    document.querySelector(".buy").textContent = "SELL NOVA";
 
-  document.querySelector("input[placeholder='Amount (SOL)']").placeholder = "Amount (NOVA)";
-}
+    document.querySelector("input[placeholder='Amount (SOL)']").placeholder = "Amount (NOVA)";
+  }
+
+  function changeOrderType() {
+    const orderType = document.getElementById("orderType").value;
+    const limitPriceBox = document.getElementById("limitPriceBox");
+
+    if (orderType === "limit") {
+      limitPriceBox.style.display = "block";
+    } else {
+      limitPriceBox.style.display = "none";
+    }
+  }
 
   function calculateNova() {
-    function changeOrderType() {
-  const orderType = document.getElementById("orderType").value;
-  const limitPriceBox = document.getElementById("limitPriceBox");
+    const amount = parseFloat(document.getElementById("solAmount").value) || 0;
+    const novaPrice = 0.00245;
 
-  if (orderType === "limit") {
-    limitPriceBox.style.display = "block";
-  } else {
-    limitPriceBox.style.display = "none";
+    if (document.querySelector(".buy").textContent === "BUY NOVA") {
+      const novaAmount = amount / novaPrice;
+      document.getElementById("novaAmount").value =
+        novaAmount > 0 ? novaAmount.toFixed(2) : "";
+    } else {
+      const solAmount = amount * novaPrice;
+      document.getElementById("novaAmount").value =
+        solAmount > 0 ? solAmount.toFixed(6) + " SOL" : "";
+    }
   }
-}
-  const amount = parseFloat(document.getElementById("solAmount").value) || 0;
-  const novaPrice = 0.00245;
-
-  if (document.querySelector(".buy").textContent === "BUY NOVA") {
-    const novaAmount = amount / novaPrice;
-    document.getElementById("novaAmount").value =
-      novaAmount > 0 ? novaAmount.toFixed(2) : "";
-  } else {
-    const solAmount = amount * novaPrice;
-    document.getElementById("novaAmount").value =
-      solAmount > 0 ? solAmount.toFixed(6) + " SOL" : "";
-  }
-  }
-    
-</script>
+  </script>
     
   
 </body>
