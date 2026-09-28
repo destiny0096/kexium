@@ -216,6 +216,11 @@
   <input type="number" id="limitPrice" placeholder="Price (USD)" step="0.000001">
       </div>
 
+      <div id="stopPriceBox" style="display:none;">
+  <label>Stop Price</label>
+  <input type="number" id="stopPrice" placeholder="Price (USD)" step="0.000001">
+      </div>
+
       <label>Amount (SOL)</label>
       
       <input type="number" id="solAmount" placeholder="Amount (SOL)" oninput="calculateNova()">
@@ -279,16 +284,23 @@
   }
 
   function changeOrderType() {
-    const orderType = document.getElementById("orderType").value;
-    const limitPriceBox = document.getElementById("limitPriceBox");
+  const orderType = document.getElementById("orderType").value;
+  const limitPriceBox = document.getElementById("limitPriceBox");
+  const stopPriceBox = document.getElementById("stopPriceBox");
 
-    if (orderType === "limit") {
-      limitPriceBox.style.display = "block";
-    } else {
-      limitPriceBox.style.display = "none";
-    }
+  if (orderType === "limit") {
+    limitPriceBox.style.display = "block";
+  } else {
+    limitPriceBox.style.display = "none";
   }
 
+  if (orderType === "stop") {
+    stopPriceBox.style.display = "block";
+  } else {
+    stopPriceBox.style.display = "none";
+  }
+  }
+    
   function calculateNova() {
     const amount = parseFloat(document.getElementById("solAmount").value) || 0;
     const novaPrice = 0.00245;
