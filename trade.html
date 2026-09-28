@@ -200,10 +200,10 @@
       </div>
 
       <label>Amount (SOL)</label>
-      <input type="number" placeholder="0.00">
-
+      
+      <input type="number" id="solAmount" placeholder="Amount (SOL)" oninput="calculateNova()">
       <label>Estimated NOVA</label>
-      <input type="text" placeholder="0 NOVA" readonly>
+      <input type="text" id="novaAmount" placeholder="Estimated NOVA" readonly>
 
       <button class="buy">BUY NOVA</button>
 
@@ -241,6 +241,7 @@
     <div class="nav-item">👤<br>Profile</div>
   </nav>
 
+  
   <script>
   function showBuy() {
     document.querySelectorAll(".tab")[0].classList.add("active");
@@ -255,8 +256,18 @@
 
     document.querySelector(".buy").textContent = "SELL NOVA";
   }
-</script>
 
+  function calculateNova() {
+    const solAmount = parseFloat(document.getElementById("solAmount").value) || 0;
+    const novaPrice = 0.00245;
+
+    const novaAmount = solAmount / novaPrice;
+
+    document.getElementById("novaAmount").value =
+      novaAmount > 0 ? novaAmount.toFixed(2) : "";
+  }
+</script>
+    
   
 </body>
   </html>
