@@ -1821,7 +1821,7 @@ function executeTrade() {
 
 showBuy();
 
-  const chartContainer = document.getElementById("kexiumChart");
+const chartContainer = document.getElementById("kexiumChart");
 
 const chart = LightweightCharts.createChart(chartContainer, {
   layout: {
@@ -1839,25 +1839,25 @@ const chart = LightweightCharts.createChart(chartContainer, {
     borderColor: "#1c2b3d"
   },
   timeScale: {
-  borderColor: "#1c2b3d",
-  timeVisible: true,
-  secondsVisible: false,
-  rightOffset: 5,
-  barSpacing: 8,
-  minBarSpacing: 2
-},
-handleScroll: {
-  mouseWheel: true,
-  pressedMouseMove: true,
-  horzTouchDrag: true,
-  vertTouchDrag: true
-},
-handleScale: {
-  mouseWheel: true,
-  pinch: true,
-  axisPressedMouseMove: true,
-  axisDoubleClickReset: true
-}
+    borderColor: "#1c2b3d",
+    timeVisible: true,
+    secondsVisible: false,
+    rightOffset: 5,
+    barSpacing: 8,
+    minBarSpacing: 2
+  },
+  handleScroll: {
+    mouseWheel: true,
+    pressedMouseMove: true,
+    horzTouchDrag: true,
+    vertTouchDrag: true
+  },
+  handleScale: {
+    mouseWheel: true,
+    pinch: true,
+    axisPressedMouseMove: true,
+    axisDoubleClickReset: true
+  }
 });
 
 const candlestickSeries = chart.addSeries(
@@ -1872,7 +1872,7 @@ const candlestickSeries = chart.addSeries(
   }
 );
 
-  // ===== EMA INDICATORS =====
+// ===== EMA INDICATORS =====
 
 const ema20Series = chart.addSeries(
   LightweightCharts.LineSeries,
@@ -1892,7 +1892,6 @@ const ema50Series = chart.addSeries(
   }
 );
 
-// Calculate EMA
 function calculateEMA(data, period) {
   const result = [];
   const multiplier = 2 / (period + 1);
@@ -1902,7 +1901,8 @@ function calculateEMA(data, period) {
   }
 
   let ema =
-    data.slice(0, period)
+    data
+      .slice(0, period)
       .reduce((sum, candle) => sum + candle.close, 0) / period;
 
   result.push({
@@ -1922,8 +1922,10 @@ function calculateEMA(data, period) {
 
   return result;
 }
-  
-  const volumeSeries = chart.addSeries(
+
+// ===== VOLUME =====
+
+const volumeSeries = chart.addSeries(
   LightweightCharts.HistogramSeries,
   {
     priceFormat: {
@@ -1937,13 +1939,10 @@ volumeSeries.priceScale().applyOptions({
   scaleMargins: {
     top: 0.8,
     bottom: 0
-    }
-];
+  }
+});
 
-candlestickSeries.setData(candleData);
-
-ema20Series.setData(calculateEMA(candleData, 20));
-ema50Series.setData(calculateEMA(candleData, 50));
+// ===== TEST CANDLE DATA =====
 
 const candleData = [
   {
@@ -1981,9 +1980,14 @@ const candleData = [
     low: 0.0015,
     close: 0.00172
   }
-]);
+];
 
-  volumeSeries.setData([
+candlestickSeries.setData(candleData);
+
+ema20Series.setData(calculateEMA(candleData, 20));
+ema50Series.setData(calculateEMA(candleData, 50));
+
+volumeSeries.setData([
   { time: 1727308800, value: 1200, color: "#38d98b" },
   { time: 1727308860, value: 2500, color: "#38d98b" },
   { time: 1727308920, value: 1800, color: "#ff5577" },
@@ -1991,8 +1995,41 @@ const candleData = [
   { time: 1727309040, value: 2100, color: "#38d98b" }
 ]);
 
+// ===== EMA ON / OFF =====
+
+function toggleEMA(type) {
+  if (type === "ema20") {
+    const button = document.getElementById("ema20Toggle");
+
+    if (button.dataset.off === "true") {
+      ema20Series.setData(calculateEMA(candleData, 20));
+      button.dataset.off = "false";
+      button.innerText = "EMA 20 ✓";
+    } else {
+      ema20Series.setData([]);
+      button.dataset.off = "true";
+      button.innerText = "EMA 20";
+    }
+  }
+
+  if (type === "ema50") {
+    const button = document.getElementById("ema50Toggle");
+
+    if (button.dataset.off === "true") {
+      ema50Series.setData(calculateEMA(candleData, 50));
+      button.dataset.off = "false";
+      button.innerText = "EMA 50 ✓";
+    } else {
+      ema50Series.setData([]);
+      button.dataset.off = "true";
+      button.innerText = "EMA 50";
+    }
+  }
+}
+
 chart.timeScale().fitContent();
-  function setTimeframe(timeframe) {
+
+function setTimeframe(timeframe) {
   if (timeframe === "all") {
     chart.timeScale().fitContent();
     return;
@@ -2027,14 +2064,14 @@ chart.timeScale().fitContent();
     from: startTime,
     to: latestTime
   });
-  }
+}
 
 window.addEventListener("resize", () => {
   chart.applyOptions({
     width: chartContainer.clientWidth
   });
 });
-
+  
 </script>
 </body>
 </html>
