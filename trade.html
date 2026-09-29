@@ -1857,6 +1857,58 @@ const candlestickSeries = chart.addSeries(
     wickDownColor: "#ff5577"
   }
 );
+
+  // ===== EMA INDICATORS =====
+
+const ema20Series = chart.addSeries(
+  LightweightCharts.LineSeries,
+  {
+    color: "#38d98b",
+    lineWidth: 2,
+    title: "EMA 20"
+  }
+);
+
+const ema50Series = chart.addSeries(
+  LightweightCharts.LineSeries,
+  {
+    color: "#ffb84d",
+    lineWidth: 2,
+    title: "EMA 50"
+  }
+);
+
+// Calculate EMA
+function calculateEMA(data, period) {
+  const result = [];
+  const multiplier = 2 / (period + 1);
+
+  if (data.length < period) {
+    return result;
+  }
+
+  let ema =
+    data.slice(0, period)
+      .reduce((sum, candle) => sum + candle.close, 0) / period;
+
+  result.push({
+    time: data[period - 1].time,
+    value: ema
+  });
+
+  for (let i = period; i < data.length; i++) {
+    ema =
+      (data[i].close - ema) * multiplier + ema;
+
+    result.push({
+      time: data[i].time,
+      value: ema
+    });
+  }
+
+  return result;
+}
+  
   const volumeSeries = chart.addSeries(
   LightweightCharts.HistogramSeries,
   {
