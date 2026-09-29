@@ -1897,6 +1897,42 @@ candlestickSeries.setData([
 ]);
 
 chart.timeScale().fitContent();
+  function setTimeframe(timeframe) {
+  if (timeframe === "all") {
+    chart.timeScale().fitContent();
+    return;
+  }
+
+  const seconds = {
+    "1m": 60,
+    "5m": 300,
+    "15m": 900,
+    "1h": 3600,
+    "4h": 14400,
+    "1d": 86400,
+    "1w": 604800
+  };
+
+  const range = seconds[timeframe];
+
+  if (!range) return;
+
+  const visibleRange = chart.timeScale().getVisibleRange();
+
+  if (!visibleRange) return;
+
+  const bars = candlestickSeries.data();
+
+  if (!bars || bars.length === 0) return;
+
+  const latestTime = bars[bars.length - 1].time;
+  const startTime = latestTime - range;
+
+  chart.timeScale().setVisibleRange({
+    from: startTime,
+    to: latestTime
+  });
+  }
 
 window.addEventListener("resize", () => {
   chart.applyOptions({
