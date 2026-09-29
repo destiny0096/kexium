@@ -721,6 +721,20 @@ input:focus {
   <button onclick="setTimeframe('all')">ALL</button>
 </div>
 
+  <div style="display:flex; gap:8px; margin-bottom:10px;">
+  <button id="ema20Toggle"
+    onclick="toggleEMA('ema20')"
+    style="background:#38d98b;color:#07111f;border:none;padding:7px 12px;border-radius:6px;font-weight:600;">
+    EMA 20 ✓
+  </button>
+
+  <button id="ema50Toggle"
+    onclick="toggleEMA('ema50')"
+    style="background:#ffb84d;color:#07111f;border:none;padding:7px 12px;border-radius:6px;font-weight:600;">
+    EMA 50 ✓
+  </button>
+  </div>
+      
 <div id="kexiumChart"></div>
 </div>
     
