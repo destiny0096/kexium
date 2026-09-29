@@ -1964,6 +1964,81 @@ function calculateSMA(data, period) {
   return result;
 }
 
+  // ===== BOLLINGER BANDS =====
+
+const bollingerUpperSeries = chart.addSeries(
+  LightweightCharts.LineSeries,
+  {
+    color: "#9b7cff",
+    lineWidth: 1,
+    title: "BB Upper"
+  }
+);
+
+const bollingerMiddleSeries = chart.addSeries(
+  LightweightCharts.LineSeries,
+  {
+    color: "#b8a9ff",
+    lineWidth: 1,
+    title: "BB Middle"
+  }
+);
+
+const bollingerLowerSeries = chart.addSeries(
+  LightweightCharts.LineSeries,
+  {
+    color: "#9b7cff",
+    lineWidth: 1,
+    title: "BB Lower"
+  }
+);
+
+function calculateBollingerBands(data, period = 20, multiplier = 2) {
+  const upper = [];
+  const middle = [];
+  const lower = [];
+
+  if (data.length < period) {
+    return { upper, middle, lower };
+  }
+
+  for (let i = period - 1; i < data.length; i++) {
+    const values = [];
+
+    for (let j = i - period + 1; j <= i; j++) {
+      values.push(data[j].close);
+    }
+
+    const mean =
+      values.reduce((sum, value) => sum + value, 0) / period;
+
+    const variance =
+      values.reduce(
+        (sum, value) => sum + Math.pow(value - mean, 2),
+        0
+      ) / period;
+
+    const standardDeviation = Math.sqrt(variance);
+
+    middle.push({
+      time: data[i].time,
+      value: mean
+    });
+
+    upper.push({
+      time: data[i].time,
+      value: mean + multiplier * standardDeviation
+    });
+
+    lower.push({
+      time: data[i].time,
+      value: mean - multiplier * standardDeviation
+    });
+  }
+
+  return { upper, middle, lower };
+}
+
 // ===== VOLUME =====
 
 const volumeSeries = chart.addSeries(
@@ -2059,6 +2134,11 @@ function toggleEMA(type) {
 
   if (button.dataset.off === "true") {
     sma200Series.setData(calculateSMA(candleData, 200));
+    const bollingerData = calculateBollingerBands(candleData, 20, 2);
+
+bollingerUpperSeries.setData(bollingerData.upper);
+bollingerMiddleSeries.setData(bollingerData.middle);
+bollingerLowerSeries.setData(bollingerData.lower);
 
     button.dataset.off = "false";
     button.innerText = "SMA 200 ✓";
