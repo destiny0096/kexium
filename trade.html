@@ -2150,6 +2150,12 @@ bollingerLowerSeries.setData(bollingerData.lower);
   }
   }
 
+  <button id="bollingerToggle"
+  onclick="toggleBollinger()"
+  style="background:#9b7cff;color:#07111f;border:none;padding:7px 12px;border-radius:6px;font-weight:600;">
+  Bollinger ✓
+</button>
+
   if (type === "ema50") {
     const button = document.getElementById("ema50Toggle");
 
@@ -2164,6 +2170,29 @@ bollingerLowerSeries.setData(bollingerData.lower);
     }
   }
 }
+
+  function toggleBollinger() {
+  const button = document.getElementById("bollingerToggle");
+
+  if (button.dataset.off === "true") {
+    const bollingerData =
+      calculateBollingerBands(candleData, 20, 2);
+
+    bollingerUpperSeries.setData(bollingerData.upper);
+    bollingerMiddleSeries.setData(bollingerData.middle);
+    bollingerLowerSeries.setData(bollingerData.lower);
+
+    button.dataset.off = "false";
+    button.innerText = "Bollinger ✓";
+  } else {
+    bollingerUpperSeries.setData([]);
+    bollingerMiddleSeries.setData([]);
+    bollingerLowerSeries.setData([]);
+
+    button.dataset.off = "true";
+    button.innerText = "Bollinger";
+  }
+  }
 
 chart.timeScale().fitContent();
 
