@@ -710,7 +710,18 @@ input:focus {
     </div>
 
     <div class="chart-wrap">
-  <div id="kexiumChart"></div>
+  <div class="chart-toolbar">
+  <button onclick="setTimeframe('1m')">1m</button>
+  <button onclick="setTimeframe('5m')">5m</button>
+  <button onclick="setTimeframe('15m')">15m</button>
+  <button onclick="setTimeframe('1h')">1H</button>
+  <button onclick="setTimeframe('4h')">4H</button>
+  <button onclick="setTimeframe('1d')">1D</button>
+  <button onclick="setTimeframe('1w')">1W</button>
+  <button onclick="setTimeframe('all')">ALL</button>
+</div>
+
+<div id="kexiumChart"></div>
 </div>
     
     <!-- DATA TABS -->
