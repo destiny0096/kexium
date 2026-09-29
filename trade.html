@@ -1798,5 +1798,57 @@ showBuy();
 
 </script>
 
+  const chartContainer = document.getElementById("kexiumChart");
+
+const chart = LightweightCharts.createChart(chartContainer, {
+  layout: {
+    background: { color: "#07111f" },
+    textColor: "#8fa3bf"
+  },
+  grid: {
+    vertLines: { color: "#122033" },
+    horzLines: { color: "#122033" }
+  },
+  crosshair: {
+    mode: LightweightCharts.CrosshairMode.Normal
+  },
+  rightPriceScale: {
+    borderColor: "#1c2b3d"
+  },
+  timeScale: {
+    borderColor: "#1c2b3d",
+    timeVisible: true,
+    secondsVisible: false
+  }
+});
+
+const candlestickSeries = chart.addSeries(
+  LightweightCharts.CandlestickSeries,
+  {
+    upColor: "#38d98b",
+    downColor: "#ff5577",
+    borderUpColor: "#38d98b",
+    borderDownColor: "#ff5577",
+    wickUpColor: "#38d98b",
+    wickDownColor: "#ff5577"
+  }
+);
+
+candlestickSeries.setData([
+  { time: 1727308800, open: 0.0010, high: 0.0013, low: 0.0009, close: 0.0012 },
+  { time: 1727308860, open: 0.0012, high: 0.0015, low: 0.0011, close: 0.0014 },
+  { time: 1727308920, open: 0.0014, high: 0.0016, low: 0.0013, close: 0.00135 },
+  { time: 1727308980, open: 0.00135, high: 0.0017, low: 0.0013, close: 0.0016 },
+  { time: 1727309040, open: 0.0016, high: 0.0018, low: 0.0015, close: 0.00172 }
+]);
+
+chart.timeScale().fitContent();
+
+window.addEventListener("resize", () => {
+  chart.applyOptions({
+    width: chartContainer.clientWidth
+  });
+});
+
 </body>
 </html>
