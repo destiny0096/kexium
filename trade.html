@@ -1814,10 +1814,25 @@ const chart = LightweightCharts.createChart(chartContainer, {
     borderColor: "#1c2b3d"
   },
   timeScale: {
-    borderColor: "#1c2b3d",
-    timeVisible: true,
-    secondsVisible: false
-  }
+  borderColor: "#1c2b3d",
+  timeVisible: true,
+  secondsVisible: false,
+  rightOffset: 5,
+  barSpacing: 8,
+  minBarSpacing: 2
+},
+handleScroll: {
+  mouseWheel: true,
+  pressedMouseMove: true,
+  horzTouchDrag: true,
+  vertTouchDrag: true
+},
+handleScale: {
+  mouseWheel: true,
+  pinch: true,
+  axisPressedMouseMove: true,
+  axisDoubleClickReset: true
+}
 });
 
 const candlestickSeries = chart.addSeries(
