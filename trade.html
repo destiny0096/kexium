@@ -1923,6 +1923,40 @@ function calculateEMA(data, period) {
   return result;
 }
 
+  // ===== SMA 200 =====
+
+const sma200Series = chart.addSeries(
+  LightweightCharts.LineSeries,
+  {
+    color: "#7aa2ff",
+    lineWidth: 2,
+    title: "SMA 200"
+  }
+);
+
+function calculateSMA(data, period) {
+  const result = [];
+
+  if (data.length < period) {
+    return result;
+  }
+
+  for (let i = period - 1; i < data.length; i++) {
+    let sum = 0;
+
+    for (let j = i - period + 1; j <= i; j++) {
+      sum += data[j].close;
+    }
+
+    result.push({
+      time: data[i].time,
+      value: sum / period
+    });
+  }
+
+  return result;
+}
+
 // ===== VOLUME =====
 
 const volumeSeries = chart.addSeries(
@@ -1986,6 +2020,7 @@ candlestickSeries.setData(candleData);
 
 ema20Series.setData(calculateEMA(candleData, 20));
 ema50Series.setData(calculateEMA(candleData, 50));
+sma200Series.setData(calculateSMA(candleData, 200));
 
 volumeSeries.setData([
   { time: 1727308800, value: 1200, color: "#38d98b" },
