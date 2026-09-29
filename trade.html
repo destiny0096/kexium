@@ -1857,6 +1857,22 @@ const candlestickSeries = chart.addSeries(
     wickDownColor: "#ff5577"
   }
 );
+  const volumeSeries = chart.addSeries(
+  LightweightCharts.HistogramSeries,
+  {
+    priceFormat: {
+      type: "volume"
+    },
+    priceScaleId: "volume"
+  }
+);
+
+volumeSeries.priceScale().applyOptions({
+  scaleMargins: {
+    top: 0.8,
+    bottom: 0
+  }
+});
 
 candlestickSeries.setData([
   {
