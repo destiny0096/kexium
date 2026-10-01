@@ -22,7 +22,7 @@
 <div class="body">
 <main class="left">
 <section class="chartShell"><div class="chartTools"><button class="toolbtn">✛</button><div class="divider"></div><button class="toolbtn time">1m</button><button class="toolbtn time">5m</button><button class="toolbtn time active">15m</button><button class="toolbtn time">1h</button><button class="toolbtn time">4h</button><button class="toolbtn time">1D⌄</button><div class="divider"></div><button class="toolbtn">ƒx</button><button class="toolbtn">⌁</button><span style="color:#b2bfcc;font-size:13px">Indicators</span><div class="divider"></div><button class="toolbtn">◎</button><button class="toolbtn">◌</button><button class="toolbtn">↶</button><button class="toolbtn">↷</button><div style="margin-left:auto"></div><button class="toolbtn">Save⌄</button><button class="toolbtn">⚙</button><button class="toolbtn">⛶</button><button class="toolbtn">▣</button></div>
-<div class="chartWrap"><canvas id="chart" class="chartCanvas"></canvas><div class="chartInfo"><b>NOVA/SOL</b> · 15 · Raydium　<span class="greenTxt">●</span>　<span>0.00242</span> <span class="redTxt">H0.00246</span> <span class="redTxt">L0.00239</span> <span class="greenTxt">C0.00245</span> <span class="greenTxt">+0.00003 (+1.24%)</span><div class="vol">Volume　<span class="greenTxt">12.8K</span></div><div style="margin-top:8px">EMA 20 close 0　<span style="color:#49b77b">0.00228</span></div><div style="margin-top:7px">EMA 50 close 0　<span style="color:#f5a623">0.00221</span></div><div style="margin-top:7px">SMA 200 close 0　<span style="color:#3e9bff">0.00195</span></div></div><div class="fiblabels"><span>0 (0.00268)</span><span>0.236 (0.00251)</span><span>0.382 (0.00241)</span><span>0.5 (0.00232)</span><span>0.618 (0.00224)</span><span>0.786 (0.00212)</span><span>1 (0.00196)</span></div><div class="chartRightTools"><button class="rt">+</button><button class="rt">−</button><button class="rt">↕</button><button class="rt">%</button><button class="rt">⌁</button><button class="rt">⛶</button></div><div class="rsiLabel">RSI 14　<span style="color:#a66cff">62.34</span></div><div class="bottomTime"><span>5y</span><span>1y</span><span>6m</span><span>3m</span><span>1m</span><span>5d</span><span>1d</span><span>▣</span><span style="margin-left:auto">17:24:31 (UTC)</span><span>%</span><span>log</span><span style="color:#4ea2ff">auto</span></div></div></section>
+<div class="chartWrap"><div id="chart" class="chartCanvas"></div><div class="chartInfo"><b>NOVA/SOL</b> · 15 · Raydium　<span class="greenTxt">●</span>　<span>0.00242</span> <span class="redTxt">H0.00246</span> <span class="redTxt">L0.00239</span> <span class="greenTxt">C0.00245</span> <span class="greenTxt">+0.00003 (+1.24%)</span><div class="vol">Volume　<span class="greenTxt">12.8K</span></div><div style="margin-top:8px">EMA 20 close 0　<span style="color:#49b77b">0.00228</span></div><div style="margin-top:7px">EMA 50 close 0　<span style="color:#f5a623">0.00221</span></div><div style="margin-top:7px">SMA 200 close 0　<span style="color:#3e9bff">0.00195</span></div></div><div class="fiblabels"><span>0 (0.00268)</span><span>0.236 (0.00251)</span><span>0.382 (0.00241)</span><span>0.5 (0.00232)</span><span>0.618 (0.00224)</span><span>0.786 (0.00212)</span><span>1 (0.00196)</span></div><div class="chartRightTools"><button class="rt">+</button><button class="rt">−</button><button class="rt">↕</button><button class="rt">%</button><button class="rt">⌁</button><button class="rt">⛶</button></div><div class="rsiLabel">RSI 14　<span style="color:#a66cff">62.34</span></div><div class="bottomTime"><span>5y</span><span>1y</span><span>6m</span><span>3m</span><span>1m</span><span>5d</span><span>1d</span><span>▣</span><span style="margin-left:auto">17:24:31 (UTC)</span><span>%</span><span>log</span><span style="color:#4ea2ff">auto</span></div></div></section>
 <section class="chartBottomTabs"><div class="tabs"><button class="tab active">TRADERS</button><button class="tab">TRADES</button><button class="tab">HOLDERS</button><button class="tab">CALLOUTS</button></div><div class="tableHead"><span>TRADER</span><span>ACTION</span><span>ENTRY MC</span><span>CURRENT / EXIT MC</span><span>PNL</span><span>TIME</span></div><div class="tableRow"><span>@NovaHunter</span><span class="tagBuy">BUY</span><span>$82K</span><span>$245K</span><span class="greenTxt">+198%</span><span>4m</span></div><div class="tableRow"><span>@KexTrader</span><span class="tagBuy">BUY</span><span>$115K</span><span>$245K</span><span class="greenTxt">+113%</span><span>8m</span></div><div class="tableRow"><span>@AlphaSol</span><span class="tagSell">SELL</span><span>$71K</span><span>$211K</span><span class="greenTxt">+197%</span><span>12m</span></div></section>
 </main>
 <aside class="right">
@@ -33,26 +33,63 @@
 <section class="card"><h3>Holder Summary</h3><div class="infoRow"><span>Top 10 Holders</span><b>27.4%</b></div><div class="infoRow"><span>Bundlers</span><b>8.2%</b></div><div class="infoRow"><span>Insiders</span><b>4.6%</b></div><div class="infoRow"><span>Snipers</span><b>3.1%</b></div><div class="infoRow"><span>Total Holders</span><b>1,284</b></div></section>
 <section class="card"><h3>Token Security</h3><div class="secGrid"><div class="sec"><b>Mint Authority</b><span class="status">REVOKED</span></div><div class="sec"><b>Freeze Authority</b><span class="status">REVOKED</span></div><div class="sec"><b>Token Program</b><span class="status">STANDARD SPL</span></div><div class="sec"><b>Permanent Delegate</b><span class="status">NONE</span></div><div class="sec"><b>Non-Transferable</b><span class="status">NO</span></div><div class="sec"><b>Transfer Fee</b><span class="status">NONE</span></div></div></section>
 </aside></div></div>
+<script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
 <script>
-const canvas=document.getElementById('chart'),ctx=canvas.getContext('2d');
-function resize(){const r=canvas.getBoundingClientRect(),d=devicePixelRatio||1;canvas.width=r.width*d;canvas.height=r.height*d;ctx.setTransform(d,0,0,d,0,0);draw()}
-function draw(){const w=canvas.clientWidth,h=canvas.clientHeight;ctx.clearRect(0,0,w,h);ctx.fillStyle='#071019';ctx.fillRect(0,0,w,h);ctx.strokeStyle='#12202d';ctx.lineWidth=1;for(let x=0;x<w;x+=58){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,h);ctx.stroke()}for(let y=0;y<h;y+=45){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()}
-let n=Math.max(65,Math.floor(w/11)),base=h*.48,prices=[];let p=base;for(let i=0;i<n;i++){p+=(Math.random()-.43)*7;if(i>n*.55)p-=.15;if(i>n*.76)p+=.7;prices.push(p)}
-function line(offset,color,width){ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();for(let i=0;i<n;i++){let xx=18+i*(w-115)/n,yy=prices[i]+offset-(i/n)*35;i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy)}ctx.stroke()}line(12,'#4caf68',1.2);line(34,'#f5a623',1.5);line(65,'#3e9bff',1.2);
-for(let i=0;i<n;i++){let xx=18+i*(w-115)/n,mid=prices[i],open=mid+(Math.random()-.5)*18,close=mid+(Math.random()-.5)*18,hi=Math.min(open,close)-Math.random()*10,lo=Math.max(open,close)+Math.random()*10;ctx.strokeStyle=close>=open?'#18d69a':'#ef5365';ctx.beginPath();ctx.moveTo(xx,hi);ctx.lineTo(xx,lo);ctx.stroke();ctx.fillStyle=close>=open?'#18d69a':'#ef5365';ctx.fillRect(xx-3,Math.min(open,close),6,Math.max(2,Math.abs(close-open)))}
-// volume
-for(let i=0;i<n;i++){let xx=18+i*(w-115)/n,bh=12+Math.random()*48;ctx.fillStyle=i%4===0?'rgba(239,83,101,.48)':'rgba(24,214,154,.42)';ctx.fillRect(xx-3,h-112-bh,6,bh)}
-// fibonacci area
-const fx=w-235,fw=185;ctx.fillStyle='rgba(239,83,101,.08)';ctx.fillRect(fx,65,fw,45);ctx.fillStyle='rgba(245,166,35,.06)';ctx.fillRect(fx,110,fw,58);ctx.fillStyle='rgba(24,214,154,.05)';ctx.fillRect(fx,168,fw,58);ctx.strokeStyle='#31546e';ctx.lineWidth=1;[65,100,130,168,200,238,290].forEach(y=>{ctx.beginPath();ctx.moveTo(fx,y);ctx.lineTo(fx+fw,y);ctx.stroke()});
-// current price line
-ctx.strokeStyle='#22c99b';ctx.setLineDash([3,3]);ctx.beginPath();ctx.moveTo(0,160);ctx.lineTo(w-20,160);ctx.stroke();ctx.setLineDash([]);ctx.fillStyle='#20c795';ctx.fillRect(w-72,150,62,20);ctx.fillStyle='#02150e';ctx.font='11px sans-serif';ctx.fillText('0.00245',w-67,164);
-// RSI panel
-const ry=h-86;ctx.fillStyle='#0a121b';ctx.fillRect(0,ry,w,55);ctx.strokeStyle='#1b2a38';[ry+10,ry+38].forEach(y=>{ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(w,y);ctx.stroke()});ctx.strokeStyle='#a66cff';ctx.beginPath();for(let i=0;i<n;i++){let xx=18+i*(w-115)/n,yy=ry+28+Math.sin(i*.55)*8+(Math.random()-.5)*5;i?ctx.lineTo(xx,yy):ctx.moveTo(xx,yy)}ctx.stroke();ctx.fillStyle='#a8b4c2';ctx.font='12px sans-serif';ctx.fillText('RSI 14',15,ry+18);ctx.fillStyle='#a66cff';ctx.fillText('62.34',65,ry+18)}
-addEventListener('resize',resize);resize();
-document.querySelectorAll('.time').forEach(b=>b.onclick=()=>{document.querySelectorAll('.time').forEach(x=>x.classList.remove('active'));b.classList.add('active')});
-document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active')});
-document.querySelectorAll('.orderTab').forEach(b=>b.onclick=()=>{document.querySelectorAll('.orderTab').forEach(x=>x.classList.remove('active'));b.classList.add('active')});
-const buy=document.getElementById('buy'),sell=document.getElementById('sell'),exec=document.getElementById('exec');buy.onclick=()=>{buy.classList.add('active');sell.classList.remove('active');exec.classList.remove('sell');exec.textContent='Buy NOVA'};sell.onclick=()=>{sell.classList.add('active');buy.classList.remove('active');exec.classList.add('sell');exec.textContent='Sell NOVA'};
+(function(){
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+const chartEl=$('#chart');
+let chart, candles, volume, ema20, ema50, sma200, data=[];
+function makeChart(){
+  if(!window.LightweightCharts||!chartEl)return;
+  chart=LightweightCharts.createChart(chartEl,{width:chartEl.clientWidth,height:chartEl.clientHeight,layout:{background:{type:'solid',color:'#071019'},textColor:'#8290a0'},grid:{vertLines:{color:'#12202d'},horzLines:{color:'#12202d'}},rightPriceScale:{borderColor:'#1b2b3a',scaleMargins:{top:.08,bottom:.22}},timeScale:{borderColor:'#1b2b3a',timeVisible:true,secondsVisible:false},crosshair:{mode:LightweightCharts.CrosshairMode.Normal},handleScroll:true,handleScale:true});
+  candles=chart.addCandlestickSeries({upColor:'#18d69a',downColor:'#ef5365',borderVisible:false,wickUpColor:'#18d69a',wickDownColor:'#ef5365'});
+  volume=chart.addHistogramSeries({priceFormat:{type:'volume'},priceScaleId:'volume',color:'rgba(24,214,154,.45)'});
+  volume.priceScale().applyOptions({scaleMargins:{top:.82,bottom:0}});
+  let t=Math.floor(Date.now()/1000)-150*900,p=.00175;
+  for(let i=0;i<150;i++){let o=p,dr=(Math.random()-.43)*.000065+(i>90?.000006:0);p=Math.max(.00125,p+dr);let c=p,h=Math.max(o,c)+Math.random()*.000045,l=Math.min(o,c)-Math.random()*.000045;data.push({time:t+i*900,open:o,high:h,low:l,close:c});}
+  candles.setData(data);
+  volume.setData(data.map(d=>({time:d.time,value:2500+Math.random()*14000,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));
+  function ma(period,color){let a=[],v=data[0].close,alpha=2/(period+1);data.forEach((d,i)=>{v=i?v+alpha*(d.close-v):d.close;a.push({time:d.time,value:v})});let s=chart.addLineSeries({color,lineWidth:1,priceLineVisible:false,lastValueVisible:false});s.setData(a);return s;}
+  ema20=ma(20,'#49b77b'); ema50=ma(50,'#f5a623'); sma200=ma(120,'#3e9bff');
+  chart.timeScale().fitContent();
+  new ResizeObserver(()=>chart.applyOptions({width:chartEl.clientWidth,height:chartEl.clientHeight})).observe(chartEl);
+}
+makeChart();
+
+$$('.time').forEach(b=>b.onclick=()=>{$$('.time').forEach(x=>x.classList.remove('active'));b.classList.add('active');let tf=b.textContent.trim();$('#tfLabel')&&($('#tfLabel').textContent=tf);});
+$('#fitBtn')?.addEventListener('click',()=>chart?.timeScale().fitContent());
+$('#resetBtn')?.addEventListener('click',()=>chart?.priceScale('right').applyOptions({autoScale:true}));
+$('#zoomIn')?.addEventListener('click',()=>chart?.timeScale().applyOptions({barSpacing:12}));
+$('#zoomOut')?.addEventListener('click',()=>chart?.timeScale().applyOptions({barSpacing:5}));
+$('#fullBtn')?.addEventListener('click',()=>document.querySelector('.chartShell')?.requestFullscreen?.());
+$('#priceScale')?.addEventListener('click',()=>chart?.priceScale('right').applyOptions({autoScale:true}));
+$('#percentScale')?.addEventListener('click',()=>chart?.applyOptions({rightPriceScale:{mode:1}}));
+$('#indicatorBtn')?.addEventListener('click',()=>{ema20&&ema20.applyOptions({visible:!ema20.options().visible});ema50&&ema50.applyOptions({visible:!ema50.options().visible});sma200&&sma200.applyOptions({visible:!sma200.options().visible});});
+$('#drawBtn')?.addEventListener('click',()=>alert('Drawing tools are reserved for the next KEXIUM chart-tools layer. The chart itself remains fully interactive.'));
+$('#walletBtn')?.addEventListener('click',()=>alert('Wallet connection is not connected yet. This keeps KEXIUM safe from fake transactions.'));
+$('#tradeTop')?.addEventListener('click',()=>document.querySelector('.right')?.scrollTo({top:0,behavior:'smooth'}));
+$('.star')?.addEventListener('click',e=>e.currentTarget.textContent=e.currentTarget.textContent==='☆'?'★':'☆');
+$('.copy')?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText('7xK3…91Pq');alert('Contract copied');}catch(e){alert('Contract: 7xK3…91Pq')}});
+
+const buy=$('#buy'),sell=$('#sell'),exec=$('#exec');
+buy?.addEventListener('click',()=>{buy.classList.add('active');sell.classList.remove('active');exec.classList.remove('sell');exec.textContent='BUY NOVA';});
+sell?.addEventListener('click',()=>{sell.classList.add('active');buy.classList.remove('active');exec.classList.add('sell');exec.textContent='SELL NOVA';});
+$$('.orderTab').forEach(b=>b.addEventListener('click',()=>{$$('.orderTab').forEach(x=>x.classList.remove('active'));b.classList.add('active');}));
+$$('.chip').forEach(b=>b.addEventListener('click',()=>{let amount=b.textContent.trim();let box=document.querySelector('.amount span');if(box)box.textContent=amount;let received=document.querySelector('.est:nth-child(2) b');if(received)received.textContent='~ '+(parseFloat(amount)/.00245).toFixed(1)+' NOVA';}));
+exec?.addEventListener('click',()=>alert('Demo trade only — real Solana execution will be connected after wallet integration.'));
+
+const tabRows={
+TRADERS:[['@NovaHunter','BUY','$82K','$245K','+198%','4m'],['@KexTrader','BUY','$115K','$245K','+113%','8m'],['@AlphaSol','SELL','$71K','$211K','+197%','12m']],
+TRADES:[['0x8F21','BUY','0.80 SOL','$2.41K','+2.41 SOL','12s'],['0x44BC','SELL','1.20 SOL','$2.05K','+0.80 SOL','29s'],['0x1A77','BUY','2.00 SOL','$4.90K','+5.00 SOL','41s']],
+HOLDERS:[['7xK3…91Pq','KEXIUM','12.8%','$31.4K','TOP','Now'],['8aQ2…44Lm','FOLLOWING','5.6%','$13.7K','HOLDER','2m'],['3Pv8…11Qa','ALL','3.1%','$7.6K','HOLDER','6m']],
+CALLOUTS:[['@Founder','NOVA','$82K','$245K','+198%','4m'],['@NovaHunter','NOVA','$115K','$245K','+113%','8m'],['@AlphaSol','NOVA','$71K','$211K','+197%','12m']]
+};
+function renderTab(name){let heads=name==='TRADERS'?['TRADER','ACTION','ENTRY MC','CURRENT / EXIT MC','PNL','TIME']:name==='TRADES'?['WALLET','ACTION','SIZE','VALUE','PNL','TIME']:name==='HOLDERS'?['WALLET','GROUP','HOLDING','VALUE','TYPE','TIME']:['CALLER','TOKEN','CALL MC','PEAK MC','RESULT','TIME'];let rows=tabRows[name]||[];let h='<div class="tableHead">'+heads.map(x=>'<span>'+x+'</span>').join('')+'</div>';let r=rows.map(a=>'<div class="tableRow">'+a.map(x=>'<span class="'+(x==='BUY'?'tagBuy':x==='SELL'?'tagSell':x.startsWith('+')?'greenTxt':'')+'">'+x+'</span>').join('')+'</div>').join('');let host=document.querySelector('.chartBottomTabs');host.querySelectorAll('.tableHead,.tableRow').forEach(x=>x.remove());host.insertAdjacentHTML('beforeend',h+r);}
+$$('.tab').forEach(b=>b.addEventListener('click',()=>{$$('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderTab(b.textContent.trim());}));
+$$('.filter').forEach(b=>b.addEventListener('click',()=>{$$('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');}));
+renderTab('TRADERS');
+})();
 </script>
 </body>
 </html>
