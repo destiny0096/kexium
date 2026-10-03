@@ -21,7 +21,7 @@
 <section class="tokenbar"><div class="tokenavatar">≋</div><div class="tokenname"><strong>NOVA <span class="verified">●</span></strong><div class="pair">NOVA　/　SOLANA　↗　▣</div></div><div class="metrics"><div class="metric"><span>Price</span><b>$0.00245 <em class="pos">+24.8%</em></b></div><div class="metric"><span>Market Cap</span><b>$245K</b></div><div class="metric"><span>Liquidity</span><b>$38.4K</b></div><div class="metric"><span>24H Volume</span><b>$182K</b></div><div class="metric"><span>Holders</span><b>1,284</b></div><div class="metric"><span>ATH</span><b>$712K</b></div></div><button class="star">☆</button><button class="tradeTop">Trade</button></section>
 <div class="body">
 <main class="left">
-<section class="chartShell"><div class="chartTools"><button class="toolbtn">✛</button><div class="divider"></div><div class="divider"></div><button class="toolbtn">◎</button><button class="toolbtn">◌</button><button class="toolbtn">↶</button><button class="toolbtn">↷</button><div style="margin-left:auto"></div><button class="toolbtn">Save⌄</button><button class="toolbtn">⚙</button><button class="toolbtn">⛶</button><button class="toolbtn">▣</button></div>
+<section class="chartShell"><div class="chartTools"><button class="toolbtn">✛</button><div class="divider"></div><button class="toolbtn time">1m</button><button class="toolbtn time">5m</button><button class="toolbtn time active">15m</button><button class="toolbtn time">1h</button><button class="toolbtn time">4h</button><button class="toolbtn time">1D</button><div class="divider"></div><button class="toolbtn">◎</button><button class="toolbtn">◌</button><button class="toolbtn">↶</button><button class="toolbtn">↷</button><div style="margin-left:auto"></div><button class="toolbtn">Save⌄</button><button class="toolbtn">⚙</button><button class="toolbtn">⛶</button><button class="toolbtn">▣</button></div>
 <div class="chartWrap"><div id="chart" class="chartCanvas"></div><div class="chartInfo"><b>NOVA/SOL</b> · Raydium　<span class="greenTxt">●</span>　<span>0.00242</span> <span class="redTxt">H0.00246</span> <span class="redTxt">L0.00239</span> <span class="greenTxt">C0.00245</span> <span class="greenTxt">+0.00003 (+1.24%)</span><div class="vol">Volume　<span class="greenTxt">12.8K</span></div></div><div class="chartRightTools"><button class="rt">+</button><button class="rt">−</button><button class="rt">↕</button><button class="rt">%</button><button class="rt">⛶</button></div><div class="bottomTime"><span>5y</span><span>1y</span><span>6m</span><span>3m</span><span>1m</span><span>5d</span><span>1d</span><span>▣</span><span style="margin-left:auto">17:24:31 (UTC)</span><span>%</span><span>log</span><span style="color:#4ea2ff">auto</span></div></div></section>
 <section class="chartBottomTabs"><div class="tabs"><button class="tab active">TRADERS</button><button class="tab">TRADES</button><button class="tab">HOLDERS</button><button class="tab">CALLOUTS</button></div><div class="tableHead"><span>TRADER</span><span>ACTION</span><span>ENTRY MC</span><span>CURRENT / EXIT MC</span><span>PNL</span><span>TIME</span></div><div class="tableRow"><span>@NovaHunter</span><span class="tagBuy">BUY</span><span>$82K</span><span>$245K</span><span class="greenTxt">+198%</span><span>4m</span></div><div class="tableRow"><span>@KexTrader</span><span class="tagBuy">BUY</span><span>$115K</span><span>$245K</span><span class="greenTxt">+113%</span><span>8m</span></div><div class="tableRow"><span>@AlphaSol</span><span class="tagSell">SELL</span><span>$71K</span><span>$211K</span><span class="greenTxt">+197%</span><span>12m</span></div></section>
 </main>
@@ -59,8 +59,8 @@ makeChart();
 
 function tfSeconds(tf){return ({'1m':60,'5m':300,'15m':900,'1h':3600,'4h':14400,'1D':86400})[tf]||900;}
 function aggregate(tf){const step=tfSeconds(tf),m=new Map();baseData.forEach(d=>{const t=Math.floor(d.time/step)*step;if(!m.has(t))m.set(t,{time:t,open:d.open,high:d.high,low:d.low,close:d.close,volume:0});const x=m.get(t);x.high=Math.max(x.high,d.high);x.low=Math.min(x.low,d.low);x.close=d.close;x.volume+=d.volume;});return [...m.values()];}
-function applyTf(tf){const a=aggregate(tf);candles.setData(a.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(a.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();$('#tfLabel')&&($('#tfLabel').textContent=tf);}
-$$('.time').forEach(b=>b.onclick=()=>{$$('.time').forEach(x=>x.classList.remove('active'));b.classList.add('active');applyTf(b.textContent.trim().replace('⌄',''));});
+function applyTf(tf){const a=aggregate(tf);candles.setData(a.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(a.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();const info=document.querySelector('.chartInfo');if(info){const b=info.querySelector('b');if(b&&b.nextSibling)b.nextSibling.textContent=' · '+tf+' · Raydium';}}
+$$('.time').forEach(b=>b.addEventListener('click',()=>{$$('.time').forEach(x=>x.classList.remove('active'));b.classList.add('active');applyTf(b.textContent.trim());}));
 $('#fitBtn')?.addEventListener('click',()=>chart?.timeScale().fitContent());
 $('#resetBtn')?.addEventListener('click',()=>chart?.priceScale('right').applyOptions({autoScale:true}));
 $('#zoomIn')?.addEventListener('click',()=>chart?.timeScale().applyOptions({barSpacing:12}));
@@ -68,60 +68,39 @@ $('#zoomOut')?.addEventListener('click',()=>chart?.timeScale().applyOptions({bar
 $('#fullBtn')?.addEventListener('click',()=>document.querySelector('.chartShell')?.requestFullscreen?.());
 $('#priceScale')?.addEventListener('click',()=>chart?.priceScale('right').applyOptions({autoScale:true}));
 $('#percentScale')?.addEventListener('click',()=>chart?.applyOptions({rightPriceScale:{mode:1}}));
-$('#walletBtn')?.addEventListener('click',async()=>{
-    try{
-      if(window.solana && window.solana.isPhantom){
-        const resp=await window.solana.connect({onlyIfTrusted:false});
-        const key=resp.publicKey?.toString?.()||String(resp.publicKey||'');
-        window.KEXIUM_WALLET={connected:true,publicKey:key,provider:'phantom'};
-        $('#walletBtn').textContent='▣ '+key.slice(0,4)+'…'+key.slice(-4);
-        return;
-      }
-      const appUrl=encodeURIComponent(window.location.href);
-      const ref=encodeURIComponent(window.location.href);
-      window.location.href='https://phantom.app/ul/browse/'+appUrl+'?ref='+ref;
-    }catch(e){
-      if(e?.code!==4001) alert('Phantom connection could not be opened. Please open KEXIUM in your mobile browser and try again.');
-    }
-  });
-
+function setWalletUI(key,balance){
+const btn=$('#walletBtn');if(!btn)return;
+if(!key){btn.textContent='▣  Connect Wallet';btn.title='';return;}
+const shortKey=key.slice(0,4)+'…'+key.slice(-4);
+btn.textContent='▣ '+shortKey+(typeof balance==='number'?' · '+balance.toFixed(4)+' SOL':'');
+btn.title=key+(typeof balance==='number'?' | '+balance.toFixed(9)+' SOL':'');
+}
 async function kexiumLoadBalance(publicKey){
-  try{
-    const res=await fetch('https://api.mainnet-beta.solana.com',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getBalance',params:[publicKey,{commitment:'confirmed'}]})});
-    const json=await res.json();
-    const lamports=json?.result?.value;
-    if(typeof lamports==='number'){
-      const sol=lamports/1000000000;
-      window.KEXIUM_WALLET={...(window.KEXIUM_WALLET||{}),connected:true,publicKey,balance:sol,provider:'phantom'};
-      return sol;
-    }
-  }catch(e){console.warn('KEXIUM balance lookup failed',e);}
-  window.KEXIUM_WALLET={...(window.KEXIUM_WALLET||{}),connected:true,publicKey,balance:null,provider:'phantom'};
-  return null;
+try{
+const res=await fetch('https://api.mainnet-beta.solana.com',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getBalance',params:[publicKey,{commitment:'confirmed'}]})});
+const json=await res.json();const lamports=json?.result?.value;
+if(typeof lamports==='number'){const sol=lamports/1000000000;window.KEXIUM_WALLET={...(window.KEXIUM_WALLET||{}),connected:true,publicKey,balance:sol,provider:'phantom'};setWalletUI(publicKey,sol);return sol;}
+}catch(e){console.warn('KEXIUM balance lookup failed',e)}
+setWalletUI(publicKey,null);return null;
 }
-
 async function kexiumHandleAccount(publicKey){
-  const key=publicKey?.toString?.()||String(publicKey||'');
-  if(!key)return;
-  window.KEXIUM_WALLET={connected:true,publicKey:key,balance:null,provider:'phantom'};
-  $('#walletBtn').textContent='▣ '+key.slice(0,4)+'…'+key.slice(-4);
-  await kexiumLoadBalance(key);
+const key=publicKey?.toString?.()||String(publicKey||'');if(!key)return;
+window.KEXIUM_WALLET={connected:true,publicKey:key,balance:null,provider:'phantom'};setWalletUI(key,null);await kexiumLoadBalance(key);
 }
-
+async function kexiumConnectWallet(){
+try{const provider=window.solana;
+if(provider?.isPhantom){const resp=await provider.connect({onlyIfTrusted:false});if(resp?.publicKey)await kexiumHandleAccount(resp.publicKey);return;}
+const appUrl=encodeURIComponent(window.location.href),ref=encodeURIComponent(window.location.href);window.location.href='https://phantom.app/ul/browse/'+appUrl+'?ref='+ref;
+}catch(e){if(e?.code!==4001)alert('Phantom connection could not be opened. Please open KEXIUM in your mobile browser and try again.');}
+}
+$('#walletBtn')?.addEventListener('click',kexiumConnectWallet);
 async function kexiumRestoreWallet(){
-  try{
-    const provider=window.solana;
-    if(!provider?.isPhantom)return;
-    provider.on?.('accountChanged',pk=>{ if(pk) kexiumHandleAccount(pk); });
-    provider.on?.('disconnect',()=>{
-      window.KEXIUM_WALLET={connected:false,publicKey:null,balance:null,provider:'phantom'};
-      $('#walletBtn').textContent='▣  Connect Wallet';
-    });
-    const resp=await provider.connect({onlyIfTrusted:true});
-    if(resp?.publicKey) await kexiumHandleAccount(resp.publicKey);
-  }catch(e){/* No trusted wallet connection yet. */}
+try{const provider=window.solana;if(!provider?.isPhantom)return;
+provider.on?.('accountChanged',pk=>{if(pk)kexiumHandleAccount(pk);});
+provider.on?.('disconnect',()=>{window.KEXIUM_WALLET={connected:false,publicKey:null,balance:null,provider:'phantom'};setWalletUI(null,null);});
+const resp=await provider.connect({onlyIfTrusted:true});if(resp?.publicKey)await kexiumHandleAccount(resp.publicKey);
+}catch(e){}
 }
-
 window.addEventListener('load',kexiumRestoreWallet);
 $('#tradeTop')?.addEventListener('click',()=>document.querySelector('.right')?.scrollTo({top:0,behavior:'smooth'}));
 $('.star')?.addEventListener('click',e=>e.currentTarget.textContent=e.currentTarget.textContent==='☆'?'★':'☆');
