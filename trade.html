@@ -55,7 +55,7 @@ body{background:#050b14;color:#eef4fa}
 <main class="page"><div class="layout"><div>
 <section class="panel"><div class="header"><div class="token"><div class="token-title"><div class="icon">N</div><div><div class="name">NOVA</div><div class="chain">NOVA • SOLANA</div></div></div><div><div class="price">$0.00245</div><div class="up" style="text-align:right">+24.8% 24H</div></div></div><div class="stats"><div class="card"><div class="label">MARKET CAP</div><b>$245K</b></div><div class="card"><div class="label">LIQUIDITY</div><b>$38.4K</b></div><div class="card"><div class="label">24H VOLUME</div><b>$182K</b></div></div></div>
 <div class="chartbox"><div class="charthead"><div class="chartrow"><div><b>NOVA / SOL</b><div id="meta" class="meta">1m • Demo market data</div></div><div class="tools"><button class="tool active" onclick="tf('1m',this)">1m</button><button class="tool" onclick="tf('5m',this)">5m</button><button class="tool" onclick="tf('15m',this)">15m</button><button class="tool" onclick="tf('1h',this)">1H</button><button class="tool" onclick="tf('4h',this)">4H</button><button class="tool" onclick="tf('1d',this)">1D</button><button class="tool" onclick="tf('1w',this)">1W</button><button class="tool" onclick="tf('all',this)">ALL</button><button class="tool" onclick="toggleFullscreen()">⛶</button></div></div><div class="inds"><button id="e20" class="ind ema20 on" onclick="ind('e20')">EMA 20 ✓</button><button id="e50" class="ind ema50 on" onclick="ind('e50')">EMA 50 ✓</button><button id="s200" class="ind sma on" onclick="ind('s200')">SMA 200 ✓</button><button id="bb" class="ind bb on" onclick="ind('bb')">Bollinger ✓</button><button class="tool" onclick="resetChart()">Reset</button></div></div><div class="chartwrap" id="chartWrap"><div id="legend" class="legend"></div><div id="chart"></div><canvas id="drawCanvas" class="drawcanvas"></canvas></div>
-<div class="indicator-panels"><div class="ind-panel"><div class="ind-title">VOL  •  24H VOLUME</div><div class="volume-bars"><i style="height:20%"></i><i style="height:37%"></i><i style="height:54%"></i><i style="height:71%"></i><i style="height:23%"></i><i style="height:40%"></i><i style="height:57%"></i><i style="height:74%"></i><i style="height:26%"></i><i style="height:43%"></i><i style="height:60%"></i><i style="height:77%"></i><i style="height:29%"></i><i style="height:46%"></i><i style="height:63%"></i><i style="height:80%"></i><i style="height:32%"></i><i style="height:49%"></i><i style="height:66%"></i><i style="height:83%"></i><i style="height:35%"></i><i style="height:52%"></i><i style="height:69%"></i><i style="height:21%"></i><i style="height:38%"></i><i style="height:55%"></i><i style="height:72%"></i><i style="height:24%"></i><i style="height:41%"></i><i style="height:58%"></i><i style="height:75%"></i><i style="height:27%"></i><i style="height:44%"></i><i style="height:61%"></i><i style="height:78%"></i><i style="height:30%"></i><i style="height:47%"></i><i style="height:64%"></i><i style="height:81%"></i><i style="height:33%"></i><i style="height:50%"></i><i style="height:67%"></i><i style="height:84%"></i><i style="height:36%"></i><i style="height:53%"></i><i style="height:70%"></i><i style="height:22%"></i><i style="height:39%"></i></div></div><div class="ind-panel"><div class="ind-title">RSI 14</div><div class="rsi-level rsi-70"></div><div class="rsi-level rsi-30"></div><div class="rsi-line"><svg viewBox="0 0 600 100" preserveAspectRatio="none"><polyline fill="none" stroke="#7aa2ff" stroke-width="2" points="0,63 25,56 50,61 75,48 100,52 125,40 150,46 175,32 200,44 225,37 250,51 275,45 300,57 325,49 350,42 375,54 400,47 425,38 450,43 475,31 500,40 525,34 550,45 575,39 600,43"/></svg></div></div></div><div class="drawbar"><button class="drawtool active" data-tool="cursor" onclick="drawTool('cursor',this)">⌖</button><button class="drawtool" data-tool="trend" onclick="drawTool('trend',this)">╱</button><button class="drawtool" data-tool="ray" onclick="drawTool('ray',this)">↗</button><button class="drawtool" data-tool="hline" onclick="drawTool('hline',this)">━</button><button class="drawtool" data-tool="vline" onclick="drawTool('vline',this)">│</button><button class="drawtool" data-tool="arrow" onclick="drawTool('arrow',this)">➜</button><button class="drawtool" data-tool="rect" onclick="drawTool('rect',this)">□</button><button class="drawtool" data-tool="fib" onclick="drawTool('fib',this)">F</button><button class="drawtool" data-tool="parallel" onclick="drawTool('parallel',this)">∥</button><button class="drawtool" data-tool="measure" onclick="drawTool('measure',this)">↔</button><button class="drawtool" data-tool="text" onclick="drawTool('text',this)">T</button><button class="drawtool" data-tool="brush" onclick="drawTool('brush',this)">✎</button><button class="drawtool danger" onclick="clearDrawings()">×</button><span class="drawhint">TradingView/Axiom-style drawing tools</span></div></div>
+<div class="indicator-panels"><div class="ind-panel"><div class="ind-title">VOL  •  24H VOLUME</div><div class="volume-bars"><i style="height:20%"></i><i style="height:37%"></i><i style="height:54%"></i><i style="height:71%"></i><i style="height:23%"></i><i style="height:40%"></i><i style="height:57%"></i><i style="height:74%"></i><i style="height:26%"></i><i style="height:43%"></i><i style="height:60%"></i><i style="height:77%"></i><i style="height:29%"></i><i style="height:46%"></i><i style="height:63%"></i><i style="height:80%"></i><i style="height:32%"></i><i style="height:49%"></i><i style="height:66%"></i><i style="height:83%"></i><i style="height:35%"></i><i style="height:52%"></i><i style="height:69%"></i><i style="height:21%"></i><i style="height:38%"></i><i style="height:55%"></i><i style="height:72%"></i><i style="height:24%"></i><i style="height:41%"></i><i style="height:58%"></i><i style="height:75%"></i><i style="height:27%"></i><i style="height:44%"></i><i style="height:61%"></i><i style="height:78%"></i><i style="height:30%"></i><i style="height:47%"></i><i style="height:64%"></i><i style="height:81%"></i><i style="height:33%"></i><i style="height:50%"></i><i style="height:67%"></i><i style="height:84%"></i><i style="height:36%"></i><i style="height:53%"></i><i style="height:70%"></i><i style="height:22%"></i><i style="height:39%"></i></div></div><div class="ind-panel"><div class="ind-title">RSI 14</div><div class="rsi-level rsi-70"></div><div class="rsi-level rsi-30"></div><div class="rsi-line"><svg viewBox="0 0 600 100" preserveAspectRatio="none"><polyline fill="none" stroke="#7aa2ff" stroke-width="2" points="0,63 25,56 50,61 75,48 100,52 125,40 150,46 175,32 200,44 225,37 250,51 275,45 300,57 325,49 350,42 375,54 400,47 425,38 450,43 475,31 500,40 525,34 550,45 575,39 600,43"/></svg></div></div></div><div class="drawbar"><button class="drawtool active" data-tool="cursor" onclick="drawTool('cursor',this)">⌖button><button class="drawtool" data-tool="trend" onclick="drawTool('trend',this)">╱button><button class="drawtool" data-tool="ray" onclick="drawTool('ray',this)">↗button><button class="drawtool" data-tool="hline" onclick="drawTool('hline',this)">━button><button class="drawtool" data-tool="vline" onclick="drawTool('vline',this)">│button><button class="drawtool" data-tool="arrow" onclick="drawTool('arrow',this)">➜button><button class="drawtool" data-tool="rect" onclick="drawTool('rect',this)">□button><button class="drawtool" data-tool="fib" onclick="drawTool('fib',this)">Fbutton><button class="drawtool" data-tool="parallel" onclick="drawTool('parallel',this)">∥button><button class="drawtool" data-tool="measure" onclick="drawTool('measure',this)">↔button><button class="drawtool" data-tool="text" onclick="drawTool('text',this)">Tbutton><button class="drawtool" data-tool="brush" onclick="drawTool('brush',this)">✎button><button class="drawtool danger" onclick="clearDrawings()">×button><span class="drawhint">TradingView/Axiom-style drawing tools</span></div></div>
 <div class="tabs4"><button class="tab4 active" onclick="dataTab('traders',this)">TRADERS</button><button class="tab4" onclick="dataTab('trades',this)">TRADES</button><button class="tab4" onclick="dataTab('holders',this)">HOLDERS</button><button class="tab4" onclick="dataTab('callouts',this)">CALLOUTS</button></div>
 <div id="traders" class="datapanel active"><div class="tablewrap"><table><thead><tr><th>TRADER</th><th>ACTION</th><th>ENTRY MC</th><th>CURRENT / EXIT MC</th><th>PNL</th><th>TIME</th></tr></thead><tbody><tr><td>@NovaHunter</td><td class="buy">BUY</td><td>$82K</td><td>$245K</td><td class="buy">+198%</td><td class="muted">4m</td></tr><tr><td>@KexTrader</td><td class="buy">BUY</td><td>$115K</td><td>$245K</td><td class="buy">+113%</td><td class="muted">8m</td></tr><tr><td>@AlphaSol</td><td class="sell">SELL</td><td>$71K</td><td>$211K</td><td class="buy">+197%</td><td class="muted">12m</td></tr></tbody></table></div></div>
 <div id="trades" class="datapanel"><div class="tablewrap"><table><thead><tr><th>TIME</th><th>TRADER</th><th>ACTION</th><th>AMOUNT</th><th>PRICE</th><th>MC</th></tr></thead><tbody><tr><td>12:41:22</td><td>@NovaHunter</td><td class="buy">BUY</td><td>2.40 SOL</td><td>$0.00231</td><td>$231K</td></tr><tr><td>12:41:07</td><td>@KexTrader</td><td class="sell">SELL</td><td>0.85 SOL</td><td>$0.00243</td><td>$243K</td></tr><tr><td>12:40:51</td><td>@AlphaSol</td><td class="buy">BUY</td><td>1.20 SOL</td><td>$0.00238</td><td>$238K</td></tr></tbody></table></div></div>
@@ -78,119 +78,22 @@ let sideMode='buy';function side(s){sideMode=s;buyTab.classList.toggle('active',
 function orderType(){limit.style.display=otype.value==='limit'?'block':'none';stop.style.display=otype.value==='stop'?'block':'none';updateButton()}
 function updateButton(){trade.className='tradebtn';if(otype.value==='market'){trade.textContent=sideMode==='buy'?'BUY NOVA':'SELL NOVA';if(sideMode==='sell')trade.classList.add('sellmode')}else{trade.classList.add('ordermode');trade.textContent=(sideMode==='buy'?'PLACE BUY ':'PLACE SELL ')+(otype.value==='limit'?'LIMIT':'STOP')}}
 function calc(){let n=parseFloat(amount.value)||0;estimate.value=sideMode==='buy'?(n/.00245).toLocaleString(undefined,{maximumFractionDigits:2}):(n*.00245).toFixed(6)+' SOL'}
-function execute(){let n=parseFloat(amount.value)||0;if(n<=0)return alert('Enter an amount first.');let t=otype.value;if(t==='market')return alert((sideMode==='buy'?'BUY':'SELL')+' NOVA market order selected.');let p=t==='limit'?limitPrice.value:stopPrice.value;if(!p)return alert('Enter a '+t+' price first.');alert('PLACE '+(sideMode==='buy'?'BUY':'SELL')+' '+t.toUpperCase()+' at $'+p)}
-
-// KEXIUM wallet connection: Phantom/Solana only. This does not change the trading UI or execute real trades.
-const KEXIUM_RPC='https://api.mainnet-beta.solana.com';
-let kexiumProvider=null;
-let kexiumPublicKey=null;
-
-function getSolanaProvider(){
-  if(window.phantom&&window.phantom.solana) return window.phantom.solana;
-  if(window.solana&&window.solana.isPhantom) return window.solana;
-  return window.solana||null;
-}
-function shortWallet(address){
-  return address&&address.length>12 ? address.slice(0,5)+'...'+address.slice(-5) : (address||'Not connected');
-}
-const KEXIUM_WALLET_KEY='kexium.wallet.v1';
+function execute(){let n=parseFloat(amount.value)||0;if(n<=0)return alert('Enter an amount first.');let t=otype.value;if(t==='market')return alert((sideMode==='buy'?'BUY':'SELL')+' NOVA market order selected.');let p=t==='limit'?limitPrice.value:stopPrice.value;if(!p)return alert('Enter a '+t+' price first.');alert('PLACE '+(sideMode==='buy'?'BUY':'SELL')+' '+t.toUpperCase()+' at $'+p)}\n\n// KEXIUM wallet connection: Phantom/Solana only. This does not change the trading UI or execute real trades.\nconst KEXIUM_RPC='https://api.mainnet-beta.solana.com';\nlet kexiumProvider=null;\nlet kexiumPublicKey=null;\n\nfunction getSolanaProvider(){\n  if(window.phantom&&window.phantom.solana) return window.phantom.solana;\n  if(window.solana&&window.solana.isPhantom) return window.solana;\n  return window.solana||null;\n}\n\nfunction shortWallet(address){\n  return address&&address.length>12 ? address.slice(0,5)+'...'+address.slice(-5) : (address||'Not connected');\n}\n\nconst KEXIUM_WALLET_KEY="kexium.wallet.v1";
 const KEXIUM_SOL_USD_FALLBACK=150;
-function readSavedWallet(){
-  try{return JSON.parse(localStorage.getItem(KEXIUM_WALLET_KEY)||'null')}catch(e){return null}
-}
-function saveWallet(address,balance,usd){
-  try{localStorage.setItem(KEXIUM_WALLET_KEY,JSON.stringify({publicKey:address,balance:typeof balance==='number'?balance:null,usd:typeof usd==='number'?usd:null,updatedAt:Date.now()}))}catch(e){}
-}
+function readSavedWallet(){try{return JSON.parse(localStorage.getItem(KEXIUM_WALLET_KEY)||"null")}catch(e){return null}}
+function saveWallet(address,balance,usd){try{localStorage.setItem(KEXIUM_WALLET_KEY,JSON.stringify({publicKey:address,balance:typeof balance==="number"?balance:null,usd:typeof usd==="number"?usd:null,updatedAt:Date.now()}))}catch(e){}}
 function setWalletUI(address,balance,usd){
-  const btn=document.getElementById('walletBtn');
-  const status=document.getElementById('walletStatus');
-  const addr=document.getElementById('walletAddress');
-  const bal=document.getElementById('walletBalance');
-  const usdEl=document.getElementById('walletUsdBalance');
-  if(!btn||!status||!addr||!bal||!usdEl)return;
-  if(address){
-    addr.textContent=shortWallet(address); addr.title=address;
-    bal.textContent=(typeof balance==='number'?balance.toFixed(4):'...')+' SOL';
-    usdEl.textContent=(typeof usd==='number'?'$'+usd.toFixed(2):'$...');
-    status.classList.add('show'); btn.classList.add('connected'); btn.textContent='Connected'; btn.title=address;
-  }else{
-    addr.textContent='Not connected'; bal.textContent='0 SOL'; usdEl.textContent='$0.00';
-    status.classList.remove('show'); btn.classList.remove('connected'); btn.textContent='Wallet'; btn.title='Connect Phantom';
-  }
+ const btn=document.getElementById("walletBtn"),status=document.getElementById("walletStatus"),addr=document.getElementById("walletAddress"),bal=document.getElementById("walletBalance"),usdEl=document.getElementById("walletUsdBalance");
+ if(!btn||!status||!addr||!bal||!usdEl)return;
+ if(address){addr.textContent=shortWallet(address);addr.title=address;bal.textContent=(typeof balance==="number"?balance.toFixed(4):"...")+" SOL";usdEl.textContent=(typeof usd==="number"?"$"+usd.toFixed(2):"$...");status.classList.add("show");btn.classList.add("connected");btn.textContent="Connected";btn.title=address;}
+ else{addr.textContent="Not connected";bal.textContent="0 SOL";usdEl.textContent="$0.00";status.classList.remove("show");btn.classList.remove("connected");btn.textContent="Wallet";btn.title="Connect Phantom";}
 }
-function restoreSavedWalletUI(){
-  const saved=readSavedWallet();
-  if(saved&&saved.publicKey){
-    kexiumPublicKey=saved.publicKey;
-    window.KEXIUM_WALLET={connected:true,publicKey:saved.publicKey,balance:saved.balance,usd:saved.usd};
-    setWalletUI(saved.publicKey,saved.balance,saved.usd);
-    return saved;
-  }
-  return null;
-}
-async function loadSolPriceUsd(){
-  try{
-    const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd',{cache:'no-store'});
-    const d=await r.json(); const price=Number(d?.solana?.usd);
-    return Number.isFinite(price)&&price>0?price:KEXIUM_SOL_USD_FALLBACK;
-  }catch(e){return KEXIUM_SOL_USD_FALLBACK;}
-}
-async function loadSolBalance(address){
-  try{
-    const res=await fetch(KEXIUM_RPC,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getBalance',params:[address,{commitment:'confirmed'}]})});
-    const data=await res.json();
-    if(data&&data.result&&data.result.value!=null){
-      const sol=Number(data.result.value)/1e9;
-      const solUsd=await loadSolPriceUsd();
-      const usd=sol*solUsd;
-      setWalletUI(address,sol,usd); saveWallet(address,sol,usd);
-      window.KEXIUM_WALLET={connected:true,publicKey:address,balance:sol,usd};
-      return sol;
-    }
-  }catch(e){console.warn('KEXIUM balance lookup failed:',e)}
-  const saved=readSavedWallet();
-  if(saved&&saved.publicKey===address){setWalletUI(address,saved.balance,saved.usd);window.KEXIUM_WALLET={connected:true,publicKey:address,balance:saved.balance,usd:saved.usd};return saved.balance}
-  setWalletUI(address,null,null); window.KEXIUM_WALLET={connected:true,publicKey:address,balance:null,usd:null}; return null;
-}
-async function handleWalletConnected(publicKey){
-  const address=publicKey?.toString?.()||String(publicKey||''); if(!address)return;
-  kexiumPublicKey=address;
-  const saved=readSavedWallet();
-  if(saved&&saved.publicKey===address)setWalletUI(address,saved.balance,saved.usd); else setWalletUI(address,null,null);
-  window.KEXIUM_WALLET={connected:true,publicKey:address,balance:saved?.publicKey===address?saved.balance:null,usd:saved?.publicKey===address?saved.usd:null};
-  await loadSolBalance(address);
-}
-async function connectWallet(){
-  try{
-    kexiumProvider=getSolanaProvider();
-    if(!kexiumProvider){alert('Phantom was not detected. Open this KEXIUM page in Phantom or install the Phantom wallet app.');return;}
-    const response=await kexiumProvider.connect({onlyIfTrusted:false});
-    await handleWalletConnected(response?.publicKey||kexiumProvider.publicKey);
-  }catch(e){
-    if(e?.code===4001||/reject|cancel/i.test(e?.message||''))console.log('Wallet connection cancelled by user.');
-    else{console.error('KEXIUM wallet connection error:',e);alert('Wallet connection failed. Please try again from Phantom.');}
-  }
-}
-async function restoreWallet(){
-  try{
-    const saved=restoreSavedWalletUI();
-    kexiumProvider=getSolanaProvider(); if(!kexiumProvider)return;
-    kexiumProvider.on?.('connect',pk=>handleWalletConnected(pk||kexiumProvider.publicKey));
-    kexiumProvider.on?.('accountChanged',pk=>{if(pk)handleWalletConnected(pk);else disconnectWalletUI()});
-    kexiumProvider.on?.('disconnect',disconnectWalletUI);
-    const response=await kexiumProvider.connect({onlyIfTrusted:true});
-    if(response?.publicKey||kexiumProvider.publicKey)await handleWalletConnected(response?.publicKey||kexiumProvider.publicKey);
-    else if(saved)window.KEXIUM_WALLET={connected:true,publicKey:saved.publicKey,balance:saved.balance,usd:saved.usd};
-  }catch(e){/* Keep cached wallet UI visible if Phantom is not trusted yet. */}
-}
-function disconnectWalletUI(){
-  kexiumPublicKey=null;
-  try{localStorage.removeItem(KEXIUM_WALLET_KEY)}catch(e){}
-  window.KEXIUM_WALLET={connected:false,publicKey:null,balance:null,usd:null};
-  setWalletUI(null,null,null);
-}
+function restoreSavedWalletUI(){const saved=readSavedWallet();if(saved&&saved.publicKey){kexiumPublicKey=saved.publicKey;setWalletUI(saved.publicKey,saved.balance,saved.usd);window.KEXIUM_WALLET={connected:true,publicKey:saved.publicKey,balance:saved.balance,usd:saved.usd};return saved}return null}
+async function loadSolPriceUsd(){try{const r=await fetch("https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd",{cache:"no-store"});const d=await r.json();const price=Number(d?.solana?.usd);return Number.isFinite(price)&&price>0?price:KEXIUM_SOL_USD_FALLBACK}catch(e){return KEXIUM_SOL_USD_FALLBACK}}
+async function loadSolBalance(address){try{const res=await fetch(KEXIUM_RPC,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({jsonrpc:"2.0",id:1,method:"getBalance",params:[address,{commitment:"confirmed"}]})});const data=await res.json();if(data&&data.result&&data.result.value!=null){const sol=Number(data.result.value)/1e9;const usd=sol*await loadSolPriceUsd();setWalletUI(address,sol,usd);saveWallet(address,sol,usd);window.KEXIUM_WALLET={connected:true,publicKey:address,balance:sol,usd};return sol}}catch(e){console.warn("KEXIUM balance lookup failed:",e)}const saved=readSavedWallet();if(saved&&saved.publicKey===address){setWalletUI(address,saved.balance,saved.usd);window.KEXIUM_WALLET={connected:true,publicKey:address,balance:saved.balance,usd:saved.usd};return saved.balance}setWalletUI(address,null,null);window.KEXIUM_WALLET={connected:true,publicKey:address,balance:null,usd:null};return null}
+async function handleWalletConnected(publicKey){const address=publicKey?.toString?.()||String(publicKey||"");if(!address)return;kexiumPublicKey=address;const saved=readSavedWallet();if(saved&&saved.publicKey===address)setWalletUI(address,saved.balance,saved.usd);else setWalletUI(address,null,null);window.KEXIUM_WALLET={connected:true,publicKey:address,balance:saved?.publicKey===address?saved.balance:null,usd:saved?.publicKey===address?saved.usd:null};await loadSolBalance(address)}
 
-window.addEventListener('load',restoreWallet);
+async function connectWallet(){\n  try{\n    kexiumProvider=getSolanaProvider();\n    if(!kexiumProvider){\n      alert('Phantom was not detected. Open this KEXIUM page in Phantom or install the Phantom wallet app.');\n      return;\n    }\n    const response=await kexiumProvider.connect({onlyIfTrusted:false});\n    await handleWalletConnected(response?.publicKey||kexiumProvider.publicKey);\n  }catch(e){\n    if(e?.code===4001||/reject|cancel/i.test(e?.message||'')){\n      console.log('Wallet connection cancelled by user.');\n    }else{\n      console.error('KEXIUM wallet connection error:',e);\n      alert('Wallet connection failed. Please try again from Phantom.');\n    }\n  }\n}\n\nasync function restoreWallet(){\n  try{\n    kexiumProvider=getSolanaProvider();\n    if(!kexiumProvider)return;\n    kexiumProvider.on?.('connect',pk=>handleWalletConnected(pk||kexiumProvider.publicKey));\n    kexiumProvider.on?.('accountChanged',pk=>{\n      if(pk) handleWalletConnected(pk);\n      else disconnectWalletUI();\n    });\n    kexiumProvider.on?.('disconnect',disconnectWalletUI);\n    const response=await kexiumProvider.connect({onlyIfTrusted:true});\n    if(response?.publicKey||kexiumProvider.publicKey) await handleWalletConnected(response?.publicKey||kexiumProvider.publicKey);\n  }catch(e){\n    // No trusted connection yet; keep the page in its normal disconnected state.\n  }\n}\n\nfunction disconnectWalletUI(){\n  kexiumPublicKey=null;\n  window.KEXIUM_WALLET={connected:false,publicKey:null,balance:null};\n  setWalletUI(null,null);\n}\n\nwindow.addEventListener('load',()=>{restoreSavedWalletUI();restoreWallet()});
 const base=[];let p=.00102,start=Math.floor(Date.now()/1000)-359*60;for(let i=0;i<360;i++){let o=p,c=Math.max(.00055,o+.0000018+Math.sin(i/13)*.000018+Math.sin(i/37)*.000009+(Math.random()-.5)*.000024),h=Math.max(o,c)+Math.random()*.000028,l=Math.min(o,c)-Math.random()*.000028;base.push({time:start+i*60,open:o,high:h,low:l,close:c,volume:800+Math.random()*4600});p=c}let scale=.00245/base.at(-1).close;base.forEach(x=>{x.open*=scale;x.high*=scale;x.low*=scale;x.close*=scale});
 const el=document.getElementById('chart'),chart=LightweightCharts.createChart(el,{width:el.clientWidth,height:500,layout:{background:{type:'solid',color:'#07111f'},textColor:'#8fa3bf'},grid:{vertLines:{color:'#122033'},horzLines:{color:'#122033'}},crosshair:{mode:LightweightCharts.CrosshairMode.Normal},rightPriceScale:{borderColor:'#1c2b3d',scaleMargins:{top:.08,bottom:.18}},timeScale:{borderColor:'#1c2b3d',timeVisible:true,rightOffset:7,barSpacing:7,minBarSpacing:2},handleScroll:{mouseWheel:true,pressedMouseMove:true,horzTouchDrag:true,vertTouchDrag:true},handleScale:{mouseWheel:true,pinch:true,axisPressedMouseMove:true}});
 const candles=chart.addSeries(LightweightCharts.CandlestickSeries,{upColor:'#38d98b',downColor:'#ff5577',borderUpColor:'#38d98b',borderDownColor:'#ff5577',wickUpColor:'#38d98b',wickDownColor:'#ff5577'}),e20=chart.addSeries(LightweightCharts.LineSeries,{color:'#38d98b',lineWidth:2}),e50=chart.addSeries(LightweightCharts.LineSeries,{color:'#ffb84d',lineWidth:2}),s200=chart.addSeries(LightweightCharts.LineSeries,{color:'#7aa2ff',lineWidth:2}),bu=chart.addSeries(LightweightCharts.LineSeries,{color:'#9b7cff',lineWidth:1}),bm=chart.addSeries(LightweightCharts.LineSeries,{color:'#b8a9ff',lineWidth:1}),bl=chart.addSeries(LightweightCharts.LineSeries,{color:'#9b7cff',lineWidth:1}),vol=chart.addSeries(LightweightCharts.HistogramSeries,{priceFormat:{type:'volume'},priceScaleId:'v'});vol.priceScale().applyOptions({scaleMargins:{top:.8,bottom:0}});
