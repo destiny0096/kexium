@@ -69,24 +69,53 @@ $('#zoomOut')?.addEventListener('click',()=>chart?.timeScale().applyOptions({bar
 $('#fullBtn')?.addEventListener('click',()=>document.querySelector('.chartShell')?.requestFullscreen?.());
 $('#priceScale')?.addEventListener('click',()=>chart?.priceScale('right').applyOptions({autoScale:true}));
 $('#percentScale')?.addEventListener('click',()=>chart?.applyOptions({rightPriceScale:{mode:1}}));
-function setWalletUI(key,balance){
+const PHANTOM_WALLET_STORAGE='kexium_phantom_wallet_v1';
+function saveWalletState(publicKey){
+try{localStorage.setItem(PHANTOM_WALLET_STORAGE,JSON.stringify({publicKey,connected:true,updatedAt:Date.now()}));}catch(e){}
+}
+function getSavedWallet(){
+try{const s=localStorage.getItem(PHANTOM_WALLET_STORAGE);if(!s)return null;const j=JSON.parse(s);return j?.publicKey||null;}catch(e){return null;}
+}
+function clearWalletState(){try{localStorage.removeItem(PHANTOM_WALLET_STORAGE);}catch(e){}}
+function setWalletUI(key,balance,usd){
 const btn=$('#walletBtn');if(!btn)return;
 if(!key){btn.textContent='▣  Connect Wallet';btn.title='';return;}
 const shortKey=key.slice(0,4)+'…'+key.slice(-4);
-btn.textContent='▣ '+shortKey+(typeof balance==='number'?' · '+balance.toFixed(4)+' SOL':'');
-btn.title=key+(typeof balance==='number'?' | '+balance.toFixed(9)+' SOL':'');
+let text='▣ '+shortKey;
+if(typeof balance==='number') text+=' · '+balance.toFixed(4)+' SOL';
+if(typeof usd==='number') text+=' · $'+usd.toFixed(2);
+btn.textContent=text;
+btn.title=key+(typeof balance==='number'?' | '+balance.toFixed(9)+' SOL':'')+(typeof usd==='number'?' | $'+usd.toFixed(2):'');
+}
+async function kexiumLoadSolPrice(){
+try{
+const res=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd',{cache:'no-store'});
+const json=await res.json();const price=Number(json?.solana?.usd);
+if(Number.isFinite(price)&&price>0){localStorage.setItem('kexium_sol_usd',JSON.stringify({price,at:Date.now()}));return price;}
+}catch(e){console.warn('KEXIUM SOL price lookup failed',e)}
+try{const cached=JSON.parse(localStorage.getItem('kexium_sol_usd')||'null');if(Number.isFinite(cached?.price)&&cached.price>0)return cached.price;}catch(e){}
+return null;
 }
 async function kexiumLoadBalance(publicKey){
 try{
 const res=await fetch('https://api.mainnet-beta.solana.com',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getBalance',params:[publicKey,{commitment:'confirmed'}]})});
 const json=await res.json();const lamports=json?.result?.value;
-if(typeof lamports==='number'){const sol=lamports/1000000000;window.KEXIUM_WALLET={...(window.KEXIUM_WALLET||{}),connected:true,publicKey,balance:sol,provider:'phantom'};setWalletUI(publicKey,sol);return sol;}
+if(typeof lamports==='number'){
+const sol=lamports/1000000000;
+const price=await kexiumLoadSolPrice();
+const usd=typeof price==='number'?sol*price:null;
+window.KEXIUM_WALLET={...(window.KEXIUM_WALLET||{}),connected:true,publicKey,balance:sol,usdBalance:usd,solUsdPrice:price,provider:'phantom'};
+saveWalletState(publicKey);setWalletUI(publicKey,sol,usd);return sol;
+}
 }catch(e){console.warn('KEXIUM balance lookup failed',e)}
-setWalletUI(publicKey,null);return null;
+setWalletUI(publicKey,null,null);return null;
 }
 async function kexiumHandleAccount(publicKey){
 const key=publicKey?.toString?.()||String(publicKey||'');if(!key)return;
-window.KEXIUM_WALLET={connected:true,publicKey:key,balance:null,provider:'phantom'};setWalletUI(key,null);await kexiumLoadBalance(key);
+saveWalletState(key);
+window.KEXIUM_WALLET={connected:true,publicKey:key,balance:null,usdBalance:null,provider:'phantom'};
+setWalletUI(key,null,null);
+await kexiumLoadBalance(key);
 }
 
 /* Phantom mobile connection: uses the official encrypted deeplink flow when
@@ -124,7 +153,7 @@ const kp=getDappKeyPair();const shared=nacl.box.before(b58decode(phantomPub),kp.
 const plain=nacl.box.open.after(b58decode(data),b58decode(nonce),shared);if(!plain)throw new Error('Could not decrypt the Phantom response.');
 const result=JSON.parse(new TextDecoder().decode(plain));const key=result.public_key;
 if(!key)throw new Error('Phantom did not return a wallet address.');
-localStorage.setItem(PHANTOM_SESSION_STORAGE,JSON.stringify({session:result.session,phantomEncryptionPublicKey:phantomPub,connectedAt:Date.now()}));
+localStorage.setItem(PHANTOM_SESSION_STORAGE,JSON.stringify({session:result.session,phantomEncryptionPublicKey:phantomPub,publicKey:key,connectedAt:Date.now()}));
 await kexiumHandleAccount(key);
 window.history.replaceState({},document.title,window.location.pathname+window.location.hash);
 return true;
@@ -147,13 +176,14 @@ if(await handlePhantomCallback())return;
 const provider=window.solana;
 if(provider?.isPhantom){
 provider.on?.('accountChanged',pk=>{if(pk)kexiumHandleAccount(pk);});
-provider.on?.('disconnect',()=>{window.KEXIUM_WALLET={connected:false,publicKey:null,balance:null,provider:'phantom'};setWalletUI(null,null);});
-const resp=await provider.connect({onlyIfTrusted:true});if(resp?.publicKey)await kexiumHandleAccount(resp.publicKey);
-return;
+provider.on?.('accountChanged',pk=>{if(pk)kexiumHandleAccount(pk);else{clearWalletState();setWalletUI(null,null,null);}});
+provider.on?.('disconnect',()=>{clearWalletState();window.KEXIUM_WALLET={connected:false,publicKey:null,balance:null,usdBalance:null,provider:'phantom'};setWalletUI(null,null,null);});
+try{const resp=await provider.connect({onlyIfTrusted:true});if(resp?.publicKey){await kexiumHandleAccount(resp.publicKey);return;}}catch(e){}
 }
-const saved=localStorage.getItem(PHANTOM_SESSION_STORAGE);if(saved){
-try{const state=JSON.parse(saved);if(state?.session&&state?.phantomEncryptionPublicKey&&window.KEXIUM_WALLET?.publicKey){await kexiumLoadBalance(window.KEXIUM_WALLET.publicKey);}}catch(e){}
-}
+const savedKey=getSavedWallet();
+if(savedKey){await kexiumHandleAccount(savedKey);return;}
+const saved=localStorage.getItem(PHANTOM_SESSION_STORAGE);
+if(saved){try{const state=JSON.parse(saved);if(state?.publicKey)await kexiumHandleAccount(state.publicKey);}catch(e){}}
 }catch(e){console.warn('KEXIUM wallet restore failed',e)}
 }
 window.addEventListener('load',kexiumRestoreWallet);
