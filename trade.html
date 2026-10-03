@@ -17,7 +17,7 @@
 </head>
 <body>
 <div class="app">
-<header class="top"><div class="brand">KEXIUM</div><input class="search" placeholder="⌕  Search tokens, wallets, or charts..."><div class="toplinks"><button class="topicon">☆</button><button class="topicon">⚙</button><button class="wallet">▣ &nbsp; Connect Wallet</button></div></header>
+<header class="top"><div class="brand">KEXIUM</div><input class="search" placeholder="⌕  Search tokens, wallets, or charts..."><div class="toplinks"><button class="topicon">☆</button><button class="topicon">⚙</button><button id="walletBtn" class="wallet">▣ &nbsp; Connect Wallet</button></div></header>
 <section class="tokenbar"><div class="tokenavatar">≋</div><div class="tokenname"><strong>NOVA <span class="verified">●</span></strong><div class="pair">NOVA　/　SOLANA　↗　▣</div></div><div class="metrics"><div class="metric"><span>Price</span><b>$0.00245 <em class="pos">+24.8%</em></b></div><div class="metric"><span>Market Cap</span><b>$245K</b></div><div class="metric"><span>Liquidity</span><b>$38.4K</b></div><div class="metric"><span>24H Volume</span><b>$182K</b></div><div class="metric"><span>Holders</span><b>1,284</b></div><div class="metric"><span>ATH</span><b>$712K</b></div></div><button class="star">☆</button><button class="tradeTop">Trade</button></section>
 <div class="body">
 <main class="left">
@@ -68,7 +68,7 @@ $('#zoomOut')?.addEventListener('click',()=>chart?.timeScale().applyOptions({bar
 $('#fullBtn')?.addEventListener('click',()=>document.querySelector('.chartShell')?.requestFullscreen?.());
 $('#priceScale')?.addEventListener('click',()=>chart?.priceScale('right').applyOptions({autoScale:true}));
 $('#percentScale')?.addEventListener('click',()=>chart?.applyOptions({rightPriceScale:{mode:1}}));
-$('#walletBtn')?.addEventListener('click',()=>alert('Wallet connection is not connected yet. This keeps KEXIUM safe from fake transactions.'));
+$('#walletBtn')?.addEventListener('click',async()=>{try{if(!window.solana){alert('Solana mainnet data is connected. Please install a Solana wallet (such as Phantom) to connect a wallet.');return;}const resp=await window.solana.connect({onlyIfTrusted:false});window.KEXIUM_WALLET={connected:true,publicKey:resp.publicKey?.toString?.()||String(resp.publicKey||'')};$('#walletBtn').textContent='▣ '+window.KEXIUM_WALLET.publicKey.slice(0,4)+'…'+window.KEXIUM_WALLET.publicKey.slice(-4);document.dispatchEvent(new CustomEvent('kexium:wallet-connected',{detail:window.KEXIUM_WALLET}));}catch(e){if(e?.code!==4001)alert('Wallet connection cancelled or unavailable.');}});
 $('#tradeTop')?.addEventListener('click',()=>document.querySelector('.right')?.scrollTo({top:0,behavior:'smooth'}));
 $('.star')?.addEventListener('click',e=>e.currentTarget.textContent=e.currentTarget.textContent==='☆'?'★':'☆');
 $('.copy')?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText('7xK3…91Pq');alert('Contract copied');}catch(e){alert('Contract: 7xK3…91Pq')}});
@@ -97,5 +97,12 @@ $$('.filter').forEach(b=>b.addEventListener('click',()=>{$$('.filter').forEach(x
 renderTab('TRADERS');
 })();
 </script>
+<script>
+(function(){'use strict';
+const SOLANA_RPC='https://api.mainnet-beta.solana.com';
+async function solanaRpc(method,params=[]){const r=await fetch(SOLANA_RPC,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:Date.now(),method,params})});if(!r.ok)throw new Error('Solana RPC HTTP '+r.status);const j=await r.json();if(j.error)throw new Error(j.error.message||'Solana RPC error');return j.result;}
+async function connectSolanaData(){try{const [slot,bh]=await Promise.all([solanaRpc('getSlot',[{commitment:'confirmed'}]),solanaRpc('getLatestBlockhash',[{commitment:'confirmed'}])]);window.KEXIUM_SOLANA={connected:true,network:'mainnet-beta',rpc:SOLANA_RPC,slot:slot,latestBlockhash:bh.value.blockhash};const x=document.querySelector('.pair');if(x){x.dataset.solana='connected';x.title='Solana mainnet connected • slot '+slot;}document.dispatchEvent(new CustomEvent('kexium:solana-connected',{detail:window.KEXIUM_SOLANA}));}catch(e){window.KEXIUM_SOLANA={connected:false,network:'mainnet-beta',rpc:SOLANA_RPC,error:e.message};}}
+window.KEXIUM_SOLANA_RPC=solanaRpc;window.KEXIUM_CONNECT_SOLANA=connectSolanaData;connectSolanaData();
+})();</script>
 </body>
 </html>
