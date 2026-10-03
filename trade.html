@@ -34,6 +34,7 @@
 <section class="card"><h3>Token Security</h3><div class="secGrid"><div class="sec"><b>Mint Authority</b><span class="status">REVOKED</span></div><div class="sec"><b>Freeze Authority</b><span class="status">REVOKED</span></div><div class="sec"><b>Token Program</b><span class="status">STANDARD SPL</span></div><div class="sec"><b>Permanent Delegate</b><span class="status">NONE</span></div><div class="sec"><b>Non-Transferable</b><span class="status">NO</span></div><div class="sec"><b>Transfer Fee</b><span class="status">NONE</span></div><div class="sec"><b>LP Status</b><span class="status">LOCKED</span></div></div></section>
 </aside></div></div>
 <script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tweetnacl/1.0.3/nacl-fast.min.js"></script>
 <script>
 (function(){
 'use strict';
@@ -87,21 +88,76 @@ async function kexiumHandleAccount(publicKey){
 const key=publicKey?.toString?.()||String(publicKey||'');if(!key)return;
 window.KEXIUM_WALLET={connected:true,publicKey:key,balance:null,provider:'phantom'};setWalletUI(key,null);await kexiumLoadBalance(key);
 }
+
+/* Phantom mobile connection: uses the official encrypted deeplink flow when
+   KEXIUM is opened in Safari/Chrome, while retaining the injected provider
+   path for Phantom's in-app browser/desktop extension. */
+const PHANTOM_KEY_STORAGE='kexium_phantom_dapp_keypair_v1';
+const PHANTOM_SESSION_STORAGE='kexium_phantom_session_v1';
+function b58encode(bytes){
+const alphabet='123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+let digits=[0];
+for(const byte of bytes){let carry=byte;for(let i=0;i<digits.length;i++){const x=digits[i]*256+carry;digits[i]=x%58;carry=Math.floor(x/58);}while(carry){digits.push(carry%58);carry=Math.floor(carry/58);}}
+let out='';for(let i=0;i<bytes.length&&bytes[i]===0;i++)out+='1';for(let i=digits.length-1;i>=0;i--)out+=alphabet[digits[i]];return out;
+}
+function b58decode(str){
+const alphabet='123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+const map={};for(let i=0;i<alphabet.length;i++)map[alphabet[i]]=i;
+let bytes=[0];for(const ch of str){if(map[ch]===undefined)throw new Error('Invalid base58');let carry=map[ch];for(let i=0;i<bytes.length;i++){const x=bytes[i]*58+carry;bytes[i]=x&255;carry=x>>8;}while(carry){bytes.push(carry&255);carry>>=8;}}
+for(let i=0;i<str.length&&str[i]==='1';i++)bytes.push(0);return new Uint8Array(bytes.reverse());
+}
+function getDappKeyPair(){
+if(!window.nacl)throw new Error('Phantom encryption library failed to load.');
+try{const saved=localStorage.getItem(PHANTOM_KEY_STORAGE);if(saved){const j=JSON.parse(saved);if(j.publicKey&&j.secretKey)return{publicKey:b58decode(j.publicKey),secretKey:b58decode(j.secretKey)};}}catch(e){}
+const kp=nacl.box.keyPair();localStorage.setItem(PHANTOM_KEY_STORAGE,JSON.stringify({publicKey:b58encode(kp.publicKey),secretKey:b58encode(kp.secretKey)}));return kp;
+}
+function getRedirectUrl(){
+const u=new URL(window.location.href);u.search='?phantom_callback=1';u.hash='';return u.toString();
+}
+async function handlePhantomCallback(){
+const q=new URLSearchParams(window.location.search);if(q.get('phantom_callback')!=='1')return false;
+try{
+const error=q.get('errorCode');if(error){throw new Error(q.get('errorMessage')||('Phantom error '+error));}
+const phantomPub=q.get('phantom_encryption_public_key'),nonce=q.get('nonce'),data=q.get('data');
+if(!phantomPub||!nonce||!data)throw new Error('Phantom returned an incomplete connection response.');
+const kp=getDappKeyPair();const shared=nacl.box.before(b58decode(phantomPub),kp.secretKey);
+const plain=nacl.box.open.after(b58decode(data),b58decode(nonce),shared);if(!plain)throw new Error('Could not decrypt the Phantom response.');
+const result=JSON.parse(new TextDecoder().decode(plain));const key=result.public_key;
+if(!key)throw new Error('Phantom did not return a wallet address.');
+localStorage.setItem(PHANTOM_SESSION_STORAGE,JSON.stringify({session:result.session,phantomEncryptionPublicKey:phantomPub,connectedAt:Date.now()}));
+await kexiumHandleAccount(key);
+window.history.replaceState({},document.title,window.location.pathname+window.location.hash);
+return true;
+}catch(e){console.error('KEXIUM Phantom callback error',e);alert('KEXIUM could not finish the Phantom connection. Please try Connect Wallet again.');window.history.replaceState({},document.title,window.location.pathname+window.location.hash);return false;}
+}
 async function kexiumConnectWallet(){
-try{const provider=window.solana;
-if(provider?.isPhantom){const resp=await provider.connect({onlyIfTrusted:false});if(resp?.publicKey)await kexiumHandleAccount(resp.publicKey);return;}
-const appUrl=encodeURIComponent(window.location.href),ref=encodeURIComponent(window.location.href);window.location.href='https://phantom.app/ul/browse/'+appUrl+'?ref='+ref;
-}catch(e){if(e?.code!==4001)alert('Phantom connection could not be opened. Please open KEXIUM in your mobile browser and try again.');}
+try{
+const provider=window.solana;
+if(provider?.isPhantom){const resp=await provider.connect({onlyIfTrusted:false});if(resp?.publicKey){await kexiumHandleAccount(resp.publicKey);return;} }
+const kp=getDappKeyPair();
+const appUrl=new URL(window.location.href);appUrl.search='';appUrl.hash='';
+const params=new URLSearchParams({app_url:appUrl.toString(),dapp_encryption_public_key:b58encode(kp.publicKey),redirect_link:getRedirectUrl(),cluster:'mainnet-beta'});
+window.location.href='https://phantom.app/ul/v1/connect?'+params.toString();
+}catch(e){if(e?.code!==4001)alert(e?.message||'Phantom connection could not be opened. Please try again.');}
 }
 $('#walletBtn')?.addEventListener('click',kexiumConnectWallet);
 async function kexiumRestoreWallet(){
-try{const provider=window.solana;if(!provider?.isPhantom)return;
+try{
+if(await handlePhantomCallback())return;
+const provider=window.solana;
+if(provider?.isPhantom){
 provider.on?.('accountChanged',pk=>{if(pk)kexiumHandleAccount(pk);});
 provider.on?.('disconnect',()=>{window.KEXIUM_WALLET={connected:false,publicKey:null,balance:null,provider:'phantom'};setWalletUI(null,null);});
 const resp=await provider.connect({onlyIfTrusted:true});if(resp?.publicKey)await kexiumHandleAccount(resp.publicKey);
-}catch(e){}
+return;
+}
+const saved=localStorage.getItem(PHANTOM_SESSION_STORAGE);if(saved){
+try{const state=JSON.parse(saved);if(state?.session&&state?.phantomEncryptionPublicKey&&window.KEXIUM_WALLET?.publicKey){await kexiumLoadBalance(window.KEXIUM_WALLET.publicKey);}}catch(e){}
+}
+}catch(e){console.warn('KEXIUM wallet restore failed',e)}
 }
 window.addEventListener('load',kexiumRestoreWallet);
+
 $('#tradeTop')?.addEventListener('click',()=>document.querySelector('.right')?.scrollTo({top:0,behavior:'smooth'}));
 $('.star')?.addEventListener('click',e=>e.currentTarget.textContent=e.currentTarget.textContent==='☆'?'★':'☆');
 $('.copy')?.addEventListener('click',async()=>{try{await navigator.clipboard.writeText('7xK3…91Pq');alert('Contract copied');}catch(e){alert('Contract: 7xK3…91Pq')}});
