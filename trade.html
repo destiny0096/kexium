@@ -77,6 +77,9 @@ function getSavedWallet(){
 try{const s=localStorage.getItem(PHANTOM_WALLET_STORAGE);if(!s)return null;const j=JSON.parse(s);return j?.publicKey||null;}catch(e){return null;}
 }
 function clearWalletState(){try{localStorage.removeItem(PHANTOM_WALLET_STORAGE);}catch(e){}}
+const KEXIUM_BALANCE_STORAGE='kexium_wallet_balance_v1';
+function saveBalanceState(publicKey,balance,usd,price){try{localStorage.setItem(KEXIUM_BALANCE_STORAGE,JSON.stringify({publicKey,balance,usd,price,updatedAt:Date.now()}));}catch(e){}}
+function getSavedBalance(publicKey){try{const s=JSON.parse(localStorage.getItem(KEXIUM_BALANCE_STORAGE)||'null');if(s?.publicKey===publicKey&&typeof s.balance==='number')return{balance:s.balance,usd:typeof s.usd==='number'?s.usd:null,price:typeof s.price==='number'?s.price:null};}catch(e){}return null;}
 function setWalletUI(key,balance,usd){
  const btn=$('#walletBtn');if(!btn)return;
  if(!key){btn.textContent='▣  Connect Wallet';btn.title='';return;}
@@ -116,7 +119,7 @@ async function kexiumLoadBalance(publicKey){
    const price=await kexiumLoadSolPrice();
    const usd=typeof price==='number'?sol*price:null;
    window.KEXIUM_WALLET={...(window.KEXIUM_WALLET||{}),connected:true,publicKey,balance:sol,usdBalance:usd,solUsdPrice:price,provider:'phantom'};
-   saveWalletState(publicKey);setWalletUI(publicKey,sol,usd);
+   saveWalletState(publicKey);saveBalanceState(publicKey,sol,usd,price);setWalletUI(publicKey,sol,usd);
    return sol;
  }
  console.warn('KEXIUM could not read SOL balance from any RPC endpoint',lastError);
@@ -128,8 +131,9 @@ async function kexiumLoadBalance(publicKey){
 async function kexiumHandleAccount(publicKey){
 const key=publicKey?.toString?.()||String(publicKey||'');if(!key)return;
 saveWalletState(key);
-window.KEXIUM_WALLET={connected:true,publicKey:key,balance:null,usdBalance:null,provider:'phantom'};
-setWalletUI(key,null,null);
+const cached=getSavedBalance(key);
+window.KEXIUM_WALLET={connected:true,publicKey:key,balance:cached?.balance??null,usdBalance:cached?.usd??null,solUsdPrice:cached?.price??null,provider:'phantom'};
+setWalletUI(key,cached?.balance??null,cached?.usd??null);
 await kexiumLoadBalance(key);
 }
 
