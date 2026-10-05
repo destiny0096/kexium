@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>KEXIUM — Trade NOVA</title>
+<title id="pageTitle">KEXIUM — Trade Token</title>
 <style>
 :root{--bg:#050a10;--panel:#0a111a;--panel2:#0d1620;--line:#1c2a38;--text:#edf4fb;--muted:#8290a0;--green:#18d69a;--red:#ef5365;--blue:#248cff;--purple:#9b5cff;--yellow:#f5a623}
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer;color:inherit}.app{height:100vh;display:flex;flex-direction:column;overflow:hidden;background:radial-gradient(circle at 30% -20%,#102238 0,#050a10 45%)}
@@ -29,7 +29,7 @@
 <section class="card quick"><h3>BUY / SELL</h3><div class="buySell"><button id="buy" class="bs buy active">BUY</button><button id="sell" class="bs sell">SELL</button></div><div class="orderTabs"><button class="orderTab active" data-order="Market">Market</button><button class="orderTab" data-order="Limit">Limit</button><button class="orderTab" data-order="Stop">Stop</button></div><label class="fieldLabel">Amount</label><div class="inputBox"><input id="amountInput" type="number" inputmode="decimal" step="any" min="0" placeholder="0.0"><span>◎ SOL</span></div><div id="triggerWrap" class="hiddenField"><label class="fieldLabel">Trigger Price</label><div class="inputBox"><span>$</span><input id="triggerInput" type="number" inputmode="decimal" step="any" min="0" placeholder="0.00245"><span>USD</span></div></div><div class="chips"><button class="chip">0.1</button><button class="chip">0.5</button><button class="chip">1</button><button class="chip">5</button></div><button id="exec" class="exec">BUY NOVA</button><div class="estimate"><div class="est"><span>Order Type</span><b id="orderSummary">Market</b></div><div class="est"><span>Est. Price</span><b id="estPrice">~ $0.00245</b></div><div class="est"><span>Est. Received</span><b id="received">~ 0 NOVA</b></div><div class="est"><span>Network Fee</span><b>~ 0.000005 SOL</b></div></div></section>
 <section class="card"><h3>Token Info</h3><div class="infoRow"><span>Price</span><b id="iPrice">$0.00245</b></div><div class="infoRow"><span>24H Change</span><b id="iChange" class="pos">+24.8%</b></div><div class="infoRow"><span>Market Cap</span><b id="iMcap">$245K</b></div><div class="infoRow"><span>Liquidity</span><b id="pLiquidity">$38.4K</b></div><div class="infoRow"><span>ATH</span><b id="iAth">—</b></div><div class="infoRow"><span>Holders</span><b id="iHolders">—</b></div><div class="contract"><span style="color:#8998a8;font-size:12px">Contract</span><b id="contractAddress" style="font-size:12px">7xK3…91Pq　<button class="copy">▣</button></b></div></section>
 <section class="card"><h3>Trading Stats</h3><div class="infoRow"><span>24H Volume</span><b id="sVolume">$182K</b></div><div class="infoRow"><span>5M Volume</span><b id="s5m">$14.8K</b></div><div class="infoRow"><span>1H Volume</span><b id="s1h">$51.2K</b></div><div class="infoRow"><span>Buys</span><b id="sBuys" class="pos">—</b></div><div class="infoRow"><span>Sells</span><b id="sSells">—</b></div><div class="infoRow"><span>Buy/Sell Ratio</span><b id="sRatio">—</b></div></section>
-<section class="card"><h3>Pool Information</h3><div class="infoRow"><span>DEX</span><b id="pDex">Raydium</b></div><div class="infoRow"><span>Liquidity</span><b>$38.4K</b></div><div class="infoRow"><span>Pair</span><b id="pPair">NOVA / SOL</b></div><div class="infoRow"><span>Pool Age</span><b id="pAge">—</b></div></section>
+<section class="card"><h3>Pool Information</h3><div class="infoRow"><span>DEX</span><b id="pDex">Raydium</b></div><div class="infoRow"><span>Liquidity</span><b id="pLiquidity">$38.4K</b></div><div class="infoRow"><span>Pair</span><b id="pPair">NOVA / SOL</b></div><div class="infoRow"><span>Pool Age</span><b id="pAge">—</b></div></section>
 <section class="card"><h3>Holder Summary</h3><div class="infoRow"><span>Top 10 Holders</span><b>27.4%</b></div><div class="infoRow"><span>Bundlers</span><b>8.2%</b></div><div class="infoRow"><span>Insiders</span><b>4.6%</b></div><div class="infoRow"><span>Snipers</span><b>3.1%</b></div><div class="infoRow"><span>Total Holders</span><b>1,284</b></div></section>
 <section class="card"><h3>Token Security</h3><div class="secGrid"><div class="sec"><b>Mint Authority</b><span class="status">REVOKED</span></div><div class="sec"><b>Freeze Authority</b><span class="status">REVOKED</span></div><div class="sec"><b>Token Program</b><span class="status">STANDARD SPL</span></div><div class="sec"><b>Permanent Delegate</b><span class="status">NONE</span></div><div class="sec"><b>Non-Transferable</b><span class="status">NO</span></div><div class="sec"><b>Transfer Fee</b><span class="status">NONE</span></div><div class="sec"><b>LP Status</b><span class="status">LOCKED</span></div></div></section>
 </aside></div></div>
@@ -122,6 +122,7 @@ async function loadLiveToken(query){
     setText('pPair',(base.symbol||'TOKEN')+' / '+(pair.quoteToken?.symbol||'SOL'));
     setText('pAge',pair.pairCreatedAt?formatAge(pair.pairCreatedAt):'—');
 
+    document.title='KEXIUM — Trade '+(base.symbol||base.name||'Token');
     const info=document.querySelector('.chartInfo');
     if(info){
       const b=info.querySelector('b');
@@ -132,9 +133,11 @@ async function loadLiveToken(query){
 
     const exec=document.getElementById('exec');
     if(exec)exec.textContent=(typeof side==='undefined'||side==='buy'?'BUY ':'SELL ')+(base.symbol||'TOKEN');
+    if(triggerInput&&Number.isFinite(price))triggerInput.value=price;
     if(typeof amountInput!=='undefined' && typeof refreshOrder==='function')refreshOrder();
 
     if(search)search.value=base.symbol||base.address||q;
+    await loadLiveChart(pair);
     console.log('KEXIUM live Solana token:',pair);
   }catch(e){
     console.error('KEXIUM live token data failed:',e);
@@ -173,12 +176,66 @@ function makeChart(){
   chart.timeScale().fitContent();
   new ResizeObserver(()=>chart.applyOptions({width:chartEl.clientWidth,height:chartEl.clientHeight})).observe(chartEl);
 }
+
+const LIVE_CHART_API='https://api.geckoterminal.com/api/v2/networks/solana/pools/';
+function chartRequest(tf){
+  if(tf==='1m')return {interval:'minute',aggregate:1};
+  if(tf==='5m')return {interval:'minute',aggregate:5};
+  if(tf==='15m')return {interval:'minute',aggregate:15};
+  if(tf==='1h')return {interval:'hour',aggregate:1};
+  if(tf==='4h')return {interval:'hour',aggregate:4};
+  return {interval:'day',aggregate:1};
+}
+async function fetchLiveOHLCV(pair,tf){
+  const pool=pair?.pairAddress;
+  if(!pool)throw new Error('This token pair has no pool address for chart data.');
+  const cfg=chartRequest(tf);
+  const url=LIVE_CHART_API+encodeURIComponent(pool)+'/ohlcv/'+cfg.interval+'?aggregate='+cfg.aggregate+'&limit=500&currency=usd';
+  const r=await fetch(url,{cache:'no-store'});
+  if(!r.ok)throw new Error('Live chart HTTP '+r.status);
+  const j=await r.json();
+  const rows=j?.data?.attributes?.ohlcv_list;
+  if(!Array.isArray(rows)||!rows.length)throw new Error('No live candle history returned for this pool.');
+  return rows.map(x=>({time:Number(x[0]),open:Number(x[1]),high:Number(x[2]),low:Number(x[3]),close:Number(x[4]),volume:Number(x[5])})).filter(x=>[x.time,x.open,x.high,x.low,x.close,x.volume].every(Number.isFinite)).sort((a,b)=>a.time-b.time);
+}
+async function loadLiveChart(pair){
+  if(!chart||!candles||!volume)return;
+  const active=document.querySelector('.time.active');
+  const tf=active?.textContent?.trim()||'15m';
+  try{
+    const rows=await fetchLiveOHLCV(pair,tf);
+    baseData=rows; data=rows.slice();
+    candles.setData(rows.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));
+    volume.setData(rows.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));
+    chart.timeScale().fitContent();
+    const last=rows[rows.length-1];
+    const first=rows[0];
+    const info=document.querySelector('.chartInfo');
+    if(info&&last){
+      const spans=info.querySelectorAll('span');
+      if(spans[1])spans[1].textContent=last.close;
+      if(spans[2])spans[2].textContent='H'+last.high;
+      if(spans[3])spans[3].textContent='L'+last.low;
+      if(spans[4])spans[4].textContent='C'+last.close;
+      if(spans[5]){
+        const pct=first?.close?((last.close-first.close)/first.close)*100:0;
+        spans[5].textContent=(pct>=0?'+':'')+(last.close-first.close).toPrecision(5)+' ('+(pct>=0?'+':'')+pct.toFixed(2)+'%)';
+      }
+      const vol=info.querySelector('.vol span');if(vol)vol.textContent=money(last.volume).replace('$','');
+    }
+    window.KEXIUM_LIVE_CHART={pairAddress:pair.pairAddress,timeframe:tf,updatedAt:Date.now()};
+  }catch(e){
+    console.warn('KEXIUM live chart failed:',e);
+    // Keep the existing chart visible rather than breaking the working page.
+  }
+}
+
 makeChart();
 
 function tfSeconds(tf){return ({'1m':60,'5m':300,'15m':900,'1h':3600,'4h':14400,'1D':86400})[tf]||900;}
 function aggregate(tf){const step=tfSeconds(tf),m=new Map();baseData.forEach(d=>{const t=Math.floor(d.time/step)*step;if(!m.has(t))m.set(t,{time:t,open:d.open,high:d.high,low:d.low,close:d.close,volume:0});const x=m.get(t);x.high=Math.max(x.high,d.high);x.low=Math.min(x.low,d.low);x.close=d.close;x.volume+=d.volume;});return [...m.values()];}
 function applyTf(tf){const a=aggregate(tf);candles.setData(a.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(a.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();const info=document.querySelector('.chartInfo');if(info){const b=info.querySelector('b');if(b&&b.nextSibling)b.nextSibling.textContent=' · '+tf+' · Raydium';}}
-$$('.time').forEach(b=>b.addEventListener('click',()=>{$$('.time').forEach(x=>x.classList.remove('active'));b.classList.add('active');applyTf(b.textContent.trim());}));
+$$('.time').forEach(b=>b.addEventListener('click',async()=>{$$('.time').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(LIVE_TOKEN)await loadLiveChart(LIVE_TOKEN);else applyTf(b.textContent.trim());}));
 $('#fitBtn')?.addEventListener('click',()=>chart?.timeScale().fitContent());
 $('#resetBtn')?.addEventListener('click',()=>chart?.priceScale('right').applyOptions({autoScale:true}));
 $('#zoomIn')?.addEventListener('click',()=>chart?.timeScale().applyOptions({barSpacing:12}));
@@ -335,12 +392,12 @@ $('.star')?.addEventListener('click',e=>e.currentTarget.textContent=e.currentTar
 $('.copy')?.addEventListener('click',async()=>{const a=LIVE_TOKEN?.baseToken?.address||'7xK3…91Pq';try{await navigator.clipboard.writeText(a);alert('Contract copied');}catch(e){alert('Contract: '+a)}});
 
 const buy=$('#buy'),sell=$('#sell'),exec=$('#exec');
-buy?.addEventListener('click',()=>{side='buy';buy.classList.add('active');sell.classList.remove('active');exec.classList.remove('sell');exec.textContent='BUY NOVA';refreshOrder();});
-sell?.addEventListener('click',()=>{side='sell';sell.classList.add('active');buy.classList.remove('active');exec.classList.add('sell');exec.textContent='SELL NOVA';refreshOrder();});
+buy?.addEventListener('click',()=>{side='buy';buy.classList.add('active');sell.classList.remove('active');exec.classList.remove('sell');exec.textContent='BUY '+(LIVE_TOKEN?.baseToken?.symbol||'TOKEN');refreshOrder();});
+sell?.addEventListener('click',()=>{side='sell';sell.classList.add('active');buy.classList.remove('active');exec.classList.add('sell');exec.textContent='SELL '+(LIVE_TOKEN?.baseToken?.symbol||'TOKEN');refreshOrder();});
 let side='buy', orderType='Market';
 const amountInput=document.getElementById('amountInput'), triggerWrap=document.getElementById('triggerWrap'), triggerInput=document.getElementById('triggerInput');
 const orderSummary=document.getElementById('orderSummary'), estPrice=document.getElementById('estPrice'), received=document.getElementById('received');
-function refreshOrder(){const price=Number(triggerInput.value||0.00245),a=Number(amountInput.value||0);orderSummary.textContent=orderType;triggerWrap.classList.toggle('show',orderType!=='Market');estPrice.textContent='~ $'+price.toFixed(5);if(side==='buy'){amountInput.parentElement.querySelector('span:last-child').textContent='◎ SOL';received.textContent='~ '+(a/price).toFixed(2)+' NOVA';}else{amountInput.parentElement.querySelector('span:last-child').textContent='NOVA';received.textContent='~ '+(a*price).toFixed(6)+' SOL';}}
+function refreshOrder(){const livePrice=Number(LIVE_TOKEN?.priceUsd);const price=Number(triggerInput.value||livePrice||0.00245),a=Number(amountInput.value||0);const sym=LIVE_TOKEN?.baseToken?.symbol||'TOKEN';orderSummary.textContent=orderType;triggerWrap.classList.toggle('show',orderType!=='Market');estPrice.textContent='~ $'+price.toPrecision(price<0.01?5:6);if(side==='buy'){amountInput.parentElement.querySelector('span:last-child').textContent='◎ SOL';received.textContent='~ '+(price>0?a/price:0).toFixed(2)+' '+sym;}else{amountInput.parentElement.querySelector('span:last-child').textContent=sym;received.textContent='~ '+(a*price).toFixed(6)+' SOL';}}
 $$('.orderTab').forEach(b=>b.addEventListener('click',()=>{$$('.orderTab').forEach(x=>x.classList.remove('active'));b.classList.add('active');orderType=b.dataset.order;refreshOrder();}));
 $$('.chip').forEach(b=>b.addEventListener('click',()=>{amountInput.value=b.textContent.trim();refreshOrder();}));
 amountInput.addEventListener('input',refreshOrder);triggerInput.addEventListener('input',refreshOrder);
