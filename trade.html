@@ -85,6 +85,7 @@ async function loadLiveToken(query){
     const pair=selectSolanaPair(Array.isArray(j?.pairs)?j.pairs:[]);
     if(!pair)throw new Error('No Solana pair found for "'+q+'".');
     LIVE_TOKEN=pair;
+    try{localStorage.setItem('kexium_selected_token_v2',JSON.stringify({address:pair.baseToken?.address||'',pairAddress:pair.pairAddress||'',symbol:pair.baseToken?.symbol||'',name:pair.baseToken?.name||'',dexId:pair.dexId||''}));}catch(e){}
 
     const base=pair.baseToken||{}, tx=pair.txns?.h24||{};
     const price=Number(pair.priceUsd), change=Number(pair.priceChange?.h24);
@@ -154,6 +155,14 @@ function formatAge(ms){
   if(h<24)return h+'h '+(mins%60)+'m';
   return Math.floor(h/24)+'d '+(h%24)+'h';
 }
+async function restoreSelectedToken(){
+  try{
+    const saved=JSON.parse(localStorage.getItem('kexium_selected_token_v2')||'null');
+    const q=saved?.address||'';
+    if(q) await loadLiveToken(q);
+  }catch(e){console.warn('KEXIUM selected token restore failed:',e);}
+}
+
 const tokenSearch=document.getElementById('tokenSearch');
 const tokenSearchBtn=document.getElementById('tokenSearchBtn');
 async function submitTokenSearch(){
@@ -238,10 +247,13 @@ async function loadLiveChart(pair){
 }
 
 makeChart();
+restoreSelectedToken();
+
+setInterval(()=>{if(LIVE_TOKEN&&document.visibilityState!=='hidden')loadLiveChart(LIVE_TOKEN);},30000);
 
 function tfSeconds(tf){return ({'1m':60,'5m':300,'15m':900,'1h':3600,'4h':14400,'1D':86400})[tf]||900;}
 function aggregate(tf){const step=tfSeconds(tf),m=new Map();baseData.forEach(d=>{const t=Math.floor(d.time/step)*step;if(!m.has(t))m.set(t,{time:t,open:d.open,high:d.high,low:d.low,close:d.close,volume:0});const x=m.get(t);x.high=Math.max(x.high,d.high);x.low=Math.min(x.low,d.low);x.close=d.close;x.volume+=d.volume;});return [...m.values()];}
-function applyTf(tf){const a=aggregate(tf);candles.setData(a.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(a.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();const info=document.querySelector('.chartInfo');if(info){const b=info.querySelector('b');if(b&&b.nextSibling)b.nextSibling.textContent=' · '+tf+' · Raydium';}}
+function applyTf(tf){const a=aggregate(tf);candles.setData(a.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(a.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();const info=document.querySelector('.chartInfo');if(info){const b=info.querySelector('b');if(b&&b.nextSibling)b.nextSibling.textContent=' · '+tf+' · '+(LIVE_TOKEN?.dexId||'Live');}}
 $$('.time').forEach(b=>b.addEventListener('click',async()=>{$$('.time').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(LIVE_TOKEN)await loadLiveChart(LIVE_TOKEN);else applyTf(b.textContent.trim());}));
 $('#fitBtn')?.addEventListener('click',()=>chart?.timeScale().fitContent());
 $('#resetBtn')?.addEventListener('click',()=>chart?.priceScale('right').applyOptions({autoScale:true}));
@@ -408,7 +420,12 @@ function refreshOrder(){const livePrice=Number(LIVE_TOKEN?.priceUsd);const price
 $$('.orderTab').forEach(b=>b.addEventListener('click',()=>{$$('.orderTab').forEach(x=>x.classList.remove('active'));b.classList.add('active');orderType=b.dataset.order;refreshOrder();}));
 $$('.chip').forEach(b=>b.addEventListener('click',()=>{amountInput.value=b.textContent.trim();refreshOrder();}));
 amountInput.addEventListener('input',refreshOrder);triggerInput.addEventListener('input',refreshOrder);
-exec?.addEventListener('click',()=>alert('Demo trade only — real Solana execution will be connected after wallet integration.'));
+exec?.addEventListener('click',()=>{
+ const wallet=window.KEXIUM_WALLET?.publicKey;
+ if(!wallet){alert('Connect your Phantom wallet first.');return;}
+ if(!LIVE_TOKEN){alert('Select a Solana token first.');return;}
+ alert('Wallet connected ✓\n\nKEXIUM has not enabled live swap signing on this page yet. The next execution layer will request a real Jupiter quote, show the route/slippage/fees, then ask Phantom to sign before sending the transaction. No funds are moved by this button yet.');
+});
 
 const tabRows={
 TRADERS:[['@NovaHunter','BUY','$82K','$245K','+198%','4m'],['@KexTrader','BUY','$115K','$245K','+113%','8m'],['@AlphaSol','SELL','$71K','$211K','+197%','12m']],
