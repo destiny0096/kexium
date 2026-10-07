@@ -9,7 +9,7 @@
 *{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer;color:inherit}.app{height:100vh;display:flex;flex-direction:column;overflow:hidden;background:radial-gradient(circle at 30% -20%,#102238 0,#050a10 45%)}
 .top{height:68px;display:flex;align-items:center;gap:28px;padding:0 28px;border-bottom:1px solid #152230;background:#07101a}.brand{font-size:25px;font-weight:900;letter-spacing:.03em;white-space:nowrap}.brand:before{content:"≈";color:#218cff;font-size:30px;margin-right:10px}.searchWrap{height:38px;flex:1;max-width:680px;display:flex;gap:7px}.searchBtn{height:38px;padding:0 14px;border:1px solid #1f73ba;background:#0a1b2d;border-radius:7px;color:#edf4fb;font-weight:800}.searchBtn:disabled{opacity:.6}.search{height:38px;flex:1;min-width:0;max-width:585px;border:1px solid #21354a;background:#0a1520;border-radius:7px;color:#8190a1;padding:0 14px;font-size:14px}.toplinks{margin-left:auto;display:flex;align-items:center;gap:22px}.topicon{font-size:22px;background:none;border:0}.wallet{height:40px;padding:0 16px;border:1px solid #165ea8;background:#0a1b2d;border-radius:7px;font-weight:800;white-space:nowrap;max-width:330px;overflow:hidden;text-overflow:ellipsis}@media(max-width:850px){.wallet{padding:0 10px;max-width:245px}}
 .tokenbar{height:86px;display:flex;align-items:center;padding:0 28px;gap:18px;border-bottom:1px solid #152230;background:#08111a}.tokenavatar{width:56px;height:56px;border-radius:50%;border:1px solid #a04cff;background:radial-gradient(circle,#6535d8,#11142b 58%,#070b13);display:grid;place-items:center;font-size:25px}.tokenname{min-width:330px}.tokenname strong{font-size:24px}.verified{color:#1bd99a;margin-left:7px}.pair{font-size:14px;color:#8997a8;margin-top:4px}.metrics{display:flex;align-items:center;gap:30px;margin-left:auto}.metric{padding-left:20px;border-left:1px solid #182633}.metric span{display:block;color:#8492a2;font-size:13px}.metric b{display:block;margin-top:5px;font-size:15px}.metric .pos{color:#18d69a}.star{height:45px;width:52px;border:1px solid #1b3b5b;background:#071522;border-radius:7px;font-size:23px}.tradeTop{height:45px;padding:0 20px;background:#1683ed;border:0;border-radius:7px;font-weight:900;font-size:16px}
-.body{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;padding:10px 16px 14px}.left{min-width:0;display:flex;flex-direction:column;min-height:0}.chartShell{min-height:0;flex:1;border:1px solid #1b2b3a;border-radius:8px;background:#071019;display:flex;flex-direction:column;overflow:hidden}.chartTools{height:45px;border-bottom:1px solid #1b2b3a;display:flex;align-items:center;gap:3px;padding:0 10px;background:#09131e}.toolbtn{height:34px;min-width:35px;border:0;background:transparent;color:#9aa8b8;border-radius:6px}.toolbtn:hover,.toolbtn.active{background:#122238;color:#fff}.time.active{background:#15355b;color:#fff;border:1px solid #258cff}.divider{height:25px;width:1px;background:#1c2b3a;margin:0 7px}.chartWrap{position:relative;flex:1;min-height:0}.chartCanvas{position:absolute;inset:0;width:100%;height:100%}.chartInfo{position:absolute;top:10px;left:16px;pointer-events:none;font-size:14px;color:#b3bfcb}.chartInfo b{color:#dce7f1}.chartInfo .ohlc{font-size:13px;margin-top:7px}.chartInfo .vol{color:#8494a5;margin-top:5px}.greenTxt{color:#18d69a}.redTxt{color:#ef5365}.fiblabels{position:absolute;right:120px;top:68px;display:flex;flex-direction:column;gap:11px;font-size:11px;color:#9aabc0;pointer-events:none}.fiblabels span:nth-child(2){color:#efb25c}.fiblabels span:nth-child(3){color:#8dd4b1}.fiblabels span:nth-child(4){color:#3ee0a2}.fiblabels span:nth-child(5){color:#7fc8ff}.fiblabels span:nth-child(6){color:#9b8cff}.chartRightTools{position:absolute;right:7px;top:7px;display:flex;flex-direction:column;gap:4px}.rt{width:29px;height:28px;background:#09121b;border:1px solid #1d2c3b;border-radius:5px;color:#7e8e9e}.rsiLabel{position:absolute;left:15px;bottom:73px;color:#9aa8b7;font-size:12px}.bottomTime{height:35px;position:absolute;bottom:0;left:0;right:0;border-top:1px solid #172531;background:rgba(6,12,18,.94);display:flex;align-items:center;padding:0 16px;gap:23px;color:#8c9aab;font-size:12px}.chartBottomTabs{height:228px;min-height:170px;border:1px solid #1b2b3a;border-radius:8px;background:#071019;margin-top:10px;overflow:hidden}.tabs{height:52px;display:flex;align-items:center;gap:38px;padding:0 35px;border-bottom:1px solid #1b2b3a}.tab{height:52px;border:0;background:none;color:#aeb9c6;font-weight:700;position:relative}.tab.active{color:#168dff}.tab.active:after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:#168dff}.tableHead,.tableRow{display:grid;grid-template-columns:1.2fr .9fr 1fr 1.2fr .9fr .6fr;align-items:center;padding:0 20px}.tableHead{height:34px;color:#718195;font-size:11px;background:#0a1520}.tableRow{height:38px;border-top:1px solid #13212d;font-size:12px}.tagBuy{color:#18d69a;font-weight:800}.tagSell{color:#ef5365;font-weight:800}
+.body{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;padding:10px 16px 14px}.left{min-width:0;display:flex;flex-direction:column;min-height:0}.chartShell{min-height:0;flex:1;border:1px solid #1b2b3a;border-radius:8px;background:#071019;display:flex;flex-direction:column;overflow:hidden}.chartTools{height:45px;border-bottom:1px solid #1b2b3a;display:flex;align-items:center;gap:3px;padding:0 10px;background:#09131e}.toolbtn{height:34px;min-width:35px;border:0;background:transparent;color:#9aa8b8;border-radius:6px}.toolbtn:hover,.toolbtn.active{background:#122238;color:#fff}.time.active{background:#15355b;color:#fff;border:1px solid #258cff}.divider{height:25px;width:1px;background:#1c2b3a;margin:0 7px}.chartWrap{position:relative;flex:1;min-height:0}.chartCanvas{position:absolute;inset:0;width:100%;height:100%}.liveChartBadge{position:absolute;top:42px;left:16px;z-index:4;padding:5px 8px;border:1px solid #203447;border-radius:6px;background:rgba(5,10,16,.84);font-size:11px;color:#dbe8f4;pointer-events:none}.liveChartBadge b{color:#18d69a}.liveChartBadge span{margin-left:8px;color:#8ea0b2}.chartInfo{position:absolute;top:10px;left:16px;pointer-events:none;font-size:14px;color:#b3bfcb}.chartInfo b{color:#dce7f1}.chartInfo .ohlc{font-size:13px;margin-top:7px}.chartInfo .vol{color:#8494a5;margin-top:5px}.greenTxt{color:#18d69a}.redTxt{color:#ef5365}.fiblabels{position:absolute;right:120px;top:68px;display:flex;flex-direction:column;gap:11px;font-size:11px;color:#9aabc0;pointer-events:none}.fiblabels span:nth-child(2){color:#efb25c}.fiblabels span:nth-child(3){color:#8dd4b1}.fiblabels span:nth-child(4){color:#3ee0a2}.fiblabels span:nth-child(5){color:#7fc8ff}.fiblabels span:nth-child(6){color:#9b8cff}.chartRightTools{position:absolute;right:7px;top:7px;display:flex;flex-direction:column;gap:4px}.rt{width:29px;height:28px;background:#09121b;border:1px solid #1d2c3b;border-radius:5px;color:#7e8e9e}.rsiLabel{position:absolute;left:15px;bottom:73px;color:#9aa8b7;font-size:12px}.bottomTime{height:35px;position:absolute;bottom:0;left:0;right:0;border-top:1px solid #172531;background:rgba(6,12,18,.94);display:flex;align-items:center;padding:0 16px;gap:23px;color:#8c9aab;font-size:12px}.chartBottomTabs{height:228px;min-height:170px;border:1px solid #1b2b3a;border-radius:8px;background:#071019;margin-top:10px;overflow:hidden}.tabs{height:52px;display:flex;align-items:center;gap:38px;padding:0 35px;border-bottom:1px solid #1b2b3a}.tab{height:52px;border:0;background:none;color:#aeb9c6;font-weight:700;position:relative}.tab.active{color:#168dff}.tab.active:after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:#168dff}.tableHead,.tableRow{display:grid;grid-template-columns:1.2fr .9fr 1fr 1.2fr .9fr .6fr;align-items:center;padding:0 20px}.tableHead{height:34px;color:#718195;font-size:11px;background:#0a1520}.tableRow{height:38px;border-top:1px solid #13212d;font-size:12px}.tagBuy{color:#18d69a;font-weight:800}.tagSell{color:#ef5365;font-weight:800}
 .right{min-width:0;overflow:auto;padding-right:2px}.right::-webkit-scrollbar{width:6px}.right::-webkit-scrollbar-thumb{background:#223242;border-radius:8px}.card{border:1px solid #1c2b39;background:linear-gradient(180deg,#0b141e,#081019);border-radius:8px;margin-bottom:10px;padding:13px 15px}.card h3{margin:0 0 11px;font-size:16px}.quick .buySell{display:grid;grid-template-columns:1fr 1fr;gap:7px}.bs{height:36px;border:1px solid #203140;background:#0c1721;border-radius:6px;font-weight:800}.bs.buy.active{background:#079e68;border-color:#13c789}.bs.sell.active{background:#34151d;border-color:#71303b}.orderTabs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:11px 0}.orderTab{height:34px;border:1px solid #1c2d3d;background:#0c1722;border-radius:5px;color:#b0bdc9}.orderTab.active{background:#17283a;color:#fff}.fieldLabel{display:block;font-size:11px;color:#9aa8b8;margin:10px 0 6px}.inputBox{height:44px;border:1px solid #203141;border-radius:6px;background:#08121b;display:flex;align-items:center;gap:6px;padding:0 10px;color:#7e8d9e}.inputBox input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:#eef5fb;font-size:14px;font-weight:700}.inputBox input::placeholder{color:#516172}.hiddenField{display:none}.hiddenField.show{display:block}.amount{height:44px;border:1px solid #203141;border-radius:6px;background:#08121b;display:flex;align-items:center;justify-content:space-between;padding:0 10px;color:#7e8d9e}.amount b{color:#e8f0f7}.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}.chip{height:30px;border:1px solid #233444;background:#0b1620;border-radius:5px;color:#a8b5c2;font-size:11px}.exec{height:42px;width:100%;border:0;border-radius:6px;background:linear-gradient(90deg,#13bf84,#16d29a);color:#03140d;font-weight:900;margin-top:10px}.exec.sell{background:#dc4b5b;color:#fff}.estimate{display:grid;gap:8px;margin-top:13px}.est{display:flex;justify-content:space-between;color:#8a99a9;font-size:12px}.est b{color:#e4edf5}.infoRow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;color:#8998a8;font-size:12px}.infoRow b{color:#e4edf5}.pos{color:#18d69a!important}.secGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.sec{border:1px solid #1a2a39;background:#0b141d;border-radius:5px;padding:8px}.sec b{display:block;font-size:10px}.status{font-size:9px;margin-top:4px;color:#18d69a;font-weight:900}.warn{color:#f5b94c}.contract{display:flex;justify-content:space-between;align-items:center;margin-top:5px}.copy{border:0;background:none;color:#8495a7}
 @media(max-width:1100px){.metrics{gap:12px}.metric:nth-child(n+4){display:none}.tokenname{min-width:220px}.body{grid-template-columns:minmax(0,1fr) 310px}}
 @media(max-width:850px){.top{padding:0 14px}.searchWrap{max-width:none}.search{display:block}.searchBtn{padding:0 10px}.tokenbar{padding:0 14px}.tokenname{min-width:180px}.metrics{display:none}.body{grid-template-columns:1fr;overflow:auto}.right{overflow:visible}.chartShell{height:620px;min-height:620px}.chartBottomTabs{height:220px}}
@@ -21,8 +21,8 @@
 <section class="tokenbar"><div class="tokenavatar">≋</div><div class="tokenname"><strong id="tokenName">NOVA <span class="verified">●</span></strong><div id="tokenPair" class="pair">NOVA　/　SOLANA　↗　▣</div></div><div class="metrics"><div class="metric"><span>Price</span><b id="mPrice">$0.00245 <em id="mChange" class="pos">+24.8%</em></b></div><div class="metric"><span>Market Cap</span><b id="mMcap">$245K</b></div><div class="metric"><span>Liquidity</span><b id="mLiquidity">$38.4K</b></div><div class="metric"><span>24H Volume</span><b id="mVolume">$182K</b></div><div class="metric"><span>Holders</span><b id="mHolders">—</b></div><div class="metric"><span>ATH</span><b id="mAth">—</b></div></div><button class="star">☆</button><button class="tradeTop">Trade</button></section>
 <div class="body">
 <main class="left">
-<section class="chartShell"><div class="chartTools"><button class="toolbtn">✛</button><div class="divider"></div><button class="toolbtn time">1m</button><button class="toolbtn time">5m</button><button class="toolbtn time active">15m</button><button class="toolbtn time">1h</button><button class="toolbtn time">4h</button><button class="toolbtn time">1D</button><div class="divider"></div><button class="toolbtn">◎</button><button class="toolbtn">◌</button><button class="toolbtn">↶</button><button class="toolbtn">↷</button><div style="margin-left:auto"></div><button class="toolbtn">Save⌄</button><button class="toolbtn">⚙</button><button class="toolbtn">⛶</button><button class="toolbtn">▣</button></div>
-<div class="chartWrap"><div id="chart" class="chartCanvas"></div><div class="chartInfo"><b>NOVA/SOL</b> · Raydium　<span class="greenTxt">●</span>　<span>0.00242</span> <span class="redTxt">H0.00246</span> <span class="redTxt">L0.00239</span> <span class="greenTxt">C0.00245</span> <span class="greenTxt">+0.00003 (+1.24%)</span><div class="vol">Volume　<span class="greenTxt">12.8K</span></div></div><div class="chartRightTools"><button class="rt">+</button><button class="rt">−</button><button class="rt">↕</button><button class="rt">%</button><button class="rt">⛶</button></div><div class="bottomTime"><span>5y</span><span>1y</span><span>6m</span><span>3m</span><span>1m</span><span>5d</span><span>1d</span><span>▣</span><span style="margin-left:auto">17:24:31 (UTC)</span><span>%</span><span>log</span><span style="color:#4ea2ff">auto</span></div></div></section>
+<section class="chartShell"><div class="chartTools"><button class="toolbtn">✛</button><div class="divider"></div><button class="toolbtn time">1s</button><button class="toolbtn time">5s</button><button class="toolbtn time">10s</button><button class="toolbtn time">30s</button><button class="toolbtn time">1m</button><button class="toolbtn time">5m</button><button class="toolbtn time active">15m</button><button class="toolbtn time">1h</button><button class="toolbtn time">4h</button><button class="toolbtn time">1D</button><div class="divider"></div><button class="toolbtn">◎</button><button class="toolbtn">◌</button><button class="toolbtn">↶</button><button class="toolbtn">↷</button><div style="margin-left:auto"></div><button class="toolbtn">Save⌄</button><button class="toolbtn">⚙</button><button class="toolbtn">⛶</button><button class="toolbtn">▣</button></div>
+<div class="chartWrap"><div id="chart" class="chartCanvas"></div><div id="liveChartBadge" class="liveChartBadge">PRICE <b id="liveChartPrice">—</b><span>MC <b id="liveChartMc">—</b></span></div><div class="chartInfo"><b>NOVA/SOL</b> · Raydium　<span class="greenTxt">●</span>　<span>0.00242</span> <span class="redTxt">H0.00246</span> <span class="redTxt">L0.00239</span> <span class="greenTxt">C0.00245</span> <span class="greenTxt">+0.00003 (+1.24%)</span><div class="vol">Volume　<span class="greenTxt">12.8K</span></div></div><div class="chartRightTools"><button class="rt">+</button><button class="rt">−</button><button class="rt">↕</button><button class="rt">%</button><button class="rt">⛶</button></div><div class="bottomTime"><span>5y</span><span>1y</span><span>6m</span><span>3m</span><span>1m</span><span>5d</span><span>1d</span><span>▣</span><span style="margin-left:auto">17:24:31 (UTC)</span><span>%</span><span>log</span><span style="color:#4ea2ff">auto</span></div></div></section>
 <section class="chartBottomTabs"><div class="tabs"><button class="tab active">TRADERS</button><button class="tab">TRADES</button><button class="tab">HOLDERS</button><button class="tab">CALLOUTS</button></div><div class="tableHead"><span>TRADER</span><span>ACTION</span><span>ENTRY MC</span><span>CURRENT / EXIT MC</span><span>PNL</span><span>TIME</span></div><div class="tableRow"><span>@NovaHunter</span><span class="tagBuy">BUY</span><span>$82K</span><span>$245K</span><span class="greenTxt">+198%</span><span>4m</span></div><div class="tableRow"><span>@KexTrader</span><span class="tagBuy">BUY</span><span>$115K</span><span>$245K</span><span class="greenTxt">+113%</span><span>8m</span></div><div class="tableRow"><span>@AlphaSol</span><span class="tagSell">SELL</span><span>$71K</span><span>$211K</span><span class="greenTxt">+197%</span><span>12m</span></div></section>
 </main>
 <aside class="right">
@@ -39,217 +39,38 @@
 (function(){
 'use strict';
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-/* KEXIUM LIVE SOLANA TOKEN DATA — DexScreener public API.
-   This is intentionally isolated from the existing wallet/chart logic. */
+/* KEXIUM LIVE SOLANA TOKEN DATA — isolated from wallet integration. */
 const DEX_API='https://api.dexscreener.com/latest/dex/search?q=';
-let LIVE_TOKEN=null;
+const DEX_TOKEN_API='https://api.dexscreener.com/latest/dex/tokens/';
+const TOKEN_STORAGE='kexium_selected_token_v3';
+let LIVE_TOKEN=null, livePoll=null, shortBars=[];
+function money(v){if(!Number.isFinite(Number(v)))return '—';const n=Number(v),a=Math.abs(n);if(a>=1e9)return '$'+(n/1e9).toFixed(2)+'B';if(a>=1e6)return '$'+(n/1e6).toFixed(2)+'M';if(a>=1e3)return '$'+(n/1e3).toFixed(1)+'K';if(a>=1)return '$'+n.toFixed(2);if(a>=.01)return '$'+n.toFixed(4);return '$'+n.toPrecision(4)}
+function num(v){return Number.isFinite(Number(v))?Number(v).toLocaleString(undefined,{maximumFractionDigits:0}):'—'}
+function shortAddress(a){return a&&a.length>12?a.slice(0,6)+'…'+a.slice(-6):(a||'—')}
+function setText(id,v){const e=document.getElementById(id);if(e)e.textContent=v}
+function setChange(id,v){const e=document.getElementById(id);if(!e)return;const n=Number(v);e.textContent=Number.isFinite(n)?(n>=0?'+':'')+n.toFixed(2)+'%':'—';e.classList.toggle('pos',n>=0);e.classList.toggle('redTxt',n<0)}
+function selectSolanaPair(pairs){const a=(pairs||[]).filter(p=>p?.chainId==='solana'&&p?.baseToken?.address);a.sort((x,y)=>(Number(y?.liquidity?.usd)||0)-(Number(x?.liquidity?.usd)||0));return a[0]||null}
+function saveSelected(pair){try{localStorage.setItem(TOKEN_STORAGE,JSON.stringify({address:pair?.baseToken?.address,pairAddress:pair?.pairAddress,dexId:pair?.dexId}))}catch(e){}}
+function savedAddress(){try{return JSON.parse(localStorage.getItem(TOKEN_STORAGE)||'null')?.address||null}catch(e){return null}}
+function formatAge(ms){const mins=Math.max(0,Math.floor((Date.now()-Number(ms))/60000));if(mins<60)return mins+'m';const h=Math.floor(mins/60);if(h<24)return h+'h '+mins%60+'m';return Math.floor(h/24)+'d'}
+function applyPair(pair){if(!pair)return;LIVE_TOKEN=pair;saveSelected(pair);const base=pair.baseToken||{},sym=base.symbol||base.name||'TOKEN',quote=pair.quoteToken?.symbol||'SOL',price=Number(pair.priceUsd),ch=Number(pair.priceChange?.h24),mc=Number(pair.marketCap||pair.fdv),liq=Number(pair.liquidity?.usd),vol=Number(pair.volume?.h24),tx=pair.txns?.h24||{};setText('tokenName',sym);setText('tokenPair',sym+'　/　'+quote+'　↗　▣');setText('mPrice',money(price));setChange('mChange',ch);setText('mMcap',money(mc));setText('mLiquidity',money(liq));setText('mVolume',money(vol));setText('iPrice',money(price));setChange('iChange',ch);setText('iMcap',money(mc));setText('iLiquidity',money(liq));setText('contractAddress',shortAddress(base.address));setText('sVolume',money(vol));setText('s5m',money(pair.volume?.m5));setText('s1h',money(pair.volume?.h1));setText('sBuys',num(tx.buys));setText('sSells',num(tx.sells));setText('sRatio',Number(tx.sells)>0?(Number(tx.buys)/Number(tx.sells)).toFixed(2):Number(tx.buys)>0?'∞':'—');setText('pDex',pair.dexId||'—');setText('pPair',sym+' / '+quote);setText('pAge',pair.pairCreatedAt?formatAge(pair.pairCreatedAt):'—');document.title='KEXIUM — Trade '+sym;const info=document.querySelector('.chartInfo');if(info){const b=info.querySelector('b');if(b)b.textContent=sym+'/'+quote;const spans=info.querySelectorAll('span');if(spans[1]&&Number.isFinite(price))spans[1].textContent=price}setText('liveChartPrice',money(price));setText('liveChartMc',money(mc));const exec=document.getElementById('exec');if(exec)exec.textContent=(typeof side==='undefined'||side==='buy'?'BUY ':'SELL ')+sym;if(triggerInput&&Number.isFinite(price))triggerInput.value=price;if(typeof refreshOrder==='function')refreshOrder();const search=document.getElementById('tokenSearch');if(search)search.value=base.address||sym;if(typeof updateCurrentCandle==='function')updateCurrentCandle(price,Number(pair.volume?.m5)||0)}
+async function fetchPair(query){const q=String(query||'').trim();if(!q)return null;const isMint=/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(q),url=(isMint?DEX_TOKEN_API:DEX_API)+encodeURIComponent(q),r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('DexScreener HTTP '+r.status);const j=await r.json();return selectSolanaPair(j?.pairs||[])}
+async function loadLiveToken(query,remember=true){const q=String(query||'').trim();if(!q)return;const search=document.getElementById('tokenSearch'),btn=document.getElementById('tokenSearchBtn');if(search)search.disabled=true;if(btn){btn.disabled=true;btn.textContent='Loading…'}try{const pair=await fetchPair(q);if(!pair)throw new Error('No Solana pair found for "'+q+'".');applyPair(pair);if(remember)saveSelected(pair);await loadLiveChart(pair);startLivePolling()}catch(e){console.error(e);alert('KEXIUM could not load live Solana token data.\n\n'+e.message)}finally{if(search)search.disabled=false;if(btn){btn.disabled=false;btn.textContent='Search'}}}
+async function refreshLivePair(){if(!LIVE_TOKEN?.baseToken?.address)return;try{const pair=await fetchPair(LIVE_TOKEN.baseToken.address);if(pair){const old=LIVE_TOKEN.pairAddress;applyPair(pair);if(old!==pair.pairAddress)await loadLiveChart(pair)}}catch(e){console.warn('KEXIUM 2s refresh failed',e)}}
+function startLivePolling(){if(livePoll)clearInterval(livePoll);livePoll=setInterval(refreshLivePair,2000)}
+const tokenSearch=document.getElementById('tokenSearch'),tokenSearchBtn=document.getElementById('tokenSearchBtn');tokenSearchBtn?.addEventListener('click',()=>loadLiveToken(tokenSearch?.value,true));tokenSearch?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();loadLiveToken(tokenSearch.value,true)}});
+const chartEl=$('#chart');let chart,candles,volume,data=[],baseData=[];
+function makeChart(){if(!window.LightweightCharts||!chartEl)return;chart=LightweightCharts.createChart(chartEl,{width:chartEl.clientWidth,height:chartEl.clientHeight,layout:{background:{type:'solid',color:'#071019'},textColor:'#8290a0'},grid:{vertLines:{color:'#12202d'},horzLines:{color:'#12202d'}},rightPriceScale:{borderColor:'#1b2b3a',scaleMargins:{top:.08,bottom:.22}},timeScale:{borderColor:'#1b2b3a',timeVisible:true,secondsVisible:true},crosshair:{mode:LightweightCharts.CrosshairMode.Normal},handleScroll:true,handleScale:true});candles=chart.addCandlestickSeries({upColor:'#18d69a',downColor:'#ef5365',borderVisible:false,wickUpColor:'#18d69a',wickDownColor:'#ef5365'});volume=chart.addHistogramSeries({priceFormat:{type:'volume'},priceScaleId:'volume',color:'rgba(24,214,154,.45)'});volume.priceScale().applyOptions({scaleMargins:{top:.82,bottom:0}});let t=Math.floor(Date.now()/1000)-150*900,p=.00175;for(let i=0;i<150;i++){let o=p,dr=(Math.random()-.43)*.000065;p=Math.max(.000001,p+dr);let c=p,h=Math.max(o,c)+Math.random()*.000045,l=Math.min(o,c)-Math.random()*.000045;data.push({time:t+i*900,open:o,high:h,low:l,close:c,volume:2500+Math.random()*14000})}baseData=data.slice();candles.setData(baseData);volume.setData(baseData.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();new ResizeObserver(()=>chart.applyOptions({width:chartEl.clientWidth,height:chartEl.clientHeight})).observe(chartEl)}
+const LIVE_CHART_API='https://api.geckoterminal.com/api/v2/networks/solana/pools/';function chartRequest(tf){if(tf==='1m')return{interval:'minute',aggregate:1};if(tf==='5m')return{interval:'minute',aggregate:5};if(tf==='15m')return{interval:'minute',aggregate:15};if(tf==='1h')return{interval:'hour',aggregate:1};if(tf==='4h')return{interval:'hour',aggregate:4};return{interval:'day',aggregate:1}}
+async function fetchLiveOHLCV(pair,tf){const pool=pair?.pairAddress;if(!pool)throw new Error('This token pair has no pool address for chart data.');const cfg=chartRequest(tf),url=LIVE_CHART_API+encodeURIComponent(pool)+'/ohlcv/'+cfg.interval+'?aggregate='+cfg.aggregate+'&limit=500&currency=usd',r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('Live chart HTTP '+r.status);const j=await r.json(),rows=j?.data?.attributes?.ohlcv_list;if(!Array.isArray(rows)||!rows.length)throw new Error('No live candle history returned for this pool.');return rows.map(x=>({time:Number(x[0]),open:Number(x[1]),high:Number(x[2]),low:Number(x[3]),close:Number(x[4]),volume:Number(x[5])})).filter(x=>[x.time,x.open,x.high,x.low,x.close,x.volume].every(Number.isFinite)).sort((a,b)=>a.time-b.time)}
+function tfSeconds(tf){return({'1s':1,'5s':5,'10s':10,'30s':30,'1m':60,'5m':300,'15m':900,'1h':3600,'4h':14400,'1D':86400})[tf]||900}function isShort(tf){return ['1s','5s','10s','30s'].includes(tf)}function currentTf(){return document.querySelector('.time.active')?.textContent?.trim()||'15m'}
+function updateCurrentCandle(price,vol){if(!candles||!Number.isFinite(price)||!LIVE_TOKEN)return;const tf=currentTf(),step=tfSeconds(tf),bucket=Math.floor(Date.now()/1000/step)*step;if(isShort(tf)){let b=shortBars[shortBars.length-1];if(!b||b.time!==bucket){b={time:bucket,open:price,high:price,low:price,close:price,volume:vol};shortBars.push(b);if(shortBars.length>180)shortBars.shift()}else{b.high=Math.max(b.high,price);b.low=Math.min(b.low,price);b.close=price;b.volume=vol}candles.setData(shortBars.map(x=>({time:x.time,open:x.open,high:x.high,low:x.low,close:x.close})));volume.setData(shortBars.map(x=>({time:x.time,value:x.volume||0,color:x.close>=x.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();return}if(!baseData.length)return;let b=baseData[baseData.length-1];if(b.time===bucket){b.high=Math.max(b.high,price);b.low=Math.min(b.low,price);b.close=price;b.volume=vol||b.volume;candles.update({time:b.time,open:b.open,high:b.high,low:b.low,close:b.close});volume.update({time:b.time,value:b.volume,color:b.close>=b.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})}}
+async function loadLiveChart(pair){if(!chart||!candles||!volume)return;const tf=currentTf();shortBars=[];if(isShort(tf)){const price=Number(pair?.priceUsd);if(Number.isFinite(price)){const step=tfSeconds(tf),bar={time:Math.floor(Date.now()/1000/step)*step,open:price,high:price,low:price,close:price,volume:Number(pair?.volume?.m5)||0};shortBars=[bar];candles.setData(shortBars);volume.setData(shortBars.map(d=>({time:d.time,value:d.volume,color:'rgba(24,214,154,.42)'})));chart.timeScale().fitContent()}return}try{const rows=await fetchLiveOHLCV(pair,tf);baseData=rows;data=rows.slice();candles.setData(rows.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(rows.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();const last=rows[rows.length-1],first=rows[0],info=document.querySelector('.chartInfo');if(info&&last){const spans=info.querySelectorAll('span');if(spans[1])spans[1].textContent=last.close;if(spans[2])spans[2].textContent='H'+last.high;if(spans[3])spans[3].textContent='L'+last.low;if(spans[4])spans[4].textContent='C'+last.close;if(spans[5]){const pct=first?.close?((last.close-first.close)/first.close)*100:0;spans[5].textContent=(pct>=0?'+':'')+(last.close-first.close).toPrecision(5)+' ('+(pct>=0?'+':'')+pct.toFixed(2)+'%)'}const v=info.querySelector('.vol span');if(v)v.textContent=money(last.volume).replace('$','')}}catch(e){console.warn('KEXIUM live chart failed:',e)}}
+makeChart();$$('.time').forEach(b=>b.addEventListener('click',async()=>{$$('.time').forEach(x=>x.classList.remove('active'));b.classList.add('active');shortBars=[];if(LIVE_TOKEN)await loadLiveChart(LIVE_TOKEN);else applyTf(b.textContent.trim())}));
+function aggregate(tf){const step=tfSeconds(tf),m=new Map();baseData.forEach(d=>{const t=Math.floor(d.time/step)*step;if(!m.has(t))m.set(t,{time:t,open:d.open,high:d.high,low:d.low,close:d.close,volume:0});const x=m.get(t);x.high=Math.max(x.high,d.high);x.low=Math.min(x.low,d.low);x.close=d.close;x.volume+=d.volume});return [...m.values()]}
+function applyTf(tf){if(isShort(tf)){shortBars=[];if(LIVE_TOKEN)updateCurrentCandle(Number(LIVE_TOKEN.priceUsd),Number(LIVE_TOKEN.volume?.m5)||0);return}const a=aggregate(tf);candles.setData(a.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(a.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent()}
+$('#fitBtn')?.addEventListener('click',()=>chart?.timeScale().fitContent());$('#resetBtn')?.addEventListener('click',()=>chart?.priceScale('right').applyOptions({autoScale:true}));$('#zoomIn')?.addEventListener('click',()=>chart?.timeScale().applyOptions({barSpacing:12}));$('#zoomOut')?.addEventListener('click',()=>chart?.timeScale().applyOptions({barSpacing:5}));$('#fullBtn')?.addEventListener('click',()=>document.querySelector('.chartShell')?.requestFullscreen?.());$('#priceScale')?.addEventListener('click',()=>chart?.priceScale('right').applyOptions({autoScale:true}));$('#percentScale')?.addEventListener('click',()=>chart?.applyOptions({rightPriceScale:{mode:1}}));
 
-function money(v){
-  if(!Number.isFinite(Number(v))) return '—';
-  const n=Number(v), a=Math.abs(n);
-  if(a>=1e9)return '$'+(n/1e9).toFixed(2)+'B';
-  if(a>=1e6)return '$'+(n/1e6).toFixed(2)+'M';
-  if(a>=1e3)return '$'+(n/1e3).toFixed(1)+'K';
-  if(a>=1)return '$'+n.toFixed(2);
-  if(a>=.01)return '$'+n.toFixed(4);
-  return '$'+n.toPrecision(4);
-}
-function num(v){
-  if(!Number.isFinite(Number(v))) return '—';
-  return Number(v).toLocaleString(undefined,{maximumFractionDigits:0});
-}
-function shortAddress(a){
-  return a&&a.length>12 ? a.slice(0,6)+'…'+a.slice(-6) : (a||'—');
-}
-function setText(id,value){const e=document.getElementById(id);if(e)e.textContent=value;}
-function setChange(id,value){
-  const e=document.getElementById(id);if(!e)return;
-  const n=Number(value);
-  e.textContent=Number.isFinite(n)?((n>=0?'+':'')+n.toFixed(2)+'%'):'—';
-  e.classList.toggle('pos',n>=0);e.classList.toggle('redTxt',n<0);
-}
-function selectSolanaPair(pairs){
-  const sol=pairs.filter(p=>p?.chainId==='solana' && p?.baseToken?.address);
-  sol.sort((a,b)=>(Number(b?.liquidity?.usd)||0)-(Number(a?.liquidity?.usd)||0));
-  return sol[0]||null;
-}
-async function loadLiveToken(query){
-  const q=String(query||'').trim();
-  if(!q)return;
-  const search=document.getElementById('tokenSearch');
-  if(search)search.disabled=true;
-  try{
-    const r=await fetch(DEX_API+encodeURIComponent(q),{cache:'no-store'});
-    if(!r.ok)throw new Error('DexScreener HTTP '+r.status);
-    const j=await r.json();
-    const pair=selectSolanaPair(Array.isArray(j?.pairs)?j.pairs:[]);
-    if(!pair)throw new Error('No Solana pair found for "'+q+'".');
-    LIVE_TOKEN=pair;
-
-    const base=pair.baseToken||{}, tx=pair.txns?.h24||{};
-    const price=Number(pair.priceUsd), change=Number(pair.priceChange?.h24);
-    const liq=Number(pair.liquidity?.usd), vol=Number(pair.volume?.h24);
-    const mc=Number(pair.marketCap||pair.fdv);
-
-    setText('tokenName',base.symbol||base.name||'TOKEN');
-    setText('tokenPair',(base.symbol||'TOKEN')+'　/　'+(pair.quoteToken?.symbol||'SOL')+'　↗　▣');
-    setText('mPrice',Number.isFinite(price)?money(price):'—');
-    setText('mChange',Number.isFinite(change)?((change>=0?'+':'')+change.toFixed(2)+'%'):'—');const mCh=document.getElementById('mChange');if(mCh){mCh.classList.toggle('pos',change>=0);mCh.classList.toggle('redTxt',change<0);}
-    setText('mMcap',money(mc));
-    setText('mLiquidity',money(liq));
-    setText('mVolume',money(vol));
-    setText('mHolders','—');
-    setText('mAth','—');
-
-    setText('iPrice',Number.isFinite(price)?money(price):'—');
-    setChange('iChange',change);
-    setText('iMcap',money(mc));
-    setText('iLiquidity',money(liq));
-    setText('iAth','—');
-    setText('iHolders','—');
-    setText('contractAddress',shortAddress(base.address));
-
-    setText('sVolume',money(vol));
-    setText('s5m',money(Number(pair.volume?.m5)));
-    setText('s1h',money(Number(pair.volume?.h1)));
-    setText('sBuys',num(tx.buys));
-    setText('sSells',num(tx.sells));
-    const buys=Number(tx.buys),sells=Number(tx.sells);
-    setText('sRatio',buys>=0&&sells>0?(buys/sells).toFixed(2):(sells===0&&buys>0?'∞':'—'));
-
-    setText('pDex',pair.dexId||'—');
-    setText('pLiquidity',money(liq));
-    setText('pPair',(base.symbol||'TOKEN')+' / '+(pair.quoteToken?.symbol||'SOL'));
-    setText('pAge',pair.pairCreatedAt?formatAge(pair.pairCreatedAt):'—');
-
-    document.title='KEXIUM — Trade '+(base.symbol||base.name||'Token');
-    const info=document.querySelector('.chartInfo');
-    if(info){
-      const b=info.querySelector('b');
-      if(b)b.textContent=(base.symbol||'TOKEN')+'/'+(pair.quoteToken?.symbol||'SOL');
-      const spans=info.querySelectorAll('span');
-      if(spans[1]&&Number.isFinite(price))spans[1].textContent=price;
-    }
-
-    const exec=document.getElementById('exec');
-    if(exec)exec.textContent=(typeof side==='undefined'||side==='buy'?'BUY ':'SELL ')+(base.symbol||'TOKEN');
-    if(triggerInput&&Number.isFinite(price))triggerInput.value=price;
-    if(typeof amountInput!=='undefined' && typeof refreshOrder==='function')refreshOrder();
-
-    if(search)search.value=base.symbol||base.address||q;
-    document.querySelectorAll('.tabsBody td, .tabBody td').forEach(el=>{if(el.textContent.trim()==='NOVA')el.textContent=base.symbol||'TOKEN';});
-    await loadLiveChart(pair);
-    console.log('KEXIUM live Solana token:',pair);
-  }catch(e){
-    console.error('KEXIUM live token data failed:',e);
-    alert('KEXIUM could not load live Solana token data.\n\n'+e.message);
-  }finally{
-    if(search)search.disabled=false;
-  }
-}
-function formatAge(ms){
-  const mins=Math.max(0,Math.floor((Date.now()-Number(ms))/60000));
-  if(mins<60)return mins+'m';
-  const h=Math.floor(mins/60);
-  if(h<24)return h+'h '+(mins%60)+'m';
-  return Math.floor(h/24)+'d '+(h%24)+'h';
-}
-const tokenSearch=document.getElementById('tokenSearch');
-const tokenSearchBtn=document.getElementById('tokenSearchBtn');
-async function submitTokenSearch(){
-  const q=tokenSearch?.value?.trim();
-  if(!q)return;
-  if(tokenSearchBtn){tokenSearchBtn.disabled=true;tokenSearchBtn.textContent='Loading…';}
-  try{await loadLiveToken(q);}finally{if(tokenSearchBtn){tokenSearchBtn.disabled=false;tokenSearchBtn.textContent='Search';}}
-}
-tokenSearch?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitTokenSearch();}});
-tokenSearchBtn?.addEventListener('click',submitTokenSearch);
-window.KEXIUM_LOAD_TOKEN=loadLiveToken;
-
-const chartEl=$('#chart');
-let chart, candles, volume, data=[], baseData=[];
-function makeChart(){
-  if(!window.LightweightCharts||!chartEl)return;
-  chart=LightweightCharts.createChart(chartEl,{width:chartEl.clientWidth,height:chartEl.clientHeight,layout:{background:{type:'solid',color:'#071019'},textColor:'#8290a0'},grid:{vertLines:{color:'#12202d'},horzLines:{color:'#12202d'}},rightPriceScale:{borderColor:'#1b2b3a',scaleMargins:{top:.08,bottom:.22}},timeScale:{borderColor:'#1b2b3a',timeVisible:true,secondsVisible:false},crosshair:{mode:LightweightCharts.CrosshairMode.Normal},handleScroll:true,handleScale:true});
-  candles=chart.addCandlestickSeries({upColor:'#18d69a',downColor:'#ef5365',borderVisible:false,wickUpColor:'#18d69a',wickDownColor:'#ef5365'});
-  volume=chart.addHistogramSeries({priceFormat:{type:'volume'},priceScaleId:'volume',color:'rgba(24,214,154,.45)'});
-  volume.priceScale().applyOptions({scaleMargins:{top:.82,bottom:0}});
-  let t=Math.floor(Date.now()/1000)-150*900,p=.00175;
-  for(let i=0;i<150;i++){let o=p,dr=(Math.random()-.43)*.000065+(i>90?.000006:0);p=Math.max(.00125,p+dr);let c=p,h=Math.max(o,c)+Math.random()*.000045,l=Math.min(o,c)-Math.random()*.000045;data.push({time:t+i*900,open:o,high:h,low:l,close:c});}
-  data.forEach(d=>d.volume=2500+Math.random()*14000);
-  baseData=data.slice();
-  candles.setData(baseData);
-  volume.setData(baseData.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));
-  chart.timeScale().fitContent();
-  new ResizeObserver(()=>chart.applyOptions({width:chartEl.clientWidth,height:chartEl.clientHeight})).observe(chartEl);
-}
-
-const LIVE_CHART_API='https://api.geckoterminal.com/api/v2/networks/solana/pools/';
-function chartRequest(tf){
-  if(tf==='1m')return {interval:'minute',aggregate:1};
-  if(tf==='5m')return {interval:'minute',aggregate:5};
-  if(tf==='15m')return {interval:'minute',aggregate:15};
-  if(tf==='1h')return {interval:'hour',aggregate:1};
-  if(tf==='4h')return {interval:'hour',aggregate:4};
-  return {interval:'day',aggregate:1};
-}
-async function fetchLiveOHLCV(pair,tf){
-  const pool=pair?.pairAddress;
-  if(!pool)throw new Error('This token pair has no pool address for chart data.');
-  const cfg=chartRequest(tf);
-  const url=LIVE_CHART_API+encodeURIComponent(pool)+'/ohlcv/'+cfg.interval+'?aggregate='+cfg.aggregate+'&limit=500&currency=usd';
-  const r=await fetch(url,{cache:'no-store'});
-  if(!r.ok)throw new Error('Live chart HTTP '+r.status);
-  const j=await r.json();
-  const rows=j?.data?.attributes?.ohlcv_list;
-  if(!Array.isArray(rows)||!rows.length)throw new Error('No live candle history returned for this pool.');
-  return rows.map(x=>({time:Number(x[0]),open:Number(x[1]),high:Number(x[2]),low:Number(x[3]),close:Number(x[4]),volume:Number(x[5])})).filter(x=>[x.time,x.open,x.high,x.low,x.close,x.volume].every(Number.isFinite)).sort((a,b)=>a.time-b.time);
-}
-async function loadLiveChart(pair){
-  if(!chart||!candles||!volume)return;
-  const active=document.querySelector('.time.active');
-  const tf=active?.textContent?.trim()||'15m';
-  try{
-    const rows=await fetchLiveOHLCV(pair,tf);
-    baseData=rows; data=rows.slice();
-    candles.setData(rows.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));
-    volume.setData(rows.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));
-    chart.timeScale().fitContent();
-    const last=rows[rows.length-1];
-    const first=rows[0];
-    const info=document.querySelector('.chartInfo');
-    if(info&&last){
-      const spans=info.querySelectorAll('span');
-      if(spans[1])spans[1].textContent=last.close;
-      if(spans[2])spans[2].textContent='H'+last.high;
-      if(spans[3])spans[3].textContent='L'+last.low;
-      if(spans[4])spans[4].textContent='C'+last.close;
-      if(spans[5]){
-        const pct=first?.close?((last.close-first.close)/first.close)*100:0;
-        spans[5].textContent=(pct>=0?'+':'')+(last.close-first.close).toPrecision(5)+' ('+(pct>=0?'+':'')+pct.toFixed(2)+'%)';
-      }
-      const vol=info.querySelector('.vol span');if(vol)vol.textContent=money(last.volume).replace('$','');
-    }
-    window.KEXIUM_LIVE_CHART={pairAddress:pair.pairAddress,timeframe:tf,updatedAt:Date.now()};
-  }catch(e){
-    console.warn('KEXIUM live chart failed:',e);
-    // Keep the existing chart visible rather than breaking the working page.
-  }
-}
-
-makeChart();
-
-function tfSeconds(tf){return ({'1m':60,'5m':300,'15m':900,'1h':3600,'4h':14400,'1D':86400})[tf]||900;}
-function aggregate(tf){const step=tfSeconds(tf),m=new Map();baseData.forEach(d=>{const t=Math.floor(d.time/step)*step;if(!m.has(t))m.set(t,{time:t,open:d.open,high:d.high,low:d.low,close:d.close,volume:0});const x=m.get(t);x.high=Math.max(x.high,d.high);x.low=Math.min(x.low,d.low);x.close=d.close;x.volume+=d.volume;});return [...m.values()];}
-function applyTf(tf){const a=aggregate(tf);candles.setData(a.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(a.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();const info=document.querySelector('.chartInfo');if(info){const b=info.querySelector('b');if(b&&b.nextSibling)b.nextSibling.textContent=' · '+tf+' · Raydium';}}
-$$('.time').forEach(b=>b.addEventListener('click',async()=>{$$('.time').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(LIVE_TOKEN)await loadLiveChart(LIVE_TOKEN);else applyTf(b.textContent.trim());}));
-$('#fitBtn')?.addEventListener('click',()=>chart?.timeScale().fitContent());
-$('#resetBtn')?.addEventListener('click',()=>chart?.priceScale('right').applyOptions({autoScale:true}));
-$('#zoomIn')?.addEventListener('click',()=>chart?.timeScale().applyOptions({barSpacing:12}));
-$('#zoomOut')?.addEventListener('click',()=>chart?.timeScale().applyOptions({barSpacing:5}));
-$('#fullBtn')?.addEventListener('click',()=>document.querySelector('.chartShell')?.requestFullscreen?.());
-$('#priceScale')?.addEventListener('click',()=>chart?.priceScale('right').applyOptions({autoScale:true}));
-$('#percentScale')?.addEventListener('click',()=>chart?.applyOptions({rightPriceScale:{mode:1}}));
 const PHANTOM_WALLET_STORAGE='kexium_phantom_wallet_v1';
 function saveWalletState(publicKey){
 try{localStorage.setItem(PHANTOM_WALLET_STORAGE,JSON.stringify({publicKey,connected:true,updatedAt:Date.now()}));}catch(e){}
@@ -389,9 +210,12 @@ if(saved){try{const state=JSON.parse(saved);if(state?.publicKey)await kexiumHand
 window.addEventListener('load',kexiumRestoreWallet);
 window.addEventListener('load',()=>{
   const q=new URLSearchParams(location.search).get('token');
-  if(q)loadLiveToken(q);
-  else loadLiveToken('NOVA');
+  const saved=savedAddress();
+  if(q)loadLiveToken(q,true);
+  else if(saved)loadLiveToken(saved,false);
+  else loadLiveToken('NOVA',false);
 });
+setInterval(()=>{if(LIVE_TOKEN)refreshLivePair()},2000);
 
 
 $('#tradeTop')?.addEventListener('click',()=>document.querySelector('.right')?.scrollTo({top:0,behavior:'smooth'}));
@@ -408,7 +232,7 @@ function refreshOrder(){const livePrice=Number(LIVE_TOKEN?.priceUsd);const price
 $$('.orderTab').forEach(b=>b.addEventListener('click',()=>{$$('.orderTab').forEach(x=>x.classList.remove('active'));b.classList.add('active');orderType=b.dataset.order;refreshOrder();}));
 $$('.chip').forEach(b=>b.addEventListener('click',()=>{amountInput.value=b.textContent.trim();refreshOrder();}));
 amountInput.addEventListener('input',refreshOrder);triggerInput.addEventListener('input',refreshOrder);
-exec?.addEventListener('click',()=>alert('Demo trade only — real Solana execution will be connected after wallet integration.'));
+exec?.addEventListener('click',()=>alert(getSavedWallet()?'KEXIUM live swap execution is not enabled on this page yet. Your Phantom wallet is connected. The next layer will request a real Jupiter quote, show route, slippage and fees, then ask Phantom to sign before sending the transaction. No funds are moved by this button yet.':'Connect your Phantom wallet first.'));
 
 const tabRows={
 TRADERS:[['@NovaHunter','BUY','$82K','$245K','+198%','4m'],['@KexTrader','BUY','$115K','$245K','+113%','8m'],['@AlphaSol','SELL','$71K','$211K','+197%','12m']],
