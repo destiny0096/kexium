@@ -17,7 +17,7 @@
 </head>
 <body>
 <div class="app">
-<header class="top"><div class="brand">KEXIUM</div><div class="searchWrap"><input id="tokenSearch" class="search" placeholder="⌕  Search Solana token or paste mint address..."><button id="tokenSearchBtn" class="searchBtn" type="button">Search</button></div><div class="toplinks"><button class="topicon">☆</button><button class="topicon">⚙</button><button id="walletBtn" class="wallet" aria-live="polite">▣ &nbsp; Connect Wallet</button></div></header>
+<header class="top"><div class="brand">KEXIUM</div><div class="searchWrap"><input id="tokenSearch" class="search" type="search" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Search Solana token or paste mint address" placeholder="⌕  Search Solana token or paste mint address..."><button id="tokenSearchBtn" class="searchBtn" type="button">Search</button></div><div class="toplinks"><button class="topicon">☆</button><button class="topicon">⚙</button><button id="walletBtn" class="wallet" aria-live="polite">▣ &nbsp; Connect Wallet</button></div></header>
 <section class="tokenbar"><div class="tokenavatar">≋</div><div class="tokenname"><strong id="tokenName">NOVA <span class="verified">●</span></strong><div id="tokenPair" class="pair">NOVA　/　SOLANA　↗　▣</div></div><div class="metrics"><div class="metric"><span>Price</span><b id="mPrice">$0.00245 <em id="mChange" class="pos">+24.8%</em></b></div><div class="metric"><span>Market Cap</span><b id="mMcap">$245K</b></div><div class="metric"><span>Liquidity</span><b id="mLiquidity">$38.4K</b></div><div class="metric"><span>24H Volume</span><b id="mVolume">$182K</b></div><div class="metric"><span>Holders</span><b id="mHolders">—</b></div><div class="metric"><span>ATH</span><b id="mAth">—</b></div></div><button class="star">☆</button><button class="tradeTop">Trade</button></section>
 <div class="body">
 <main class="left">
@@ -44,7 +44,7 @@ const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll
 const DEX_API='https://api.dexscreener.com/latest/dex/search?q=';
 const DEX_TOKEN_API='https://api.dexscreener.com/latest/dex/tokens/';
 const KEXIUM_TOKEN_STORAGE='kexium_selected_token_v2';
-let LIVE_TOKEN=null,shortTfTimer=null,shortTfBars=[],marketRefreshTimer=null,lastHolderCount=null,lastObservedAth=null,lastTop10Share=null,marketRefreshBusy=false;
+let LIVE_TOKEN=null,shortTfTimer=null,shortTfBars=[],marketRefreshTimer=null,lastHolderCount=null,lastObservedAth=null,lastTop10Share=null,marketRefreshBusy=false,tokenSelectionGeneration=0;
 function money(v){if(!Number.isFinite(Number(v)))return '—';const n=Number(v),a=Math.abs(n);if(a>=1e9)return '$'+(n/1e9).toFixed(2)+'B';if(a>=1e6)return '$'+(n/1e6).toFixed(2)+'M';if(a>=1e3)return '$'+(n/1e3).toFixed(1)+'K';if(a>=1)return '$'+n.toFixed(2);if(a>=.01)return '$'+n.toFixed(4);return '$'+n.toPrecision(4);}
 function num(v){if(!Number.isFinite(Number(v)))return '—';return Number(v).toLocaleString(undefined,{maximumFractionDigits:0});}
 function shortAddress(a){return a&&a.length>12?a.slice(0,6)+'…'+a.slice(-6):(a||'—');}
@@ -66,10 +66,40 @@ setText('sVolume',money(vol));setText('s5m',money(pair.volume?.m5));setText('s1h
 setText('pDex',pair.dexId||'—');setText('pLiquidity',money(liq));setText('pPair',sym+' / '+quote);setText('pAge',pair.pairCreatedAt?formatAge(pair.pairCreatedAt):'—');
 document.title='KEXIUM — Trade '+sym;setText('chartPair',sym+'/'+quote);setText('chartDex',pair.dexId||'—');setText('chartLivePrice',Number.isFinite(price)?price:'—');setText('chartMcap',money(mc));setText('liveCandleBadge','Live price: '+(Number.isFinite(price)?money(price):'—')+' · MC: '+money(mc));
 if(lastHolderCount==null){setText('hTotal','Unavailable');}setText('hTop10',lastTop10Share!=null?lastTop10Share:'Unavailable');if(!document.getElementById('hBundlers')?.dataset.loaded){setText('hBundlers','Unavailable');setText('hInsiders','Unavailable');setText('hSnipers','Unavailable');}
-const exec=document.getElementById('exec');if(exec)exec.textContent=(side==='sell'?'SELL ':'BUY ')+sym;if(triggerInput&&Number.isFinite(price))triggerInput.value=price;if(typeof amountInput!=='undefined'&&typeof refreshOrder==='function')refreshOrder();if(tokenSearch)tokenSearch.value=base.address||sym;}
+const exec=document.getElementById('exec');if(exec)exec.textContent=(side==='sell'?'SELL ':'BUY ')+sym;if(triggerInput&&Number.isFinite(price))triggerInput.value=price;if(typeof amountInput!=='undefined'&&typeof refreshOrder==='function')refreshOrder();}
 function observedAth(rows){if(!Array.isArray(rows)||!rows.length)return null;const highs=rows.map(x=>Number(x.high)).filter(Number.isFinite);return highs.length?Math.max(...highs):null;}
 const tokenSearch=document.getElementById('tokenSearch'),tokenSearchBtn=document.getElementById('tokenSearchBtn');
-async function loadLiveToken(query,remember=true){const q=String(query||'').trim();if(!q)return;if(tokenSearch)tokenSearch.disabled=true;if(tokenSearchBtn){tokenSearchBtn.disabled=true;tokenSearchBtn.textContent='Loading…';}try{let pairs=[];if(/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(q)){const r=await fetch(DEX_TOKEN_API+encodeURIComponent(q),{cache:'no-store'});if(!r.ok)throw new Error('DexScreener token HTTP '+r.status);const j=await r.json();pairs=Array.isArray(j?.pairs)?j.pairs:[];}else{const r=await fetch(DEX_API+encodeURIComponent(q),{cache:'no-store'});if(!r.ok)throw new Error('DexScreener search HTTP '+r.status);const j=await r.json();pairs=Array.isArray(j?.pairs)?j.pairs:[];}const pair=selectSolanaPair(pairs);if(!pair)throw new Error('No Solana pair found for "'+q+'".');LIVE_TOKEN=pair;lastHolderCount=null;lastTop10Share=null;lastObservedAth=null;if(remember)saveSelectedToken(pair);stopShortTf();startMarketRefresh();applyTokenUI(pair);await loadLiveChart(pair);const rows=window.KEXIUM_LIVE_CHART?.rows||[];const ath=observedAth(rows);applyTokenUI(pair,lastHolderCount,ath);setText('hBundlers','Unavailable');setText('hInsiders','Unavailable');setText('hSnipers','Unavailable');console.log('KEXIUM selected Solana token:',pair);(async()=>{let holders=null;try{holders=await fetchHolderEstimate(pair.baseToken.address);}catch(e){}if(holders!=null){lastHolderCount=holders;setText('mHolders',num(holders));setText('iHolders',num(holders));setText('hTotal',num(holders));}else{setText('hTotal','Unavailable');}try{lastTop10Share=await fetchTop10Share(pair.baseToken.address);}catch(e){lastTop10Share=null;}setText('hTop10',lastTop10Share||'Unavailable');})();}catch(e){console.error('KEXIUM live token data failed:',e);alert('KEXIUM could not load live Solana token data.\n\n'+e.message);}finally{if(tokenSearch)tokenSearch.disabled=false;if(tokenSearchBtn){tokenSearchBtn.disabled=false;tokenSearchBtn.textContent='Search';}}}
+async function loadLiveToken(query,remember=true){
+ const q=String(query||'').trim();if(!q)return;
+ const generation=++tokenSelectionGeneration;
+ if(tokenSearchBtn){tokenSearchBtn.disabled=true;tokenSearchBtn.textContent='Searching…';}
+ try{
+  let pairs=[];
+  if(/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(q)){
+   const r=await fetch(DEX_TOKEN_API+encodeURIComponent(q),{cache:'no-store'});if(!r.ok)throw new Error('DexScreener token HTTP '+r.status);const j=await r.json();pairs=Array.isArray(j?.pairs)?j.pairs:[];
+  }else{
+   const r=await fetch(DEX_API+encodeURIComponent(q),{cache:'no-store'});if(!r.ok)throw new Error('DexScreener search HTTP '+r.status);const j=await r.json();pairs=Array.isArray(j?.pairs)?j.pairs:[];
+  }
+  if(generation!==tokenSelectionGeneration)return;
+  const pair=selectSolanaPair(pairs);if(!pair)throw new Error('No Solana pair found for "'+q+'". Try its mint address.');
+  LIVE_TOKEN=pair;lastHolderCount=null;lastTop10Share=null;lastObservedAth=null;stopShortTf();
+  if(remember)saveSelectedToken(pair);
+  applyTokenUI(pair);await loadLiveChart(pair);
+  if(generation!==tokenSelectionGeneration)return;
+  const rows=window.KEXIUM_LIVE_CHART?.rows||[];const ath=observedAth(rows);applyTokenUI(pair,lastHolderCount,ath);
+  setText('hBundlers','Unavailable');setText('hInsiders','Unavailable');setText('hSnipers','Unavailable');
+  startMarketRefresh();
+  console.log('KEXIUM selected Solana token:',pair);
+  // Holder/RPC estimates are deliberately not polled every two seconds; doing so can trigger RPC rate limits.
+  (async()=>{let holders=null;try{holders=await fetchHolderEstimate(pair.baseToken.address);}catch(e){}
+   if(generation!==tokenSelectionGeneration)return;
+   if(holders!=null){lastHolderCount=holders;setText('mHolders',num(holders));setText('iHolders',num(holders));setText('hTotal',num(holders));}else{setText('hTotal','Unavailable');}
+   try{lastTop10Share=await fetchTop10Share(pair.baseToken.address);}catch(e){lastTop10Share=null;}
+   if(generation!==tokenSelectionGeneration)return;setText('hTop10',lastTop10Share||'Unavailable');
+  })();
+ }catch(e){if(generation===tokenSelectionGeneration){console.error('KEXIUM live token data failed:',e);alert('KEXIUM could not load live Solana token data.\n\n'+e.message);}}
+ finally{if(generation===tokenSelectionGeneration&&tokenSearchBtn){tokenSearchBtn.disabled=false;tokenSearchBtn.textContent='Search';}}
+}
 async function submitTokenSearch(){const q=tokenSearch?.value?.trim();if(q)await loadLiveToken(q,true);}
 tokenSearch?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitTokenSearch();}});tokenSearchBtn?.addEventListener('click',submitTokenSearch);window.KEXIUM_LOAD_TOKEN=loadLiveToken;
 const chartEl=$('#chart');let chart,candles,volume,data=[],baseData=[];
@@ -77,13 +107,70 @@ function makeChart(){if(!window.LightweightCharts||!chartEl)return;chart=Lightwe
 const LIVE_CHART_API='https://api.geckoterminal.com/api/v2/networks/solana/pools/';
 function chartRequest(tf){if(tf==='1m')return{interval:'minute',aggregate:1};if(tf==='5m')return{interval:'minute',aggregate:5};if(tf==='15m')return{interval:'minute',aggregate:15};if(tf==='1h')return{interval:'hour',aggregate:1};if(tf==='4h')return{interval:'hour',aggregate:4};return{interval:'day',aggregate:1};}
 async function fetchLiveOHLCV(pair,tf){const pool=pair?.pairAddress;if(!pool)throw new Error('This token pair has no pool address for chart data.');const cfg=chartRequest(tf),url=LIVE_CHART_API+encodeURIComponent(pool)+'/ohlcv/'+cfg.interval+'?aggregate='+cfg.aggregate+'&limit=500&currency=usd';const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('Live chart HTTP '+r.status);const j=await r.json(),rows=j?.data?.attributes?.ohlcv_list;if(!Array.isArray(rows)||!rows.length)throw new Error('No live candle history returned for this pool.');return rows.map(x=>({time:Number(x[0]),open:Number(x[1]),high:Number(x[2]),low:Number(x[3]),close:Number(x[4]),volume:Number(x[5])})).filter(x=>[x.time,x.open,x.high,x.low,x.close,x.volume].every(Number.isFinite)).sort((a,b)=>a.time-b.time);}
-function seedShortTf(pair,tf){const step=shortTfSeconds(tf),price=Number(pair?.priceUsd);if(!step||!Number.isFinite(price)||price<=0)return;const now=Math.floor(Date.now()/1000),bucket=Math.floor(now/step)*step;shortTfBars=[{time:bucket,open:price,high:price,low:price,close:price,volume:Math.max(1,Number(pair.volume?.m5||1)/150)}];candles.setData(shortTfBars.map(x=>({time:x.time,open:x.open,high:x.high,low:x.low,close:x.close})));volume.setData(shortTfBars.map(x=>({time:x.time,value:x.volume,color:'rgba(24,214,154,.42)'})));chart.timeScale().fitContent();}
-async function refreshShortTf(){if(!LIVE_TOKEN||marketRefreshBusy)return;const active=document.querySelector('.time.active'),tf=active?.textContent?.trim()||'1s',step=shortTfSeconds(tf);if(!step)return;marketRefreshBusy=true;try{const p=await fetchPairByAddress(LIVE_TOKEN.baseToken.address);LIVE_TOKEN=p;const price=Number(p.priceUsd);if(!Number.isFinite(price)||price<=0)return;const now=Math.floor(Date.now()/1000),bucket=Math.floor(now/step)*step;let bar=shortTfBars[shortTfBars.length-1];if(!bar||bar.time!==bucket){bar={time:bucket,open:price,high:price,low:price,close:price,volume:Math.max(1,Number(p.volume?.m5||1)/150)};shortTfBars.push(bar);if(shortTfBars.length>300)shortTfBars.shift();}else{bar.high=Math.max(bar.high,price);bar.low=Math.min(bar.low,price);bar.close=price;bar.volume=Math.max(1,Number(p.volume?.m5||1)/150);}candles.setData(shortTfBars.map(x=>({time:x.time,open:x.open,high:x.high,low:x.low,close:x.close})));volume.setData(shortTfBars.map(x=>({time:x.time,value:x.volume,color:x.close>=x.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));setText('chartLivePrice',price);setText('chartMcap',money(Number(p.marketCap||p.fdv)));applyTokenUI(p);window.KEXIUM_LIVE_CHART={pairAddress:p.pairAddress,timeframe:tf,updatedAt:Date.now(),rows:shortTfBars.slice()};}catch(e){console.warn('KEXIUM short timeframe refresh failed',e);}finally{marketRefreshBusy=false;}}
+function seedShortTf(pair,tf){
+ const step=shortTfSeconds(tf),price=Number(pair?.priceUsd);if(!step||!Number.isFinite(price)||price<=0)return;
+ const now=Math.floor(Date.now()/1000),bucket=Math.floor(now/step)*step;
+ // Initial candles are flat at the latest observed live price; future candles are built from subsequent live quotes.
+ shortTfBars=[];for(let i=5;i>=0;i--){const t=bucket-i*step;shortTfBars.push({time:t,open:price,high:price,low:price,close:price,volume:Math.max(1,Number(pair.volume?.m5||1)/150)});}
+ candles.setData(shortTfBars.map(x=>({time:x.time,open:x.open,high:x.high,low:x.low,close:x.close})));
+ volume.setData(shortTfBars.map(x=>({time:x.time,value:x.volume,color:'rgba(24,214,154,.42)'})));
+ chart.timeScale().fitContent();
+}
+async function refreshShortTf(){
+ if(!LIVE_TOKEN||marketRefreshBusy)return;
+ const requestedAddress=LIVE_TOKEN.baseToken.address;
+ const active=document.querySelector('.time.active'),tf=active?.textContent?.trim()||'1s',step=shortTfSeconds(tf);if(!step)return;
+ marketRefreshBusy=true;
+ try{
+  const p=await fetchPairByAddress(requestedAddress);
+  if(!LIVE_TOKEN||LIVE_TOKEN.baseToken.address!==requestedAddress)return;
+  LIVE_TOKEN=p;const price=Number(p.priceUsd);if(!Number.isFinite(price)||price<=0)return;
+  applyTokenUI(p,lastHolderCount,lastObservedAth);
+  const now=Math.floor(Date.now()/1000),bucket=Math.floor(now/step)*step;
+  let bar=shortTfBars[shortTfBars.length-1];
+  if(!bar||bar.time<bucket){bar={time:bucket,open:price,high:price,low:price,close:price,volume:Math.max(1,Number(p.volume?.m5||1)/150)};shortTfBars.push(bar);}
+  else if(bar.time===bucket){bar.high=Math.max(bar.high,price);bar.low=Math.min(bar.low,price);bar.close=price;bar.volume=Math.max(1,Number(p.volume?.m5||1)/150);}
+  // Lightweight Charts requires strictly increasing timestamps; retain only the latest 300 short candles.
+  shortTfBars=shortTfBars.filter((x,i,a)=>i===0||x.time>a[i-1].time).slice(-300);
+  candles.setData(shortTfBars.map(x=>({time:x.time,open:x.open,high:x.high,low:x.low,close:x.close})));
+  volume.setData(shortTfBars.map(x=>({time:x.time,value:x.volume,color:x.close>=x.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));
+  chart.timeScale().scrollToRealTime();
+  setText('chartLivePrice',money(price));setText('chartMcap',money(Number(p.marketCap||p.fdv)));
+  setText('liveCandleBadge','Live price: '+money(price)+' · MC: '+money(Number(p.marketCap||p.fdv)));
+  const info=document.querySelector('.chartInfo');if(info){const spans=info.querySelectorAll('span');if(spans[1])spans[1].textContent=money(price);if(spans[2])spans[2].textContent='H '+money(bar.high);if(spans[3])spans[3].textContent='L '+money(bar.low);if(spans[4])spans[4].textContent='C '+money(price);const vol=info.querySelector('.vol span');if(vol)vol.textContent=String(Math.round(bar.volume));}
+  window.KEXIUM_LIVE_CHART={pairAddress:p.pairAddress,timeframe:tf,updatedAt:Date.now(),rows:shortTfBars.slice()};
+ }catch(e){console.warn('KEXIUM short timeframe refresh failed',e);}finally{marketRefreshBusy=false;}
+}
 function startShortTf(tf){stopShortTf();if(!shortTfSeconds(tf))return;seedShortTf(LIVE_TOKEN,tf);shortTfTimer=setInterval(refreshShortTf,2000);refreshShortTf();}
 async function loadLiveChart(pair){if(!chart||!candles||!volume)return;const active=document.querySelector('.time.active'),tf=active?.textContent?.trim()||'15m';stopShortTf();if(shortTfSeconds(tf)){startShortTf(tf);return;}try{const rows=await fetchLiveOHLCV(pair,tf);baseData=rows;data=rows.slice();candles.setData(rows.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(rows.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();const last=rows[rows.length-1],first=rows[0];setText('chartLivePrice',last?.close??'—');setText('chartMcap',money(Number(pair.marketCap||pair.fdv)));setText('liveCandleBadge','Live price: '+money(Number(pair.priceUsd))+' · MC: '+money(Number(pair.marketCap||pair.fdv)));const info=document.querySelector('.chartInfo');if(info&&last){const spans=info.querySelectorAll('span');if(spans[1])spans[1].textContent=last.close;if(spans[2])spans[2].textContent='H'+last.high;if(spans[3])spans[3].textContent='L'+last.low;if(spans[4])spans[4].textContent='C'+last.close;if(spans[5]){const pct=first?.close?((last.close-first.close)/first.close)*100:0;spans[5].textContent=(pct>=0?'+':'')+(last.close-first.close).toPrecision(5)+' ('+(pct>=0?'+':'')+pct.toFixed(2)+'%)';}const vol=info.querySelector('.vol span');if(vol)vol.textContent=String(last.volume);}window.KEXIUM_LIVE_CHART={pairAddress:pair.pairAddress,timeframe:tf,updatedAt:Date.now(),rows};applyTokenUI(pair,null,observedAth(rows));}catch(e){console.warn('KEXIUM live chart failed:',e);}}
 makeChart();
-async function refreshLiveMarket(){if(!LIVE_TOKEN||marketRefreshBusy)return;marketRefreshBusy=true;try{const p=await fetchPairByAddress(LIVE_TOKEN.baseToken.address);LIVE_TOKEN=p;applyTokenUI(p);const tf=document.querySelector('.time.active')?.textContent?.trim()||'15m';if(!shortTfSeconds(tf)&&candles&&baseData.length){const price=Number(p.priceUsd);if(Number.isFinite(price)&&price>0){const step=tfSeconds(tf),now=Math.floor(Date.now()/1000),bucket=Math.floor(now/step)*step;let last=baseData[baseData.length-1];if(!last||last.time<bucket){last={time:bucket,open:price,high:price,low:price,close:price,volume:Math.max(1,Number(p.volume?.m5||1))};baseData.push(last);}else{last.high=Math.max(last.high,price);last.low=Math.min(last.low,price);last.close=price;last.volume=Math.max(1,Number(p.volume?.m5||last.volume||1));}if(baseData.length>600)baseData=baseData.slice(-600);candles.update({time:last.time,open:last.open,high:last.high,low:last.low,close:last.close});volume.update({time:last.time,value:last.volume,color:last.close>=last.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'});setText('chartLivePrice',price);setText('chartMcap',money(Number(p.marketCap||p.fdv)));setText('liveCandleBadge','Live price: '+money(price)+' · MC: '+money(Number(p.marketCap||p.fdv)));}}}catch(e){console.warn('KEXIUM market refresh failed',e);}finally{marketRefreshBusy=false;}}
-function startMarketRefresh(){if(marketRefreshTimer)clearInterval(marketRefreshTimer);marketRefreshTimer=setInterval(()=>{const tf=document.querySelector('.time.active')?.textContent?.trim()||'15m';if(!shortTfSeconds(tf))refreshLiveMarket();},5000);}
+async function refreshLiveMarket(){
+ if(!LIVE_TOKEN||marketRefreshBusy)return;
+ const requestedAddress=LIVE_TOKEN.baseToken.address;marketRefreshBusy=true;
+ try{
+  const p=await fetchPairByAddress(requestedAddress);
+  if(!LIVE_TOKEN||LIVE_TOKEN.baseToken.address!==requestedAddress)return;
+  LIVE_TOKEN=p;applyTokenUI(p,lastHolderCount,lastObservedAth);
+  const tf=document.querySelector('.time.active')?.textContent?.trim()||'15m';
+  if(!shortTfSeconds(tf)&&candles&&baseData.length){
+   const price=Number(p.priceUsd);
+   if(Number.isFinite(price)&&price>0){
+    const step=tfSeconds(tf),now=Math.floor(Date.now()/1000),bucket=Math.floor(now/step)*step;
+    let last=baseData[baseData.length-1];
+    if(!last||last.time<bucket){last={time:bucket,open:price,high:price,low:price,close:price,volume:Math.max(1,Number(p.volume?.m5||1))};baseData.push(last);}
+    else if(last.time===bucket){last.high=Math.max(last.high,price);last.low=Math.min(last.low,price);last.close=price;last.volume=Math.max(1,Number(p.volume?.m5||last.volume||1));}
+    baseData=baseData.filter((x,i,a)=>i===0||x.time>a[i-1].time).slice(-600);data=baseData.slice();
+    candles.setData(baseData.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));
+    volume.setData(baseData.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));
+    chart.timeScale().scrollToRealTime();
+    setText('chartLivePrice',money(price));setText('chartMcap',money(Number(p.marketCap||p.fdv)));
+    setText('liveCandleBadge','Live price: '+money(price)+' · MC: '+money(Number(p.marketCap||p.fdv)));
+    const info=document.querySelector('.chartInfo');if(info){const spans=info.querySelectorAll('span');if(spans[1])spans[1].textContent=money(price);if(spans[2])spans[2].textContent='H '+money(last.high);if(spans[3])spans[3].textContent='L '+money(last.low);if(spans[4])spans[4].textContent='C '+money(price);const vol=info.querySelector('.vol span');if(vol)vol.textContent=String(Math.round(last.volume));}
+   }
+  }
+ }catch(e){console.warn('KEXIUM market refresh failed',e);}finally{marketRefreshBusy=false;}
+}
+function startMarketRefresh(){if(marketRefreshTimer)clearInterval(marketRefreshTimer);marketRefreshTimer=setInterval(()=>{const tf=document.querySelector('.time.active')?.textContent?.trim()||'15m';if(!shortTfSeconds(tf))refreshLiveMarket();},2000);}
 function tfSeconds(tf){return({'1s':1,'5s':5,'10s':10,'30s':30,'1m':60,'5m':300,'15m':900,'1h':3600,'4h':14400,'1D':86400})[tf]||900;}
 function aggregate(tf){const step=tfSeconds(tf),m=new Map();baseData.forEach(d=>{const t=Math.floor(d.time/step)*step;if(!m.has(t))m.set(t,{time:t,open:d.open,high:d.high,low:d.low,close:d.close,volume:0});const x=m.get(t);x.high=Math.max(x.high,d.high);x.low=Math.min(x.low,d.low);x.close=d.close;x.volume+=d.volume;});return[...m.values()];}
 function applyTf(tf){const a=aggregate(tf);candles.setData(a.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(a.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();}
