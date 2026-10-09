@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title id="pageTitle">KEXIUM — Trade Token</title>
+<style>
+:root{--bg:#050a10;--panel:#0a111a;--panel2:#0d1620;--line:#1c2a38;--text:#edf4fb;--muted:#8290a0;--green:#18d69a;--red:#ef5365;--blue:#248cff;--purple:#9b5cff;--yellow:#f5a623}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--bg);color:var(--text);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}button,input{font:inherit}button{cursor:pointer;color:inherit}.app{height:100vh;display:flex;flex-direction:column;overflow:hidden;background:radial-gradient(circle at 30% -20%,#102238 0,#050a10 45%)}
+.top{height:68px;display:flex;align-items:center;gap:28px;padding:0 28px;border-bottom:1px solid #152230;background:#07101a}.brand{font-size:25px;font-weight:900;letter-spacing:.03em;white-space:nowrap}.brand:before{content:"≈";color:#218cff;font-size:30px;margin-right:10px}.searchWrap{height:38px;flex:1;max-width:680px;display:flex;gap:7px}.searchBtn{height:38px;padding:0 14px;border:1px solid #1f73ba;background:#0a1b2d;border-radius:7px;color:#edf4fb;font-weight:800}.searchBtn:disabled{opacity:.6}.search{height:38px;flex:1;min-width:0;max-width:585px;border:1px solid #21354a;background:#0a1520;border-radius:7px;color:#8190a1;padding:0 14px;font-size:14px}.toplinks{margin-left:auto;display:flex;align-items:center;gap:22px}.topicon{font-size:22px;background:none;border:0}.wallet{height:40px;padding:0 16px;border:1px solid #165ea8;background:#0a1b2d;border-radius:7px;font-weight:800;white-space:nowrap;max-width:330px;overflow:hidden;text-overflow:ellipsis}@media(max-width:850px){.wallet{padding:0 10px;max-width:245px}}
+.tokenbar{height:86px;display:flex;align-items:center;padding:0 28px;gap:18px;border-bottom:1px solid #152230;background:#08111a}.tokenavatar{width:56px;height:56px;border-radius:50%;border:1px solid #a04cff;background:radial-gradient(circle,#6535d8,#11142b 58%,#070b13);display:grid;place-items:center;font-size:25px}.tokenname{min-width:330px}.tokenname strong{font-size:24px}.verified{color:#1bd99a;margin-left:7px}.pair{font-size:14px;color:#8997a8;margin-top:4px}.metrics{display:flex;align-items:center;gap:30px;margin-left:auto}.metric{padding-left:20px;border-left:1px solid #182633}.metric span{display:block;color:#8492a2;font-size:13px}.metric b{display:block;margin-top:5px;font-size:15px}.metric .pos{color:#18d69a}.star{height:45px;width:52px;border:1px solid #1b3b5b;background:#071522;border-radius:7px;font-size:23px}.tradeTop{height:45px;padding:0 20px;background:#1683ed;border:0;border-radius:7px;font-weight:900;font-size:16px}
+.body{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:14px;padding:10px 16px 14px}.left{min-width:0;display:flex;flex-direction:column;min-height:0}.chartShell{min-height:0;flex:1;border:1px solid #1b2b3a;border-radius:8px;background:#071019;display:flex;flex-direction:column;overflow:hidden}.chartTools{height:45px;border-bottom:1px solid #1b2b3a;display:flex;align-items:center;gap:3px;padding:0 10px;background:#09131e}.toolbtn{height:34px;min-width:35px;border:0;background:transparent;color:#9aa8b8;border-radius:6px}.toolbtn:hover,.toolbtn.active{background:#122238;color:#fff}.time.active{background:#15355b;color:#fff;border:1px solid #258cff}.divider{height:25px;width:1px;background:#1c2b3a;margin:0 7px}.chartWrap{position:relative;flex:1;min-height:0}.chartCanvas{position:absolute;inset:0;width:100%;height:100%}.chartInfo{position:absolute;top:10px;left:16px;pointer-events:none;font-size:14px;color:#b3bfcb}.chartInfo b{color:#dce7f1}.chartInfo .ohlc{font-size:13px;margin-top:7px}.chartInfo .vol{color:#8494a5;margin-top:5px}.greenTxt{color:#18d69a}.redTxt{color:#ef5365}.fiblabels{position:absolute;right:120px;top:68px;display:flex;flex-direction:column;gap:11px;font-size:11px;color:#9aabc0;pointer-events:none}.fiblabels span:nth-child(2){color:#efb25c}.fiblabels span:nth-child(3){color:#8dd4b1}.fiblabels span:nth-child(4){color:#3ee0a2}.fiblabels span:nth-child(5){color:#7fc8ff}.fiblabels span:nth-child(6){color:#9b8cff}.chartRightTools{position:absolute;right:7px;top:7px;display:flex;flex-direction:column;gap:4px}.rt{width:29px;height:28px;background:#09121b;border:1px solid #1d2c3b;border-radius:5px;color:#7e8e9e}.rsiLabel{position:absolute;left:15px;bottom:73px;color:#9aa8b7;font-size:12px}.bottomTime{height:35px;position:absolute;bottom:0;left:0;right:0;border-top:1px solid #172531;background:rgba(6,12,18,.94);display:flex;align-items:center;padding:0 16px;gap:23px;color:#8c9aab;font-size:12px}.chartBottomTabs{height:228px;min-height:170px;border:1px solid #1b2b3a;border-radius:8px;background:#071019;margin-top:10px;overflow:hidden}.tabs{height:52px;display:flex;align-items:center;gap:38px;padding:0 35px;border-bottom:1px solid #1b2b3a}.tab{height:52px;border:0;background:none;color:#aeb9c6;font-weight:700;position:relative}.tab.active{color:#168dff}.tab.active:after{content:"";position:absolute;bottom:0;left:0;right:0;height:2px;background:#168dff}.tableHead,.tableRow{display:grid;grid-template-columns:1.2fr .9fr 1fr 1.2fr .9fr .6fr;align-items:center;padding:0 20px}.tableHead{height:34px;color:#718195;font-size:11px;background:#0a1520}.tableRow{height:38px;border-top:1px solid #13212d;font-size:12px}.tagBuy{color:#18d69a;font-weight:800}.tagSell{color:#ef5365;font-weight:800}
+.right{min-width:0;overflow:auto;padding-right:2px}.right::-webkit-scrollbar{width:6px}.right::-webkit-scrollbar-thumb{background:#223242;border-radius:8px}.card{border:1px solid #1c2b39;background:linear-gradient(180deg,#0b141e,#081019);border-radius:8px;margin-bottom:10px;padding:13px 15px}.card h3{margin:0 0 11px;font-size:16px}.quick .buySell{display:grid;grid-template-columns:1fr 1fr;gap:7px}.bs{height:36px;border:1px solid #203140;background:#0c1721;border-radius:6px;font-weight:800}.bs.buy.active{background:#079e68;border-color:#13c789}.bs.sell.active{background:#34151d;border-color:#71303b}.orderTabs{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:11px 0}.orderTab{height:34px;border:1px solid #1c2d3d;background:#0c1722;border-radius:5px;color:#b0bdc9}.orderTab.active{background:#17283a;color:#fff}.fieldLabel{display:block;font-size:11px;color:#9aa8b8;margin:10px 0 6px}.inputBox{height:44px;border:1px solid #203141;border-radius:6px;background:#08121b;display:flex;align-items:center;gap:6px;padding:0 10px;color:#7e8d9e}.inputBox input{width:100%;min-width:0;border:0;outline:0;background:transparent;color:#eef5fb;font-size:14px;font-weight:700}.inputBox input::placeholder{color:#516172}.hiddenField{display:none}.hiddenField.show{display:block}.amount{height:44px;border:1px solid #203141;border-radius:6px;background:#08121b;display:flex;align-items:center;justify-content:space-between;padding:0 10px;color:#7e8d9e}.amount b{color:#e8f0f7}.chips{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}.chip{height:30px;border:1px solid #233444;background:#0b1620;border-radius:5px;color:#a8b5c2;font-size:11px}.exec{height:42px;width:100%;border:0;border-radius:6px;background:linear-gradient(90deg,#13bf84,#16d29a);color:#03140d;font-weight:900;margin-top:10px}.exec.sell{background:#dc4b5b;color:#fff}.estimate{display:grid;gap:8px;margin-top:13px}.est{display:flex;justify-content:space-between;color:#8a99a9;font-size:12px}.est b{color:#e4edf5}.infoRow{display:flex;justify-content:space-between;align-items:center;padding:5px 0;color:#8998a8;font-size:12px}.infoRow b{color:#e4edf5}.pos{color:#18d69a!important}.secGrid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.sec{border:1px solid #1a2a39;background:#0b141d;border-radius:5px;padding:8px}.sec b{display:block;font-size:10px}.status{font-size:9px;margin-top:4px;color:#18d69a;font-weight:900}.warn{color:#f5b94c}.contract{display:flex;justify-content:space-between;align-items:center;margin-top:5px}.copy{border:0;background:none;color:#8495a7}
+@media(max-width:1100px){.metrics{gap:12px}.metric:nth-child(n+4){display:none}.tokenname{min-width:220px}.body{grid-template-columns:minmax(0,1fr) 310px}}
+@media(max-width:850px){.top{padding:0 14px}.searchWrap{max-width:none}.search{display:block}.searchBtn{padding:0 10px}.tokenbar{padding:0 14px}.tokenname{min-width:180px}.metrics{display:none}.body{grid-template-columns:1fr;overflow:auto}.right{overflow:visible}.chartShell{height:620px;min-height:620px}.chartBottomTabs{height:220px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="top"><div class="brand">KEXIUM</div><div class="searchWrap"><input id="tokenSearch" class="search" placeholder="⌕  Search Solana token or paste mint address..."><button id="tokenSearchBtn" class="searchBtn" type="button">Search</button></div><div class="toplinks"><button class="topicon">☆</button><button class="topicon">⚙</button><button id="walletBtn" class="wallet" aria-live="polite">▣ &nbsp; Connect Wallet</button></div></header>
+<section class="tokenbar"><div class="tokenavatar">≋</div><div class="tokenname"><strong id="tokenName">NOVA <span class="verified">●</span></strong><div id="tokenPair" class="pair">NOVA　/　SOLANA　↗　▣</div></div><div class="metrics"><div class="metric"><span>Price</span><b id="mPrice">$0.00245 <em id="mChange" class="pos">+24.8%</em></b></div><div class="metric"><span>Market Cap</span><b id="mMcap">$245K</b></div><div class="metric"><span>Liquidity</span><b id="mLiquidity">$38.4K</b></div><div class="metric"><span>24H Volume</span><b id="mVolume">$182K</b></div><div class="metric"><span>Holders</span><b id="mHolders">—</b></div><div class="metric"><span>ATH</span><b id="mAth">—</b></div></div><button class="star">☆</button><button class="tradeTop">Trade</button></section>
+<div class="body">
+<main class="left">
+<section class="chartShell"><div class="chartTools"><button class="toolbtn">✛</button><div class="divider"></div><button class="toolbtn time">1s</button><button class="toolbtn time">5s</button><button class="toolbtn time">10s</button><button class="toolbtn time">30s</button><button class="toolbtn time">1m</button><button class="toolbtn time">5m</button><button class="toolbtn time active">15m</button><button class="toolbtn time">1h</button><button class="toolbtn time">4h</button><button class="toolbtn time">1D</button><div class="divider"></div><button class="toolbtn">◎</button><button class="toolbtn">◌</button><button class="toolbtn">↶</button><button class="toolbtn">↷</button><div style="margin-left:auto"></div><button class="toolbtn">Save⌄</button><button class="toolbtn">⚙</button><button class="toolbtn">⛶</button><button class="toolbtn">▣</button></div>
+<div class="chartWrap"><div id="chart" class="chartCanvas"></div><div class="chartInfo"><b id="chartPair">NOVA/SOL</b> · <span id="chartDex">Raydium</span>　<span class="greenTxt">●</span>　<span id="chartLivePrice">0.00242</span> <span class="redTxt">H0.00246</span> <span class="redTxt">L0.00239</span> <span class="greenTxt">C0.00245</span> <span class="greenTxt">+0.00003 (+1.24%)</span><div class="vol">Volume　<span class="greenTxt">12.8K</span></div><div class="vol">MC　<span id="chartMcap" class="greenTxt">—</span></div><div class="vol" id="liveCandleBadge" style="color:#eaf3fb;margin-top:5px">Live price: — · MC: —</div></div><div class="chartRightTools"><button class="rt">+</button><button class="rt">−</button><button class="rt">↕</button><button class="rt">%</button><button class="rt">⛶</button></div><div class="bottomTime"><span>5y</span><span>1y</span><span>6m</span><span>3m</span><span>1m</span><span>5d</span><span>1d</span><span>▣</span><span style="margin-left:auto">17:24:31 (UTC)</span><span>%</span><span>log</span><span style="color:#4ea2ff">auto</span></div></div></section>
+<section class="chartBottomTabs"><div class="tabs"><button class="tab active">TRADERS</button><button class="tab">TRADES</button><button class="tab">HOLDERS</button><button class="tab">CALLOUTS</button></div><div class="tableHead"><span>TRADER</span><span>ACTION</span><span>ENTRY MC</span><span>CURRENT / EXIT MC</span><span>PNL</span><span>TIME</span></div><div class="tableRow"><span>@NovaHunter</span><span class="tagBuy">BUY</span><span>$82K</span><span>$245K</span><span class="greenTxt">+198%</span><span>4m</span></div><div class="tableRow"><span>@KexTrader</span><span class="tagBuy">BUY</span><span>$115K</span><span>$245K</span><span class="greenTxt">+113%</span><span>8m</span></div><div class="tableRow"><span>@AlphaSol</span><span class="tagSell">SELL</span><span>$71K</span><span>$211K</span><span class="greenTxt">+197%</span><span>12m</span></div></section>
+</main>
+<aside class="right">
+<section class="card quick"><h3>BUY / SELL</h3><div class="buySell"><button id="buy" class="bs buy active">BUY</button><button id="sell" class="bs sell">SELL</button></div><div class="orderTabs"><button class="orderTab active" data-order="Market">Market</button><button class="orderTab" data-order="Limit">Limit</button><button class="orderTab" data-order="Stop">Stop</button></div><label class="fieldLabel">Amount</label><div class="inputBox"><input id="amountInput" type="number" inputmode="decimal" step="any" min="0" placeholder="0.0"><span>◎ SOL</span></div><div id="triggerWrap" class="hiddenField"><label class="fieldLabel">Trigger Price</label><div class="inputBox"><span>$</span><input id="triggerInput" type="number" inputmode="decimal" step="any" min="0" placeholder="0.00245"><span>USD</span></div></div><div class="chips"><button class="chip">0.1</button><button class="chip">0.5</button><button class="chip">1</button><button class="chip">5</button></div><button id="exec" class="exec">BUY NOVA</button><div class="estimate"><div class="est"><span>Order Type</span><b id="orderSummary">Market</b></div><div class="est"><span>Est. Price</span><b id="estPrice">~ $0.00245</b></div><div class="est"><span>Est. Received</span><b id="received">~ 0 NOVA</b></div><div class="est"><span>Network Fee</span><b>~ 0.000005 SOL</b></div></div></section>
+<section class="card"><h3>Token Info</h3><div class="infoRow"><span>Price</span><b id="iPrice">$0.00245</b></div><div class="infoRow"><span>24H Change</span><b id="iChange" class="pos">+24.8%</b></div><div class="infoRow"><span>Market Cap</span><b id="iMcap">$245K</b></div><div class="infoRow"><span>Liquidity</span><b id="pLiquidity">$38.4K</b></div><div class="infoRow"><span>ATH</span><b id="iAth">—</b></div><div class="infoRow"><span>Holders</span><b id="iHolders">—</b></div><div class="contract"><span style="color:#8998a8;font-size:12px">Contract</span><b id="contractAddress" style="font-size:12px">7xK3…91Pq　<button class="copy">▣</button></b></div></section>
+<section class="card"><h3>Trading Stats</h3><div class="infoRow"><span>24H Volume</span><b id="sVolume">$182K</b></div><div class="infoRow"><span>5M Volume</span><b id="s5m">$14.8K</b></div><div class="infoRow"><span>1H Volume</span><b id="s1h">$51.2K</b></div><div class="infoRow"><span>Buys</span><b id="sBuys" class="pos">—</b></div><div class="infoRow"><span>Sells</span><b id="sSells">—</b></div><div class="infoRow"><span>Buy/Sell Ratio</span><b id="sRatio">—</b></div></section>
+<section class="card"><h3>Pool Information</h3><div class="infoRow"><span>DEX</span><b id="pDex">Raydium</b></div><div class="infoRow"><span>Liquidity</span><b id="pLiquidity">$38.4K</b></div><div class="infoRow"><span>Pair</span><b id="pPair">NOVA / SOL</b></div><div class="infoRow"><span>Pool Age</span><b id="pAge">—</b></div></section>
+<section class="card"><h3>Holder Summary</h3><div class="infoRow"><span>Top 10 Holders</span><b id="hTop10">—</b></div><div class="infoRow"><span>Bundlers</span><b id="hBundlers">—</b></div><div class="infoRow"><span>Insiders</span><b id="hInsiders">—</b></div><div class="infoRow"><span>Snipers</span><b id="hSnipers">—</b></div><div class="infoRow"><span>Total Holders</span><b id="hTotal">—</b></div></section>
+<section class="card"><h3>Token Security</h3><div class="secGrid"><div class="sec"><b>Mint Authority</b><span class="status">REVOKED</span></div><div class="sec"><b>Freeze Authority</b><span class="status">REVOKED</span></div><div class="sec"><b>Token Program</b><span class="status">STANDARD SPL</span></div><div class="sec"><b>Permanent Delegate</b><span class="status">NONE</span></div><div class="sec"><b>Non-Transferable</b><span class="status">NO</span></div><div class="sec"><b>Transfer Fee</b><span class="status">NONE</span></div><div class="sec"><b>LP Status</b><span class="status">LOCKED</span></div></div></section>
+</aside></div></div>
+<script src="https://unpkg.com/lightweight-charts@4.2.3/dist/lightweight-charts.standalone.production.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tweetnacl/1.0.3/nacl-fast.min.js"></script>
+<script>
+(function(){
+'use strict';
+const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
+/* KEXIUM LIVE SOLANA TOKEN DATA — DexScreener + GeckoTerminal.
+   Token selection/chart state only. Wallet/Phantom code starts below and is untouched. */
+const DEX_API='https://api.dexscreener.com/latest/dex/search?q=';
+const DEX_TOKEN_API='https://api.dexscreener.com/latest/dex/tokens/';
+const KEXIUM_TOKEN_STORAGE='kexium_selected_token_v2';
+let LIVE_TOKEN=null,shortTfTimer=null,shortTfBars=[],marketRefreshTimer=null,lastHolderCount=null,lastObservedAth=null,lastTop10Share=null,marketRefreshBusy=false;
+function money(v){if(!Number.isFinite(Number(v)))return '—';const n=Number(v),a=Math.abs(n);if(a>=1e9)return '$'+(n/1e9).toFixed(2)+'B';if(a>=1e6)return '$'+(n/1e6).toFixed(2)+'M';if(a>=1e3)return '$'+(n/1e3).toFixed(1)+'K';if(a>=1)return '$'+n.toFixed(2);if(a>=.01)return '$'+n.toFixed(4);return '$'+n.toPrecision(4);}
+function num(v){if(!Number.isFinite(Number(v)))return '—';return Number(v).toLocaleString(undefined,{maximumFractionDigits:0});}
+function shortAddress(a){return a&&a.length>12?a.slice(0,6)+'…'+a.slice(-6):(a||'—');}
+function setText(id,value){const e=document.getElementById(id);if(e)e.textContent=value;}
+function setChange(id,value){const e=document.getElementById(id);if(!e)return;const n=Number(value);e.textContent=Number.isFinite(n)?((n>=0?'+':'')+n.toFixed(2)+'%'):'—';e.classList.toggle('pos',n>=0);e.classList.toggle('redTxt',n<0);}
+function formatAge(ms){const mins=Math.max(0,Math.floor((Date.now()-Number(ms))/60000));if(mins<60)return mins+'m';const h=Math.floor(mins/60);if(h<24)return h+'h '+(mins%60)+'m';return Math.floor(h/24)+'d '+(h%24)+'h';}
+function selectSolanaPair(pairs){const sol=pairs.filter(p=>p?.chainId==='solana'&&p?.baseToken?.address);sol.sort((a,b)=>(Number(b?.liquidity?.usd)||0)-(Number(a?.liquidity?.usd)||0));return sol[0]||null;}
+function saveSelectedToken(pair){try{localStorage.setItem(KEXIUM_TOKEN_STORAGE,JSON.stringify({address:pair?.baseToken?.address||null,pairAddress:pair?.pairAddress||null,dexId:pair?.dexId||null}));}catch(e){}}
+function getSavedSelectedToken(){try{const s=JSON.parse(localStorage.getItem(KEXIUM_TOKEN_STORAGE)||'null');return s?.address||null;}catch(e){return null;}}
+function stopShortTf(){if(shortTfTimer){clearInterval(shortTfTimer);shortTfTimer=null;}shortTfBars=[];}
+function shortTfSeconds(tf){return ({'1s':1,'5s':5,'10s':10,'30s':30})[tf]||0;}
+async function fetchPairByAddress(address){const r=await fetch(DEX_TOKEN_API+encodeURIComponent(address),{cache:'no-store'});if(!r.ok)throw new Error('DexScreener token HTTP '+r.status);const j=await r.json();const pair=selectSolanaPair(Array.isArray(j?.pairs)?j.pairs:[]);if(!pair)throw new Error('No Solana pair found for that token.');return pair;}
+async function fetchHolderEstimate(address){const endpoints=['https://api.mainnet-beta.solana.com','https://solana-rpc.publicnode.com'];for(const endpoint of endpoints){try{const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getProgramAccounts',params:['TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',{encoding:'jsonParsed',filters:[{dataSize:165},{memcmp:{offset:0,bytes:address}}]}]}),cache:'no-store'});if(!r.ok)continue;const j=await r.json();if(j?.error||!Array.isArray(j?.result))continue;let count=0;for(const a of j.result){const amount=Number(a?.account?.data?.parsed?.info?.tokenAmount?.uiAmount);if(amount>0)count++;}return count;}catch(e){}}return null;}
+async function fetchTop10Share(address){const endpoints=['https://api.mainnet-beta.solana.com','https://solana-rpc.publicnode.com'];for(const endpoint of endpoints){try{const call=async(method,params)=>{const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method,params}),cache:'no-store'});if(!r.ok)throw new Error('RPC '+r.status);const j=await r.json();if(j?.error)throw new Error(j.error.message||'RPC error');return j.result;};const [largest,supply]=await Promise.all([call('getTokenLargestAccounts',[address,{commitment:'confirmed'}]),call('getTokenSupply',[address,{commitment:'confirmed'}])]);const rows=largest?.value||[],total=Number(supply?.value?.uiAmount);if(!rows.length||!Number.isFinite(total)||total<=0)continue;const top=rows.slice(0,10).reduce((sum,x)=>sum+Number(x.uiAmount||0),0);return ((top/total)*100).toFixed(2)+'% of supply';}catch(e){console.warn('KEXIUM top-holder estimate unavailable',e);}}return null;}
+function applyTokenUI(pair,holders=null,ath=null){const base=pair.baseToken||{},sym=base.symbol||base.name||'TOKEN',quote=pair.quoteToken?.symbol||'SOL';const price=Number(pair.priceUsd),change=Number(pair.priceChange?.h24),liq=Number(pair.liquidity?.usd),vol=Number(pair.volume?.h24),mc=Number(pair.marketCap||pair.fdv),tx=pair.txns?.h24||{},buys=Number(tx.buys),sells=Number(tx.sells);
+setText('tokenName',sym);setText('tokenPair',sym+'　/　'+quote+'　↗　▣');setText('mPrice',Number.isFinite(price)?money(price):'—');setChange('mChange',change);setText('mMcap',money(mc));setText('mLiquidity',money(liq));setText('mVolume',money(vol));if(holders!=null)lastHolderCount=holders;if(ath!=null)lastObservedAth=ath;setText('mHolders',lastHolderCount!=null?num(lastHolderCount):'Unavailable');setText('mAth',lastObservedAth!=null?money(lastObservedAth):'—');
+setText('iPrice',Number.isFinite(price)?money(price):'—');setChange('iChange',change);setText('iMcap',money(mc));setText('pLiquidity',money(liq));setText('iAth',lastObservedAth!=null?money(lastObservedAth):'—');setText('iHolders',lastHolderCount!=null?num(lastHolderCount):'Unavailable');setText('contractAddress',shortAddress(base.address));
+setText('sVolume',money(vol));setText('s5m',money(pair.volume?.m5));setText('s1h',money(pair.volume?.h1));setText('sBuys',num(buys));setText('sSells',num(sells));setText('sRatio',sells>0?(buys/sells).toFixed(2):(buys>0?'∞':'—'));
+setText('pDex',pair.dexId||'—');setText('pLiquidity',money(liq));setText('pPair',sym+' / '+quote);setText('pAge',pair.pairCreatedAt?formatAge(pair.pairCreatedAt):'—');
+document.title='KEXIUM — Trade '+sym;setText('chartPair',sym+'/'+quote);setText('chartDex',pair.dexId||'—');setText('chartLivePrice',Number.isFinite(price)?price:'—');setText('chartMcap',money(mc));setText('liveCandleBadge','Live price: '+(Number.isFinite(price)?money(price):'—')+' · MC: '+money(mc));
+if(lastHolderCount==null){setText('hTotal','Unavailable');}setText('hTop10',lastTop10Share!=null?lastTop10Share:'Unavailable');if(!document.getElementById('hBundlers')?.dataset.loaded){setText('hBundlers','Unavailable');setText('hInsiders','Unavailable');setText('hSnipers','Unavailable');}
+const exec=document.getElementById('exec');if(exec)exec.textContent=(side==='sell'?'SELL ':'BUY ')+sym;if(triggerInput&&Number.isFinite(price))triggerInput.value=price;if(typeof amountInput!=='undefined'&&typeof refreshOrder==='function')refreshOrder();if(tokenSearch)tokenSearch.value=base.address||sym;}
+function observedAth(rows){if(!Array.isArray(rows)||!rows.length)return null;const highs=rows.map(x=>Number(x.high)).filter(Number.isFinite);return highs.length?Math.max(...highs):null;}
+const tokenSearch=document.getElementById('tokenSearch'),tokenSearchBtn=document.getElementById('tokenSearchBtn');
+async function loadLiveToken(query,remember=true){const q=String(query||'').trim();if(!q)return;if(tokenSearch)tokenSearch.disabled=true;if(tokenSearchBtn){tokenSearchBtn.disabled=true;tokenSearchBtn.textContent='Loading…';}try{let pairs=[];if(/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(q)){const r=await fetch(DEX_TOKEN_API+encodeURIComponent(q),{cache:'no-store'});if(!r.ok)throw new Error('DexScreener token HTTP '+r.status);const j=await r.json();pairs=Array.isArray(j?.pairs)?j.pairs:[];}else{const r=await fetch(DEX_API+encodeURIComponent(q),{cache:'no-store'});if(!r.ok)throw new Error('DexScreener search HTTP '+r.status);const j=await r.json();pairs=Array.isArray(j?.pairs)?j.pairs:[];}const pair=selectSolanaPair(pairs);if(!pair)throw new Error('No Solana pair found for "'+q+'".');LIVE_TOKEN=pair;lastHolderCount=null;lastTop10Share=null;lastObservedAth=null;if(remember)saveSelectedToken(pair);stopShortTf();startMarketRefresh();applyTokenUI(pair);await loadLiveChart(pair);const rows=window.KEXIUM_LIVE_CHART?.rows||[];const ath=observedAth(rows);applyTokenUI(pair,lastHolderCount,ath);setText('hBundlers','Unavailable');setText('hInsiders','Unavailable');setText('hSnipers','Unavailable');console.log('KEXIUM selected Solana token:',pair);(async()=>{let holders=null;try{holders=await fetchHolderEstimate(pair.baseToken.address);}catch(e){}if(holders!=null){lastHolderCount=holders;setText('mHolders',num(holders));setText('iHolders',num(holders));setText('hTotal',num(holders));}else{setText('hTotal','Unavailable');}try{lastTop10Share=await fetchTop10Share(pair.baseToken.address);}catch(e){lastTop10Share=null;}setText('hTop10',lastTop10Share||'Unavailable');})();}catch(e){console.error('KEXIUM live token data failed:',e);alert('KEXIUM could not load live Solana token data.\n\n'+e.message);}finally{if(tokenSearch)tokenSearch.disabled=false;if(tokenSearchBtn){tokenSearchBtn.disabled=false;tokenSearchBtn.textContent='Search';}}}
+async function submitTokenSearch(){const q=tokenSearch?.value?.trim();if(q)await loadLiveToken(q,true);}
+tokenSearch?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitTokenSearch();}});tokenSearchBtn?.addEventListener('click',submitTokenSearch);window.KEXIUM_LOAD_TOKEN=loadLiveToken;
+const chartEl=$('#chart');let chart,candles,volume,data=[],baseData=[];
+function makeChart(){if(!window.LightweightCharts||!chartEl)return;chart=LightweightCharts.createChart(chartEl,{width:chartEl.clientWidth,height:chartEl.clientHeight,layout:{background:{type:'solid',color:'#071019'},textColor:'#8290a0'},grid:{vertLines:{color:'#12202d'},horzLines:{color:'#12202d'}},rightPriceScale:{borderColor:'#1b2b3a',scaleMargins:{top:.08,bottom:.22}},timeScale:{borderColor:'#1b2b3a',timeVisible:true,secondsVisible:true},crosshair:{mode:LightweightCharts.CrosshairMode.Normal},handleScroll:true,handleScale:true});candles=chart.addCandlestickSeries({upColor:'#18d69a',downColor:'#ef5365',borderVisible:false,wickUpColor:'#18d69a',wickDownColor:'#ef5365'});volume=chart.addHistogramSeries({priceFormat:{type:'volume'},priceScaleId:'volume',color:'rgba(24,214,154,.45)'});volume.priceScale().applyOptions({scaleMargins:{top:.82,bottom:0}});let t=Math.floor(Date.now()/1000)-150*900,p=.00175;for(let i=0;i<150;i++){let o=p,dr=(Math.random()-.43)*.000065+(i>90?.000006:0);p=Math.max(.00125,p+dr);let c=p,h=Math.max(o,c)+Math.random()*.000045,l=Math.min(o,c)-Math.random()*.000045;data.push({time:t+i*900,open:o,high:h,low:l,close:c});}data.forEach(d=>d.volume=2500+Math.random()*14000);baseData=data.slice();candles.setData(baseData);volume.setData(baseData.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();new ResizeObserver(()=>chart.applyOptions({width:chartEl.clientWidth,height:chartEl.clientHeight})).observe(chartEl);}
+const LIVE_CHART_API='https://api.geckoterminal.com/api/v2/networks/solana/pools/';
+function chartRequest(tf){if(tf==='1m')return{interval:'minute',aggregate:1};if(tf==='5m')return{interval:'minute',aggregate:5};if(tf==='15m')return{interval:'minute',aggregate:15};if(tf==='1h')return{interval:'hour',aggregate:1};if(tf==='4h')return{interval:'hour',aggregate:4};return{interval:'day',aggregate:1};}
+async function fetchLiveOHLCV(pair,tf){const pool=pair?.pairAddress;if(!pool)throw new Error('This token pair has no pool address for chart data.');const cfg=chartRequest(tf),url=LIVE_CHART_API+encodeURIComponent(pool)+'/ohlcv/'+cfg.interval+'?aggregate='+cfg.aggregate+'&limit=500&currency=usd';const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('Live chart HTTP '+r.status);const j=await r.json(),rows=j?.data?.attributes?.ohlcv_list;if(!Array.isArray(rows)||!rows.length)throw new Error('No live candle history returned for this pool.');return rows.map(x=>({time:Number(x[0]),open:Number(x[1]),high:Number(x[2]),low:Number(x[3]),close:Number(x[4]),volume:Number(x[5])})).filter(x=>[x.time,x.open,x.high,x.low,x.close,x.volume].every(Number.isFinite)).sort((a,b)=>a.time-b.time);}
+function seedShortTf(pair,tf){const step=shortTfSeconds(tf),price=Number(pair?.priceUsd);if(!step||!Number.isFinite(price)||price<=0)return;const now=Math.floor(Date.now()/1000),bucket=Math.floor(now/step)*step;shortTfBars=[{time:bucket,open:price,high:price,low:price,close:price,volume:Math.max(1,Number(pair.volume?.m5||1)/150)}];candles.setData(shortTfBars.map(x=>({time:x.time,open:x.open,high:x.high,low:x.low,close:x.close})));volume.setData(shortTfBars.map(x=>({time:x.time,value:x.volume,color:'rgba(24,214,154,.42)'})));chart.timeScale().fitContent();}
+async function refreshShortTf(){if(!LIVE_TOKEN||marketRefreshBusy)return;const active=document.querySelector('.time.active'),tf=active?.textContent?.trim()||'1s',step=shortTfSeconds(tf);if(!step)return;marketRefreshBusy=true;try{const p=await fetchPairByAddress(LIVE_TOKEN.baseToken.address);LIVE_TOKEN=p;const price=Number(p.priceUsd);if(!Number.isFinite(price)||price<=0)return;const now=Math.floor(Date.now()/1000),bucket=Math.floor(now/step)*step;let bar=shortTfBars[shortTfBars.length-1];if(!bar||bar.time!==bucket){bar={time:bucket,open:price,high:price,low:price,close:price,volume:Math.max(1,Number(p.volume?.m5||1)/150)};shortTfBars.push(bar);if(shortTfBars.length>300)shortTfBars.shift();}else{bar.high=Math.max(bar.high,price);bar.low=Math.min(bar.low,price);bar.close=price;bar.volume=Math.max(1,Number(p.volume?.m5||1)/150);}candles.setData(shortTfBars.map(x=>({time:x.time,open:x.open,high:x.high,low:x.low,close:x.close})));volume.setData(shortTfBars.map(x=>({time:x.time,value:x.volume,color:x.close>=x.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));setText('chartLivePrice',price);setText('chartMcap',money(Number(p.marketCap||p.fdv)));applyTokenUI(p);window.KEXIUM_LIVE_CHART={pairAddress:p.pairAddress,timeframe:tf,updatedAt:Date.now(),rows:shortTfBars.slice()};}catch(e){console.warn('KEXIUM short timeframe refresh failed',e);}finally{marketRefreshBusy=false;}}
+function startShortTf(tf){stopShortTf();if(!shortTfSeconds(tf))return;seedShortTf(LIVE_TOKEN,tf);shortTfTimer=setInterval(refreshShortTf,2000);refreshShortTf();}
+async function loadLiveChart(pair){if(!chart||!candles||!volume)return;const active=document.querySelector('.time.active'),tf=active?.textContent?.trim()||'15m';stopShortTf();if(shortTfSeconds(tf)){startShortTf(tf);return;}try{const rows=await fetchLiveOHLCV(pair,tf);baseData=rows;data=rows.slice();candles.setData(rows.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(rows.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();const last=rows[rows.length-1],first=rows[0];setText('chartLivePrice',last?.close??'—');setText('chartMcap',money(Number(pair.marketCap||pair.fdv)));setText('liveCandleBadge','Live price: '+money(Number(pair.priceUsd))+' · MC: '+money(Number(pair.marketCap||pair.fdv)));const info=document.querySelector('.chartInfo');if(info&&last){const spans=info.querySelectorAll('span');if(spans[1])spans[1].textContent=last.close;if(spans[2])spans[2].textContent='H'+last.high;if(spans[3])spans[3].textContent='L'+last.low;if(spans[4])spans[4].textContent='C'+last.close;if(spans[5]){const pct=first?.close?((last.close-first.close)/first.close)*100:0;spans[5].textContent=(pct>=0?'+':'')+(last.close-first.close).toPrecision(5)+' ('+(pct>=0?'+':'')+pct.toFixed(2)+'%)';}const vol=info.querySelector('.vol span');if(vol)vol.textContent=String(last.volume);}window.KEXIUM_LIVE_CHART={pairAddress:pair.pairAddress,timeframe:tf,updatedAt:Date.now(),rows};applyTokenUI(pair,null,observedAth(rows));}catch(e){console.warn('KEXIUM live chart failed:',e);}}
+makeChart();
+async function refreshLiveMarket(){if(!LIVE_TOKEN||marketRefreshBusy)return;marketRefreshBusy=true;try{const p=await fetchPairByAddress(LIVE_TOKEN.baseToken.address);LIVE_TOKEN=p;applyTokenUI(p);const tf=document.querySelector('.time.active')?.textContent?.trim()||'15m';if(!shortTfSeconds(tf)&&candles&&baseData.length){const price=Number(p.priceUsd);if(Number.isFinite(price)&&price>0){const step=tfSeconds(tf),now=Math.floor(Date.now()/1000),bucket=Math.floor(now/step)*step;let last=baseData[baseData.length-1];if(!last||last.time<bucket){last={time:bucket,open:price,high:price,low:price,close:price,volume:Math.max(1,Number(p.volume?.m5||1))};baseData.push(last);}else{last.high=Math.max(last.high,price);last.low=Math.min(last.low,price);last.close=price;last.volume=Math.max(1,Number(p.volume?.m5||last.volume||1));}if(baseData.length>600)baseData=baseData.slice(-600);candles.update({time:last.time,open:last.open,high:last.high,low:last.low,close:last.close});volume.update({time:last.time,value:last.volume,color:last.close>=last.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'});setText('chartLivePrice',price);setText('chartMcap',money(Number(p.marketCap||p.fdv)));setText('liveCandleBadge','Live price: '+money(price)+' · MC: '+money(Number(p.marketCap||p.fdv)));}}}catch(e){console.warn('KEXIUM market refresh failed',e);}finally{marketRefreshBusy=false;}}
+function startMarketRefresh(){if(marketRefreshTimer)clearInterval(marketRefreshTimer);marketRefreshTimer=setInterval(()=>{const tf=document.querySelector('.time.active')?.textContent?.trim()||'15m';if(!shortTfSeconds(tf))refreshLiveMarket();},5000);}
+function tfSeconds(tf){return({'1s':1,'5s':5,'10s':10,'30s':30,'1m':60,'5m':300,'15m':900,'1h':3600,'4h':14400,'1D':86400})[tf]||900;}
+function aggregate(tf){const step=tfSeconds(tf),m=new Map();baseData.forEach(d=>{const t=Math.floor(d.time/step)*step;if(!m.has(t))m.set(t,{time:t,open:d.open,high:d.high,low:d.low,close:d.close,volume:0});const x=m.get(t);x.high=Math.max(x.high,d.high);x.low=Math.min(x.low,d.low);x.close=d.close;x.volume+=d.volume;});return[...m.values()];}
+function applyTf(tf){const a=aggregate(tf);candles.setData(a.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(a.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();}
+$$('.time').forEach(b=>b.addEventListener('click',async()=>{$$('.time').forEach(x=>x.classList.remove('active'));b.classList.add('active');if(LIVE_TOKEN)await loadLiveChart(LIVE_TOKEN);else applyTf(b.textContent.trim());}));
+$('#fitBtn')?.addEventListener('click',()=>chart?.timeScale().fitContent());$('#resetBtn')?.addEventListener('click',()=>chart?.priceScale('right').applyOptions({autoScale:true}));$('#zoomIn')?.addEventListener('click',()=>chart?.timeScale().applyOptions({barSpacing:12}));$('#zoomOut')?.addEventListener('click',()=>chart?.timeScale().applyOptions({barSpacing:5}));$('#fullBtn')?.addEventListener('click',()=>document.querySelector('.chartShell')?.requestFullscreen?.());$('#priceScale')?.addEventListener('click',()=>chart?.priceScale('right').applyOptions({autoScale:true}));$('#percentScale')?.addEventListener('click',()=>chart?.applyOptions({rightPriceScale:{mode:1}}));
+const PHANTOM_WALLET_STORAGE='kexium_phantom_wallet_v1';
+function saveWalletState(publicKey){
+try{localStorage.setItem(PHANTOM_WALLET_STORAGE,JSON.stringify({publicKey,connected:true,updatedAt:Date.now()}));}catch(e){}
+}
+function getSavedWallet(){
+try{const s=localStorage.getItem(PHANTOM_WALLET_STORAGE);if(!s)return null;const j=JSON.parse(s);return j?.publicKey||null;}catch(e){return null;}
+}
+function clearWalletState(){try{localStorage.removeItem(PHANTOM_WALLET_STORAGE);}catch(e){}}
+const KEXIUM_BALANCE_STORAGE='kexium_wallet_balance_v1';
+function saveBalanceState(publicKey,balance,usd,price){try{localStorage.setItem(KEXIUM_BALANCE_STORAGE,JSON.stringify({publicKey,balance,usd,price,updatedAt:Date.now()}));}catch(e){}}
+function getSavedBalance(publicKey){try{const s=JSON.parse(localStorage.getItem(KEXIUM_BALANCE_STORAGE)||'null');if(s?.publicKey===publicKey&&typeof s.balance==='number')return{balance:s.balance,usd:typeof s.usd==='number'?s.usd:null,price:typeof s.price==='number'?s.price:null};}catch(e){}return null;}
+function setWalletUI(key,balance,usd){
+ const btn=$('#walletBtn');if(!btn)return;
+ if(!key){btn.textContent='▣  Connect Wallet';btn.title='';return;}
+ const shortKey=key.slice(0,4)+'…'+key.slice(-4);
+ let text='▣ '+shortKey;
+ if(typeof balance==='number') text+=' · '+balance.toFixed(4)+' SOL';
+ if(typeof usd==='number') text+=' · $'+usd.toFixed(2);
+ btn.textContent=text;
+ btn.title=key+(typeof balance==='number'?' | '+balance.toFixed(9)+' SOL':'')+(typeof usd==='number'?' | $'+usd.toFixed(2):'');
+}
+async function kexiumLoadSolPrice(){
+ const sources=[
+   async()=>{const r=await fetch('https://api.binance.com/api/v3/ticker/price?symbol=SOLUSDT',{cache:'no-store'});if(!r.ok)throw new Error('Binance HTTP '+r.status);const j=await r.json();return Number(j?.price);},
+   async()=>{const r=await fetch('https://api.coingecko.com/api/v3/simple/price?ids=solana&vs_currencies=usd',{cache:'no-store'});if(!r.ok)throw new Error('CoinGecko HTTP '+r.status);const j=await r.json();return Number(j?.solana?.usd);}
+ ];
+ for(const get of sources){try{const price=await Promise.race([get(),new Promise((_,rej)=>setTimeout(()=>rej(new Error('price timeout')),7000))]);if(Number.isFinite(price)&&price>0){try{localStorage.setItem('kexium_sol_usd',JSON.stringify({price,at:Date.now()}));}catch(e){}return price;}}catch(e){console.warn('KEXIUM SOL price source failed',e)}}
+ try{const cached=JSON.parse(localStorage.getItem('kexium_sol_usd')||'null');if(Number.isFinite(cached?.price)&&cached.price>0)return cached.price;}catch(e){}
+ return null;
+}
+async function kexiumLoadBalance(publicKey){
+ const rpcEndpoints=['https://api.mainnet-beta.solana.com','https://solana-rpc.publicnode.com','https://solana.drpc.org'];
+ let lamports=null,lastError=null;
+ for(const endpoint of rpcEndpoints){
+   try{
+     const controller=new AbortController();const timer=setTimeout(()=>controller.abort(),9000);
+     const res=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getBalance',params:[publicKey,{commitment:'confirmed'}]}),signal:controller.signal,cache:'no-store'});
+     clearTimeout(timer);
+     if(!res.ok)throw new Error(endpoint+' HTTP '+res.status);
+     const json=await res.json();
+     if(json?.error)throw new Error(json.error.message||'RPC error');
+     if(typeof json?.result?.value==='number'){lamports=json.result.value;break;}
+     throw new Error('RPC returned no balance');
+   }catch(e){lastError=e;console.warn('KEXIUM balance RPC failed',endpoint,e);}
+ }
+ if(lamports!==null){
+   const sol=lamports/1000000000;
+   const price=await kexiumLoadSolPrice();
+   const usd=typeof price==='number'?sol*price:null;
+   window.KEXIUM_WALLET={...(window.KEXIUM_WALLET||{}),connected:true,publicKey,balance:sol,usdBalance:usd,solUsdPrice:price,provider:'phantom'};
+   saveWalletState(publicKey);saveBalanceState(publicKey,sol,usd,price);setWalletUI(publicKey,sol,usd);
+   return sol;
+ }
+ console.warn('KEXIUM could not read SOL balance from any RPC endpoint',lastError);
+ const cachedPrice=await kexiumLoadSolPrice();
+ setWalletUI(publicKey,null,null);
+ if(cachedPrice) setWalletUI(publicKey,null,null);
+ return null;
+}
+async function kexiumHandleAccount(publicKey){
+const key=publicKey?.toString?.()||String(publicKey||'');if(!key)return;
+saveWalletState(key);
+const cached=getSavedBalance(key);
+window.KEXIUM_WALLET={connected:true,publicKey:key,balance:cached?.balance??null,usdBalance:cached?.usd??null,solUsdPrice:cached?.price??null,provider:'phantom'};
+setWalletUI(key,cached?.balance??null,cached?.usd??null);
+await kexiumLoadBalance(key);
+}
+
+/* Phantom mobile connection: uses the official encrypted deeplink flow when
+   KEXIUM is opened in Safari/Chrome, while retaining the injected provider
+   path for Phantom's in-app browser/desktop extension. */
+const PHANTOM_KEY_STORAGE='kexium_phantom_dapp_keypair_v1';
+const PHANTOM_SESSION_STORAGE='kexium_phantom_session_v1';
+function b58encode(bytes){
+const alphabet='123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+let digits=[0];
+for(const byte of bytes){let carry=byte;for(let i=0;i<digits.length;i++){const x=digits[i]*256+carry;digits[i]=x%58;carry=Math.floor(x/58);}while(carry){digits.push(carry%58);carry=Math.floor(carry/58);}}
+let out='';for(let i=0;i<bytes.length&&bytes[i]===0;i++)out+='1';for(let i=digits.length-1;i>=0;i--)out+=alphabet[digits[i]];return out;
+}
+function b58decode(str){
+const alphabet='123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz';
+const map={};for(let i=0;i<alphabet.length;i++)map[alphabet[i]]=i;
+let bytes=[0];for(const ch of str){if(map[ch]===undefined)throw new Error('Invalid base58');let carry=map[ch];for(let i=0;i<bytes.length;i++){const x=bytes[i]*58+carry;bytes[i]=x&255;carry=x>>8;}while(carry){bytes.push(carry&255);carry>>=8;}}
+for(let i=0;i<str.length&&str[i]==='1';i++)bytes.push(0);return new Uint8Array(bytes.reverse());
+}
+function getDappKeyPair(){
+if(!window.nacl)throw new Error('Phantom encryption library failed to load.');
+try{const saved=localStorage.getItem(PHANTOM_KEY_STORAGE);if(saved){const j=JSON.parse(saved);if(j.publicKey&&j.secretKey)return{publicKey:b58decode(j.publicKey),secretKey:b58decode(j.secretKey)};}}catch(e){}
+const kp=nacl.box.keyPair();localStorage.setItem(PHANTOM_KEY_STORAGE,JSON.stringify({publicKey:b58encode(kp.publicKey),secretKey:b58encode(kp.secretKey)}));return kp;
+}
+function getRedirectUrl(){
+const u=new URL(window.location.href);u.search='?phantom_callback=1';u.hash='';return u.toString();
+}
+async function handlePhantomCallback(){
+const q=new URLSearchParams(window.location.search);if(q.get('phantom_callback')!=='1')return false;
+try{
+const error=q.get('errorCode');if(error){throw new Error(q.get('errorMessage')||('Phantom error '+error));}
+const phantomPub=q.get('phantom_encryption_public_key'),nonce=q.get('nonce'),data=q.get('data');
+if(!phantomPub||!nonce||!data)throw new Error('Phantom returned an incomplete connection response.');
+const kp=getDappKeyPair();const shared=nacl.box.before(b58decode(phantomPub),kp.secretKey);
+const plain=nacl.box.open.after(b58decode(data),b58decode(nonce),shared);if(!plain)throw new Error('Could not decrypt the Phantom response.');
+const result=JSON.parse(new TextDecoder().decode(plain));const key=result.public_key;
+if(!key)throw new Error('Phantom did not return a wallet address.');
+localStorage.setItem(PHANTOM_SESSION_STORAGE,JSON.stringify({session:result.session,phantomEncryptionPublicKey:phantomPub,publicKey:key,connectedAt:Date.now()}));
+await kexiumHandleAccount(key);
+window.history.replaceState({},document.title,window.location.pathname+window.location.hash);
+return true;
+}catch(e){console.error('KEXIUM Phantom callback error',e);alert('KEXIUM could not finish the Phantom connection. Please try Connect Wallet again.');window.history.replaceState({},document.title,window.location.pathname+window.location.hash);return false;}
+}
+async function kexiumConnectWallet(){
+try{
+const provider=window.solana;
+if(provider?.isPhantom){const resp=await provider.connect({onlyIfTrusted:false});if(resp?.publicKey){await kexiumHandleAccount(resp.publicKey);return;} }
+const kp=getDappKeyPair();
+const appUrl=new URL(window.location.href);appUrl.search='';appUrl.hash='';
+const params=new URLSearchParams({app_url:appUrl.toString(),dapp_encryption_public_key:b58encode(kp.publicKey),redirect_link:getRedirectUrl(),cluster:'mainnet-beta'});
+window.location.href='https://phantom.app/ul/v1/connect?'+params.toString();
+}catch(e){if(e?.code!==4001)alert(e?.message||'Phantom connection could not be opened. Please try again.');}
+}
+$('#walletBtn')?.addEventListener('click',kexiumConnectWallet);
+async function kexiumRestoreWallet(){
+try{
+if(await handlePhantomCallback())return;
+const provider=window.solana;
+if(provider?.isPhantom){
+provider.on?.('accountChanged',pk=>{if(pk)kexiumHandleAccount(pk);});
+provider.on?.('accountChanged',pk=>{if(pk)kexiumHandleAccount(pk);else{clearWalletState();setWalletUI(null,null,null);}});
+provider.on?.('disconnect',()=>{clearWalletState();window.KEXIUM_WALLET={connected:false,publicKey:null,balance:null,usdBalance:null,provider:'phantom'};setWalletUI(null,null,null);});
+try{const resp=await provider.connect({onlyIfTrusted:true});if(resp?.publicKey){await kexiumHandleAccount(resp.publicKey);return;}}catch(e){}
+}
+const savedKey=getSavedWallet();
+if(savedKey){await kexiumHandleAccount(savedKey);return;}
+const saved=localStorage.getItem(PHANTOM_SESSION_STORAGE);
+if(saved){try{const state=JSON.parse(saved);if(state?.publicKey)await kexiumHandleAccount(state.publicKey);}catch(e){}}
+}catch(e){console.warn('KEXIUM wallet restore failed',e)}
+}
+window.addEventListener('load',kexiumRestoreWallet);
+window.addEventListener('load',()=>{
+  const q=new URLSearchParams(location.search).get('token');
+  const saved=getSavedSelectedToken();
+  if(q)loadLiveToken(q,true);
+  else if(saved)loadLiveToken(saved,false);
+  else loadLiveToken('NOVA',false);
+});
+
+
+$('#tradeTop')?.addEventListener('click',()=>document.querySelector('.right')?.scrollTo({top:0,behavior:'smooth'}));
+$('.star')?.addEventListener('click',e=>e.currentTarget.textContent=e.currentTarget.textContent==='☆'?'★':'☆');
+$('.copy')?.addEventListener('click',async()=>{const a=LIVE_TOKEN?.baseToken?.address||'7xK3…91Pq';try{await navigator.clipboard.writeText(a);alert('Contract copied');}catch(e){alert('Contract: '+a)}});
+
+const buy=$('#buy'),sell=$('#sell'),exec=$('#exec');
+buy?.addEventListener('click',()=>{side='buy';buy.classList.add('active');sell.classList.remove('active');exec.classList.remove('sell');exec.textContent='BUY '+(LIVE_TOKEN?.baseToken?.symbol||'TOKEN');refreshOrder();});
+sell?.addEventListener('click',()=>{side='sell';sell.classList.add('active');buy.classList.remove('active');exec.classList.add('sell');exec.textContent='SELL '+(LIVE_TOKEN?.baseToken?.symbol||'TOKEN');refreshOrder();});
+let side='buy', orderType='Market';
+const amountInput=document.getElementById('amountInput'), triggerWrap=document.getElementById('triggerWrap'), triggerInput=document.getElementById('triggerInput');
+const orderSummary=document.getElementById('orderSummary'), estPrice=document.getElementById('estPrice'), received=document.getElementById('received');
+function refreshOrder(){const livePrice=Number(LIVE_TOKEN?.priceUsd);const price=Number(triggerInput.value||livePrice||0.00245),a=Number(amountInput.value||0);const sym=LIVE_TOKEN?.baseToken?.symbol||'TOKEN';orderSummary.textContent=orderType;triggerWrap.classList.toggle('show',orderType!=='Market');estPrice.textContent='~ $'+price.toPrecision(price<0.01?5:6);if(side==='buy'){amountInput.parentElement.querySelector('span:last-child').textContent='◎ SOL';received.textContent='~ '+(price>0?a/price:0).toFixed(2)+' '+sym;}else{amountInput.parentElement.querySelector('span:last-child').textContent=sym;received.textContent='~ '+(a*price).toFixed(6)+' SOL';}}
+$$('.orderTab').forEach(b=>b.addEventListener('click',()=>{$$('.orderTab').forEach(x=>x.classList.remove('active'));b.classList.add('active');orderType=b.dataset.order;refreshOrder();}));
+$$('.chip').forEach(b=>b.addEventListener('click',()=>{amountInput.value=b.textContent.trim();refreshOrder();}));
+amountInput.addEventListener('input',refreshOrder);triggerInput.addEventListener('input',refreshOrder);
+exec?.addEventListener('click',()=>alert(window.KEXIUM_WALLET?.connected?'KEXIUM live swap execution is not enabled on this page yet. Your wallet is connected. The next execution layer will request a real Jupiter quote, show route, slippage and fees, then ask Phantom to sign before sending the transaction. No funds are moved by this button yet.':'Connect your Phantom wallet first.'));
+
+const tabRows={
+TRADERS:[['@NovaHunter','BUY','$82K','$245K','+198%','4m'],['@KexTrader','BUY','$115K','$245K','+113%','8m'],['@AlphaSol','SELL','$71K','$211K','+197%','12m']],
+TRADES:[['0x8F21','BUY','0.80 SOL','$2.41K','+2.41 SOL','12s'],['0x44BC','SELL','1.20 SOL','$2.05K','+0.80 SOL','29s'],['0x1A77','BUY','2.00 SOL','$4.90K','+5.00 SOL','41s']],
+HOLDERS:[['7xK3…91Pq','KEXIUM','12.8%','$31.4K','TOP','Now'],['8aQ2…44Lm','FOLLOWING','5.6%','$13.7K','HOLDER','2m'],['3Pv8…11Qa','ALL','3.1%','$7.6K','HOLDER','6m']],
+CALLOUTS:[['@Founder','NOVA','$82K','$245K','+198%','4m'],['@NovaHunter','NOVA','$115K','$245K','+113%','8m'],['@AlphaSol','NOVA','$71K','$211K','+197%','12m']]
+};
+function renderTab(name){let heads=name==='TRADERS'?['TRADER','ACTION','ENTRY MC','CURRENT / EXIT MC','PNL','TIME']:name==='TRADES'?['WALLET','ACTION','SIZE','VALUE','PNL','TIME']:name==='HOLDERS'?['WALLET','GROUP','HOLDING','VALUE','TYPE','TIME']:['CALLER','TOKEN','CALL MC','PEAK MC','RESULT','TIME'];let rows=tabRows[name]||[];let h='<div class="tableHead">'+heads.map(x=>'<span>'+x+'</span>').join('')+'</div>';let r=rows.map(a=>'<div class="tableRow">'+a.map(x=>'<span class="'+(x==='BUY'?'tagBuy':x==='SELL'?'tagSell':x.startsWith('+')?'greenTxt':'')+'">'+x+'</span>').join('')+'</div>').join('');let host=document.querySelector('.chartBottomTabs');host.querySelectorAll('.tableHead,.tableRow').forEach(x=>x.remove());host.insertAdjacentHTML('beforeend',h+r);}
+$$('.tab').forEach(b=>b.addEventListener('click',()=>{$$('.tab').forEach(x=>x.classList.remove('active'));b.classList.add('active');renderTab(b.textContent.trim());}));
+$$('.filter').forEach(b=>b.addEventListener('click',()=>{$$('.filter').forEach(x=>x.classList.remove('active'));b.classList.add('active');}));
+renderTab('TRADERS');
+})();
+</script>
+</body>
+</html>
