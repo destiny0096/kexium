@@ -58,7 +58,7 @@ function getSavedSelectedToken(){try{const s=JSON.parse(localStorage.getItem(KEX
 function stopShortTf(){if(shortTfTimer){clearInterval(shortTfTimer);shortTfTimer=null;}shortTfBars=[];}
 function shortTfSeconds(tf){return ({'1s':1,'5s':5,'10s':10,'30s':30})[tf]||0;}
 async function fetchPairByAddress(address){const r=await fetch(DEX_TOKEN_API+encodeURIComponent(address),{cache:'no-store'});if(!r.ok)throw new Error('DexScreener token HTTP '+r.status);const j=await r.json();const pair=selectSolanaPair(Array.isArray(j?.pairs)?j.pairs:[]);if(!pair)throw new Error('No Solana pair found for that token.');return pair;}
-async function fetchHolderEstimate(address){const endpoints=['https://api.mainnet-beta.solana.com','https://solana-rpc.publicnode.com'];for(const endpoint of endpoints){try{const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getProgramAccounts',params:['TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',{encoding:'jsonParsed',filters:[{dataSize:165},{memcmp:{offset:0,bytes:address}}]}]}),cache:'no-store'});if(!r.ok)continue;const j=await r.json();if(j?.error||!Array.isArray(j?.result))continue;let count=0;for(const a of j.result){const amount=Number(a?.account?.data?.parsed?.info?.tokenAmount?.uiAmount);if(amount>0)count++;}return count;}catch(e){}}return null;}
+async function fetchHolderEstimate(address){const endpoints=['https://api.mainnet-beta.solana.com','https://solana-rpc.publicnode.com'];for(const endpoint of endpoints){try{const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method:'getProgramAccounts',params:['TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA',{encoding:'jsonParsed',filters:[{dataSize:165},{memcmp:{offset:0,bytes:address}}]}]}),cache:'no-store'});if(!r.ok)continue;const j=await r.json();if(j?.error||!Array.isArray(j?.result))continue;const owners=new Set();for(const a of j.result){const info=a?.account?.data?.parsed?.info;const amount=Number(info?.tokenAmount?.uiAmount);if(amount>0&&info?.owner)owners.add(info.owner);}return owners.size;}catch(e){}}return null;}
 async function fetchTop10Share(address){const endpoints=['https://api.mainnet-beta.solana.com','https://solana-rpc.publicnode.com'];for(const endpoint of endpoints){try{const call=async(method,params)=>{const r=await fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({jsonrpc:'2.0',id:1,method,params}),cache:'no-store'});if(!r.ok)throw new Error('RPC '+r.status);const j=await r.json();if(j?.error)throw new Error(j.error.message||'RPC error');return j.result;};const [largest,supply]=await Promise.all([call('getTokenLargestAccounts',[address,{commitment:'confirmed'}]),call('getTokenSupply',[address,{commitment:'confirmed'}])]);const rows=largest?.value||[],total=Number(supply?.value?.uiAmount);if(!rows.length||!Number.isFinite(total)||total<=0)continue;const top=rows.slice(0,10).reduce((sum,x)=>sum+Number(x.uiAmount||0),0);return ((top/total)*100).toFixed(2)+'% of supply';}catch(e){console.warn('KEXIUM top-holder estimate unavailable',e);}}return null;}
 function applyTokenUI(pair,holders=null,ath=null){
  const base=pair.baseToken||{},sym=base.symbol||base.name||'TOKEN',quote=pair.quoteToken?.symbol||'SOL';
@@ -66,16 +66,16 @@ function applyTokenUI(pair,holders=null,ath=null){
  setText('tokenName',sym);setText('tokenPair',sym+'　/　'+quote+'　↗　▣');
  setText('mPrice',Number.isFinite(price)&&price>0?money(price):'—');setChange('mChange',change);setText('mMcap',money(mc));setText('mLiquidity',money(liq));setText('mVolume',money(vol));
  if(holders!=null)lastHolderCount=holders;if(ath!=null&&Number.isFinite(Number(ath)))lastObservedAth=Number(ath);
- setText('mHolders',lastHolderCount!=null?num(lastHolderCount):'Unavailable');setText('mAth',lastObservedAth!=null?money(lastObservedAth):'—');
- setText('iPrice',Number.isFinite(price)&&price>0?money(price):'—');setChange('iChange',change);setText('iMcap',money(mc));setText('iLiquidity',money(liq));setText('iAth',lastObservedAth!=null?money(lastObservedAth):'—');setText('iHolders',lastHolderCount!=null?num(lastHolderCount):'Unavailable');setText('contractAddress',shortAddress(base.address));
+ setText('mHolders',lastHolderCount!=null?num(lastHolderCount):'RPC unavailable');setText('mAth',lastObservedAth!=null?money(lastObservedAth):'—');
+ setText('iPrice',Number.isFinite(price)&&price>0?money(price):'—');setChange('iChange',change);setText('iMcap',money(mc));setText('iLiquidity',money(liq));setText('iAth',lastObservedAth!=null?money(lastObservedAth):'—');setText('iHolders',lastHolderCount!=null?num(lastHolderCount):'RPC unavailable');setText('contractAddress',shortAddress(base.address));
  setText('sVolume',money(vol));setText('s5m',money(pair.volume?.m5));setText('s1h',money(pair.volume?.h1));setText('sBuys',num(buys));setText('sSells',num(sells));setText('sRatio',sells>0?(buys/sells).toFixed(2):(buys>0?'∞':'—'));
  setText('pDex',pair.dexId||'—');setText('pLiquidity',money(liq));setText('pPair',sym+' / '+quote);setText('pAge',pair.pairCreatedAt?formatAge(pair.pairCreatedAt):'—');
  document.title='KEXIUM — Trade '+sym;setText('chartPair',sym+'/'+quote);setText('chartDex',pair.dexId||'—');
  if(Number.isFinite(price)&&price>0){setText('chartLivePrice',money(price));setChartPricePrecision(price);}setText('chartMcap',money(mc));setText('liveCandleBadge','Live price: '+(Number.isFinite(price)&&price>0?money(price):'—')+' · MC: '+money(mc));
- setText('hTotal',lastHolderCount!=null?num(lastHolderCount):'Unavailable');setText('hTop10',lastTop10Share!=null?lastTop10Share:'Unavailable');
- if(!document.getElementById('hBundlers')?.dataset.loaded)setText('hBundlers','Unavailable');
- if(!document.getElementById('hInsiders')?.dataset.loaded)setText('hInsiders','Unavailable');
- if(!document.getElementById('hSnipers')?.dataset.loaded)setText('hSnipers','Unavailable');
+ setText('hTotal',lastHolderCount!=null?num(lastHolderCount):'RPC unavailable');setText('hTop10',lastTop10Share!=null?lastTop10Share:'RPC unavailable');
+ if(!document.getElementById('hBundlers')?.dataset.loaded)setText('hBundlers','Needs indexed data');
+ if(!document.getElementById('hInsiders')?.dataset.loaded)setText('hInsiders','Needs indexed data');
+ if(!document.getElementById('hSnipers')?.dataset.loaded)setText('hSnipers','Needs indexed data');
  const exec=document.getElementById('exec');if(exec)exec.textContent=(side==='sell'?'SELL ':'BUY ')+sym;if(triggerInput&&Number.isFinite(price)&&price>0)triggerInput.value=price;if(typeof amountInput!=='undefined'&&typeof refreshOrder==='function')refreshOrder();
 }
 function observedAth(rows){if(!Array.isArray(rows)||!rows.length)return null;const highs=rows.map(x=>Number(x.high)).filter(Number.isFinite);return highs.length?Math.max(...highs):null;}
@@ -98,23 +98,27 @@ async function loadLiveToken(query,remember=true){
   applyTokenUI(pair);await loadLiveChart(pair);
   if(generation!==tokenSelectionGeneration)return;
   const rows=window.KEXIUM_LIVE_CHART?.rows||[];const ath=observedAth(rows);applyTokenUI(pair,lastHolderCount,ath);
-  setText('hBundlers','Unavailable');setText('hInsiders','Unavailable');setText('hSnipers','Unavailable');
+  setText('hBundlers','Needs indexed data');setText('hInsiders','Needs indexed data');setText('hSnipers','Needs indexed data');
   startMarketRefresh();
   console.log('KEXIUM selected Solana token:',pair);
-  // Holder/RPC estimates are deliberately not polled every two seconds; doing so can trigger RPC rate limits.
+  // Holder/RPC estimates are deliberately not polled with each one-second market refresh; doing so can trigger RPC rate limits.
   (async()=>{let holders=null;try{holders=await fetchHolderEstimate(pair.baseToken.address);}catch(e){}
    if(generation!==tokenSelectionGeneration)return;
-   if(holders!=null){lastHolderCount=holders;setText('mHolders',num(holders));setText('iHolders',num(holders));setText('hTotal',num(holders));}else{setText('hTotal','Unavailable');}
+   if(holders!=null){lastHolderCount=holders;setText('mHolders',num(holders));setText('iHolders',num(holders));setText('hTotal',num(holders));}else{setText('hTotal','RPC unavailable');}
    try{lastTop10Share=await fetchTop10Share(pair.baseToken.address);}catch(e){lastTop10Share=null;}
-   if(generation!==tokenSelectionGeneration)return;setText('hTop10',lastTop10Share||'Unavailable');
+   if(generation!==tokenSelectionGeneration)return;setText('hTop10',lastTop10Share||'RPC unavailable');
   })();
  }catch(e){if(generation===tokenSelectionGeneration){console.error('KEXIUM live token data failed:',e);alert('KEXIUM could not load live Solana token data.\n\n'+e.message);}}
  finally{if(generation===tokenSelectionGeneration&&tokenSearchBtn){tokenSearchBtn.disabled=false;tokenSearchBtn.textContent='Search';}}
 }
 async function submitTokenSearch(){const q=tokenSearch?.value?.trim();if(q)await loadLiveToken(q,true);}
 tokenSearch?.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();submitTokenSearch();}});tokenSearchBtn?.addEventListener('click',submitTokenSearch);window.KEXIUM_LOAD_TOKEN=loadLiveToken;
-const chartEl=$('#chart');let chart,candles,volume,data=[],baseData=[];
-function makeChart(){if(!window.LightweightCharts||!chartEl)return;chart=LightweightCharts.createChart(chartEl,{width:chartEl.clientWidth,height:chartEl.clientHeight,layout:{background:{type:'solid',color:'#071019'},textColor:'#8290a0'},grid:{vertLines:{color:'#12202d'},horzLines:{color:'#12202d'}},rightPriceScale:{borderColor:'#1b2b3a',scaleMargins:{top:.08,bottom:.22}},timeScale:{borderColor:'#1b2b3a',timeVisible:true,secondsVisible:true},crosshair:{mode:LightweightCharts.CrosshairMode.Normal},handleScroll:true,handleScale:true});candles=chart.addCandlestickSeries({upColor:'#18d69a',downColor:'#ef5365',borderVisible:false,wickUpColor:'#18d69a',wickDownColor:'#ef5365',priceFormat:{type:'price',precision:10,minMove:0.0000000001}});volume=chart.addHistogramSeries({priceFormat:{type:'volume'},priceScaleId:'volume',color:'rgba(24,214,154,.45)'});volume.priceScale().applyOptions({scaleMargins:{top:.82,bottom:0}});let t=Math.floor(Date.now()/1000)-150*900,p=.00175;for(let i=0;i<150;i++){let o=p,dr=(Math.random()-.43)*.000065+(i>90?.000006:0);p=Math.max(.00125,p+dr);let c=p,h=Math.max(o,c)+Math.random()*.000045,l=Math.min(o,c)-Math.random()*.000045;data.push({time:t+i*900,open:o,high:h,low:l,close:c});}data.forEach(d=>d.volume=2500+Math.random()*14000);baseData=data.slice();candles.setData(baseData);volume.setData(baseData.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();new ResizeObserver(()=>chart.applyOptions({width:chartEl.clientWidth,height:chartEl.clientHeight})).observe(chartEl);}
+const chartEl=$('#chart');let chart,candles,volume,data=[],baseData=[],renderedLastTime=null;
+function chartCandle(d){return{time:d.time,open:d.open,high:d.high,low:d.low,close:d.close};}
+function chartVolume(d){return{time:d.time,value:Number(d.volume)||0,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'};}
+function setChartBars(rows,fit=false){if(!candles||!volume||!Array.isArray(rows)||!rows.length)return;candles.setData(rows.map(chartCandle));volume.setData(rows.map(chartVolume));renderedLastTime=rows[rows.length-1].time;if(fit)chart.timeScale().fitContent();}
+function updateChartBars(rows){if(!candles||!volume||!Array.isArray(rows)||!rows.length)return;for(const d of rows){if(renderedLastTime===null||d.time>=renderedLastTime){candles.update(chartCandle(d));volume.update(chartVolume(d));renderedLastTime=d.time;}}chart.timeScale().scrollToRealTime();}
+function makeChart(){if(!window.LightweightCharts||!chartEl)return;chart=LightweightCharts.createChart(chartEl,{width:chartEl.clientWidth,height:chartEl.clientHeight,layout:{background:{type:'solid',color:'#071019'},textColor:'#8290a0'},grid:{vertLines:{color:'#12202d'},horzLines:{color:'#12202d'}},rightPriceScale:{borderColor:'#1b2b3a',scaleMargins:{top:.08,bottom:.22}},timeScale:{borderColor:'#1b2b3a',timeVisible:true,secondsVisible:true},crosshair:{mode:LightweightCharts.CrosshairMode.Normal},handleScroll:true,handleScale:true});candles=chart.addCandlestickSeries({upColor:'#18d69a',downColor:'#ef5365',borderVisible:false,wickUpColor:'#18d69a',wickDownColor:'#ef5365',priceFormat:{type:'price',precision:10,minMove:0.0000000001}});volume=chart.addHistogramSeries({priceFormat:{type:'volume'},priceScaleId:'volume',color:'rgba(24,214,154,.45)'});volume.priceScale().applyOptions({scaleMargins:{top:.82,bottom:0}});let t=Math.floor(Date.now()/1000)-150*900,p=.00175;for(let i=0;i<150;i++){let o=p,dr=(Math.random()-.43)*.000065+(i>90?.000006:0);p=Math.max(.00125,p+dr);let c=p,h=Math.max(o,c)+Math.random()*.000045,l=Math.min(o,c)-Math.random()*.000045;data.push({time:t+i*900,open:o,high:h,low:l,close:c});}data.forEach(d=>d.volume=2500+Math.random()*14000);baseData=data.slice();setChartBars(baseData,true);new ResizeObserver(()=>chart.applyOptions({width:chartEl.clientWidth,height:chartEl.clientHeight})).observe(chartEl);}
 const LIVE_CHART_API='https://api.geckoterminal.com/api/v2/networks/solana/pools/';
 function chartRequest(tf){if(tf==='1m')return{interval:'minute',aggregate:1};if(tf==='5m')return{interval:'minute',aggregate:5};if(tf==='15m')return{interval:'minute',aggregate:15};if(tf==='1h')return{interval:'hour',aggregate:1};if(tf==='4h')return{interval:'hour',aggregate:4};return{interval:'day',aggregate:1};}
 async function fetchLiveOHLCV(pair,tf){const pool=pair?.pairAddress;if(!pool)throw new Error('This token pair has no pool address for chart data.');const cfg=chartRequest(tf),url=LIVE_CHART_API+encodeURIComponent(pool)+'/ohlcv/'+cfg.interval+'?aggregate='+cfg.aggregate+'&limit=500&currency=usd';const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('Live chart HTTP '+r.status);const j=await r.json(),rows=j?.data?.attributes?.ohlcv_list;if(!Array.isArray(rows)||!rows.length)throw new Error('No live candle history returned for this pool.');return rows.map(x=>({time:Number(x[0]),open:Number(x[1]),high:Number(x[2]),low:Number(x[3]),close:Number(x[4]),volume:Number(x[5])})).filter(x=>[x.time,x.open,x.high,x.low,x.close,x.volume].every(Number.isFinite)).sort((a,b)=>a.time-b.time);}
@@ -128,19 +132,17 @@ function seedShortTf(pair,tf){
  const bucket=Math.floor(Date.now()/1000/step)*step;
  // Do not fabricate historical candles: begin with the latest real observed price and build history as updates arrive.
  shortTfBars=[{time:bucket,open:price,high:price,low:price,close:price,volume:0}];
- candles.setData(shortTfBars.map(x=>({time:x.time,open:x.open,high:x.high,low:x.low,close:x.close})));
- volume.setData(shortTfBars.map(x=>({time:x.time,value:x.volume,color:'rgba(24,214,154,.42)'})));
- chart.timeScale().applyOptions({barSpacing:12});chart.timeScale().fitContent();paintChartReadout(price,shortTfBars[0],pair);
+ setChartBars(shortTfBars,true);chart.timeScale().applyOptions({barSpacing:12});paintChartReadout(price,shortTfBars[0],pair);
 }
 async function fetchLiveOHLCV(pair,tf){const pool=pair?.pairAddress;if(!pool)throw new Error('This token pair has no pool address for chart data.');const cfg=chartRequest(tf),url=LIVE_CHART_API+encodeURIComponent(pool)+'/ohlcv/'+cfg.interval+'?aggregate='+cfg.aggregate+'&limit=500&currency=usd';const r=await fetch(url,{cache:'no-store'});if(!r.ok)throw new Error('Live chart HTTP '+r.status);const j=await r.json(),rows=j?.data?.attributes?.ohlcv_list;if(!Array.isArray(rows)||!rows.length)throw new Error('No live candle history returned for this pool.');return rows.map(x=>({time:Number(x[0]),open:Number(x[1]),high:Number(x[2]),low:Number(x[3]),close:Number(x[4]),volume:Number(x[5])})).filter(x=>[x.time,x.open,x.high,x.low,x.close,x.volume].every(Number.isFinite)).sort((a,b)=>a.time-b.time);}
 async function loadLiveChart(pair){
  if(!chart||!candles||!volume)return;const tf=document.querySelector('.time.active')?.textContent?.trim()||'15m';stopShortTf();
  if(shortTfSeconds(tf)){seedShortTf(pair,tf);return;}
  try{const rows=await fetchLiveOHLCV(pair,tf);if(!LIVE_TOKEN||LIVE_TOKEN.baseToken.address!==pair.baseToken.address)return;baseData=rows;data=rows.slice();
-  candles.setData(rows.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(rows.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();
+  setChartBars(rows,true);
   const last=rows[rows.length-1];if(last){paintChartReadout(Number(pair.priceUsd)||last.close,last,pair);lastObservedAth=observedAth(rows);setText('mAth',lastObservedAth!=null?money(lastObservedAth):'—');setText('iAth',lastObservedAth!=null?money(lastObservedAth):'—');}
   window.KEXIUM_LIVE_CHART={pairAddress:pair.pairAddress,timeframe:tf,updatedAt:Date.now(),rows:rows.slice()};
- }catch(e){console.warn('KEXIUM live chart history failed:',e);if(!baseData.length){const price=Number(pair.priceUsd);if(price>0){const now=Math.floor(Date.now()/1000),step=tfSeconds(tf),t=Math.floor(now/step)*step;baseData=[{time:t,open:price,high:price,low:price,close:price,volume:0}];candles.setData(baseData.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData([{time:t,value:0,color:'rgba(24,214,154,.42)'}]);chart.timeScale().fitContent();paintChartReadout(price,baseData[0],pair);}}}
+ }catch(e){console.warn('KEXIUM live chart history failed:',e);if(!baseData.length){const price=Number(pair.priceUsd);if(price>0){const now=Math.floor(Date.now()/1000),step=tfSeconds(tf),t=Math.floor(now/step)*step;baseData=[{time:t,open:price,high:price,low:price,close:price,volume:0}];setChartBars(baseData,true);paintChartReadout(price,baseData[0],pair);}}}
 }
 makeChart();
 async function refreshLiveMarket(){
@@ -155,20 +157,20 @@ async function refreshLiveMarket(){
    else if(bar.time<bucket){let t=bar.time+step;while(t<bucket&&shortTfBars.length<300){shortTfBars.push({time:t,open:bar.close,high:bar.close,low:bar.close,close:bar.close,volume:0});t+=step;}bar={time:bucket,open:shortTfBars[shortTfBars.length-1]?.close??price,high:price,low:price,close:price,volume:0};shortTfBars.push(bar);}
    else{bar.high=Math.max(bar.high,price);bar.low=Math.min(bar.low,price);bar.close=price;}
    shortTfBars=shortTfBars.filter((x,i,a)=>i===0||x.time>a[i-1].time).slice(-300);
-   candles.setData(shortTfBars.map(x=>({time:x.time,open:x.open,high:x.high,low:x.low,close:x.close})));volume.setData(shortTfBars.map(x=>({time:x.time,value:x.volume,color:x.close>=x.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().scrollToRealTime();paintChartReadout(price,shortTfBars[shortTfBars.length-1],p);
+   updateChartBars(shortTfBars);paintChartReadout(price,shortTfBars[shortTfBars.length-1],p);
    window.KEXIUM_LIVE_CHART={pairAddress:p.pairAddress,timeframe:tf,updatedAt:Date.now(),rows:shortTfBars.slice()};
   }else if(candles){
    const now=Math.floor(Date.now()/1000),bucket=Math.floor(now/tfSeconds(tf))*tfSeconds(tf);let last=baseData[baseData.length-1];
    if(!last||last.time<bucket){const open=last?.close||price;last={time:bucket,open,high:Math.max(open,price),low:Math.min(open,price),close:price,volume:0};baseData.push(last);}
    else if(last.time===bucket){last.high=Math.max(last.high,price);last.low=Math.min(last.low,price);last.close=price;}
    baseData=baseData.filter((x,i,a)=>i===0||x.time>a[i-1].time).slice(-600);data=baseData.slice();
-   candles.setData(baseData.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(baseData.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().scrollToRealTime();paintChartReadout(price,last,p);
+   updateChartBars(baseData);paintChartReadout(price,last,p);
    window.KEXIUM_LIVE_CHART={pairAddress:p.pairAddress,timeframe:tf,updatedAt:Date.now(),rows:baseData.slice()};
   }
  }catch(e){console.warn('KEXIUM market refresh failed:',e);}finally{marketRefreshBusy=false;}
 }
 function startShortTf(tf){stopShortTf();if(shortTfSeconds(tf))seedShortTf(LIVE_TOKEN,tf);}
-function startMarketRefresh(){if(marketRefreshTimer)clearInterval(marketRefreshTimer);marketRefreshTimer=setInterval(refreshLiveMarket,2000);}
+function startMarketRefresh(){if(marketRefreshTimer)clearInterval(marketRefreshTimer);refreshLiveMarket();marketRefreshTimer=setInterval(refreshLiveMarket,1000);}
 function tfSeconds(tf){return({'1s':1,'5s':5,'10s':10,'30s':30,'1m':60,'5m':300,'15m':900,'1h':3600,'4h':14400,'1D':86400})[tf]||900;}
 function aggregate(tf){const step=tfSeconds(tf),m=new Map();baseData.forEach(d=>{const t=Math.floor(d.time/step)*step;if(!m.has(t))m.set(t,{time:t,open:d.open,high:d.high,low:d.low,close:d.close,volume:0});const x=m.get(t);x.high=Math.max(x.high,d.high);x.low=Math.min(x.low,d.low);x.close=d.close;x.volume+=d.volume;});return[...m.values()];}
 function applyTf(tf){const a=aggregate(tf);candles.setData(a.map(d=>({time:d.time,open:d.open,high:d.high,low:d.low,close:d.close})));volume.setData(a.map(d=>({time:d.time,value:d.volume,color:d.close>=d.open?'rgba(24,214,154,.42)':'rgba(239,83,101,.42)'})));chart.timeScale().fitContent();}
